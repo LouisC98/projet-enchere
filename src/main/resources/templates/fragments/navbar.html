@@ -1,11 +1,11 @@
-<nav th:fragment="navbar" class="p-3 bg-primary text-light font-bold flex justify-between items-center">
+<nav class="p-5 bg-primary text-light flex justify-between items-center gap-2 fixed top-0 w-full">
     <div>
-        <h1 class="text-2xl">
-            <a th:href="@{/}" class="hover:underline">ENI - Enchères</a>
+        <h1 class="text-2xl font-bold">
+            <a th:href="@{/}" class="whitespace-nowrap">ENI - Enchères</a>
         </h1>
     </div>
-    <div class="flex justify-end items-center gap-1">
-        <a href="#">S'inscrire</a>
-        <a href="#">Se connecter</a>
+    <div class="flex justify-end items-center gap-2">
+        <a href="#" class="hover:font-bold">S'inscrire</a>
+        <a href="#" class="hover:font-bold">Se connecter</a>
     </div>
 </nav>
