@@ -1,0 +1,21 @@
+<form th:fragment="searchForm" class="grid grid-cols-2 gap-2 items-center mx-auto max-w-md">
+    <h3 class="font-bold col-span-2 text-lg">Filtres :</h3>
+    <label for="">
+        Catégories :
+    </label>
+    <select name="" id="" class="border border-black p-1 rounded">
+        <option value="">Toutes</option>
+    </select>
+    <div class="relative mx-2 col-span-2">
+        <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+        <input
+                type="text"
+                placeholder="Le nom de l'article contient"
+                class="pl-10 border border-black p-1 rounded w-full"
+        >
+    </div>
+    <button class="col-span-2 bg-secondary p-4 font-bold text-xl rounded m-3 text-white shadow tracking-widest text-shadow-2xs">
+        Rechercher
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+</form>
