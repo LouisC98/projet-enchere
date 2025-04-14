@@ -1,0 +1,14 @@
+<head>
+  <title>Accueil - ENI Enchères</title>
+</head>
+<div th:replace="~{base :: layout(~{::title}, ~{::section})}">
+
+  <section class="p-2 mt-3">
+    <h3 class="text-center hidden md:block text-2xl font-bold text-primary my-3">Liste des enchères</h3>
+    <div th:replace="~{fragments/searchForm}"></div>
+    <div class="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 px-2">
+      <div th:replace="~{fragments/enchereCard}"></div>
+      <div th:replace="~{fragments/enchereCard}"></div>
+    </div>
+  </section>
+</div>
