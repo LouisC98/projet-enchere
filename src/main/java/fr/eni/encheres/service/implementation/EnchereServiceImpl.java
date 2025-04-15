@@ -21,7 +21,7 @@ public class EnchereServiceImpl implements EnchereService {
     private static List<Enchere> encheres = new ArrayList<>();
 
 
-    private ArticleService articleService;
+    ArticleService articleService;
 
 
     public EnchereServiceImpl(ArticleService articleService) {
@@ -41,6 +41,7 @@ public class EnchereServiceImpl implements EnchereService {
 
         encheres.add(enchere1);
         encheres.add(enchere2);
+
 
     }
 
@@ -64,8 +65,9 @@ public class EnchereServiceImpl implements EnchereService {
      */
     @Override
     public Enchere getEnchere(String name) {
-        return null;
+        return encheres.stream().filter(enchere -> enchere.getArticleVendu().getNomArticle().equals(name)).findFirst().orElse(null);
     }
+
 
 
     /**
@@ -78,4 +80,11 @@ public class EnchereServiceImpl implements EnchereService {
         Enchere enchere = new Enchere(LocalDateTime.now(),articleVendu.getMisAPrix(),articleVendu);
         encheres.add(enchere);
     }
+
+    @Override
+    public Enchere getEnchereById(String id) {
+        return encheres.stream().filter(e -> e.getArticleVendu().getNoArticle().equals(id)).findFirst().orElse(null);
+    }
+
+
 }

@@ -68,6 +68,11 @@ public class ArticleVendu {
         return misAPrix;
     }
 
+    public String getNomArticle() {
+        return nomArticle;
+    }
 
-
+    public String getNoArticle() {
+        return noArticle;
+    }
 }

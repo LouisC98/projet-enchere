@@ -12,4 +12,8 @@ public interface EnchereService {
     public Enchere getEnchere(String name);
 
     public void addEnchere(ArticleVendu articleVendu);
+
+    public Enchere getEnchereById(String id);
+
+
 }

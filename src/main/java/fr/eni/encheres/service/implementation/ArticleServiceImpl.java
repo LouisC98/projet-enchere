@@ -14,7 +14,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     private List<ArticleVendu> articles = new ArrayList<>();
 
-    private CategorieServiceImpl categorieService;
+    CategorieServiceImpl categorieService;
 
 
     public ArticleServiceImpl(CategorieServiceImpl categorieService ) {

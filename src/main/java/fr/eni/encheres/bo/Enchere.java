@@ -42,4 +42,8 @@ public class Enchere {
     public void setArticleVendu(ArticleVendu articleVendu) {
         this.articleVendu = articleVendu;
     }
+
+    public ArticleVendu getArticleVendu() {
+        return articleVendu;
+    }
 }
