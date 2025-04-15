@@ -1,0 +1,56 @@
+<head>
+    <meta charset="UTF-8">
+    <title>ENI Enchères - S'inscrire</title>
+</head>
+<div th:replace="~{base :: layout(~{::title}, ~{::section})}">
+    <section class="p-3 mt-5 grid">
+        <h3 class="text-primary text-2xl text-center my-5 font-bold">Créer un compte</h3>
+        <form action="" class="grid grid-cols-2 lg:grid-cols-4 max-w-lg lg:max-w-2xl lg:gap-x-7 items-center gap-4 mx-auto">
+            <label for="">
+                Pseudo :
+            </label>
+            <input type="text" class="border p-1 rounded">
+            <label for="">
+                Nom :
+            </label>
+            <input type="text" class="border p-1 rounded">
+            <label for="">
+                Prénom :
+            </label>
+            <input type="text" class="border p-1 rounded">
+            <label for="">
+                Email :
+            </label>
+            <input type="email" class="border p-1 rounded">
+            <label for="">
+                Téléphone :
+            </label>
+            <input type="text" class="border p-1 rounded">
+            <label for="">
+                Rue :
+            </label>
+            <input type="text" class="border p-1 rounded">
+            <label for="">
+                Code postal :
+            </label>
+            <input type="text" class="border p-1 rounded">
+            <label for="">
+                Ville :
+            </label>
+            <input type="text" class="border p-1 rounded">
+            <label for="">
+                Mot de passe :
+            </label>
+            <input type="password" class="border p-1 rounded">
+            <label for="">
+                Confirmation :
+            </label>
+            <input type="password" class="border p-1 rounded">
+            <div class="grid grid-cols-2 gap-2 col-span-2 lg:col-span-4">
+                <button type="submit" class="bg-primary text-shadow shadow text-light p-3 rounded m-3 font-bold  tracking-widest text-center cursor-pointer">Créer</button>
+                <a th:href="@{/home}" class="bg-secondary text-shadow shadow text-light p-3 rounded m-3 font-bold  tracking-widest text-center">Annuler</a>
+            </div>
+        </form>
+
+    </section>
+</div>
