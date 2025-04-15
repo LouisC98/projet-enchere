@@ -1,0 +1,159 @@
+<head>
+    <title>ENI Enchères - Mon profil</title>
+</head>
+<div th:replace="~{base :: layout(~{::title}, ~{::section})}">
+    <section class="p-2 mt-5">
+        <h3 class="text-center font-bold text-primary my-5 text-2xl">Mon profil</h3>
+
+        <!-- Message de succès après modification -->
+        <div id="messageSuccess" class="hidden bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 max-w-2xl mx-auto text-center font-bold">
+            Profil mis à jour avec succès
+        </div>
+
+        <form id="profileForm" class="grid md:grid-cols-2 gap-2 md:gap-x-4 max-w-md md:max-w-2xl mx-auto px-4 items-center">
+            <div class="grid grid-cols-2 items-center">
+                <label for="pseudo" class="font-semibold">Pseudo :</label>
+                <input type="text" id="pseudo" name="pseudo" class="border p-1 rounded edit-mode hidden">
+                <span id="pseudo-display" class="view-mode">JohnDoe</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label for="nom" class="font-semibold">Nom :</label>
+                <input type="text" id="nom" name="nom" class="border p-1 rounded edit-mode hidden">
+                <span id="nom-display" class="view-mode">Dupont</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label for="prenom" class="font-semibold">Prénom :</label>
+                <input type="text" id="prenom" name="prenom" class="border p-1 rounded edit-mode hidden">
+                <span id="prenom-display" class="view-mode">Jean</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label for="email" class="font-semibold">Email :</label>
+                <input type="email" id="email" name="email" class="border p-1 rounded edit-mode hidden">
+                <span id="email-display" class="view-mode">jean.dupont@example.com</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label for="telephone" class="font-semibold">Téléphone :</label>
+                <input type="text" id="telephone" name="telephone" class="border p-1 rounded edit-mode hidden">
+                <span id="telephone-display" class="view-mode">06 12 34 56 78</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label for="rue" class="font-semibold">Rue :</label>
+                <input type="text" id="rue" name="rue" class="border p-1 rounded edit-mode hidden">
+                <span id="rue-display" class="view-mode">123 Rue de Paris</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label for="codePostal" class="font-semibold">Code postal :</label>
+                <input type="text" id="codePostal" name="codePostal" class="border p-1 rounded edit-mode hidden">
+                <span id="codePostal-display" class="view-mode">75001</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label for="ville" class="font-semibold">Ville :</label>
+                <input type="text" id="ville" name="ville" class="border p-1 rounded edit-mode hidden">
+                <span id="ville-display" class="view-mode">Paris</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center edit-mode hidden">
+                <label for="motDePasse" class="font-semibold">Mot de passe :</label>
+                <input type="password" id="motDePasse" name="motDePasse" class="border p-1 rounded">
+            </div>
+
+            <div class="grid grid-cols-2 items-center edit-mode hidden">
+                <label for="confirmation" class="font-semibold">Confirmation :</label>
+                <input type="password" id="confirmation" name="confirmation" class="border p-1 rounded">
+            </div>
+
+            <div class="md:col-span-2 grid grid-cols-2 items-center my-4">
+                <label for="credit" class="text-center font-semibold">Crédit :</label>
+                <span id="credit-display" class="bold text-accent font-bold text-xl text-center">640</span>
+            </div>
+
+            <!-- Boutons en mode édition -->
+            <div id="edit-buttons" class="md:col-span-2 grid grid-cols-3 mt-4 gap-3 edit-mode hidden">
+                <button type="button" id="btn-save" class="p-3 rounded font-bold bg-primary text-white shadow text-shadow cursor-pointer">Enregistrer</button>
+                <button type="button" id="btn-delete" class="p-3 rounded font-bold bg-danger text-white shadow text-shadow cursor-pointer">Supprimer mon compte</button>
+                <button type="button" id="btn-cancel" class="p-3 rounded font-bold bg-secondary text-white shadow text-shadow cursor-pointer">Retour</button>
+            </div>
+
+            <!-- Bouton en mode affichage -->
+            <div id="view-button" class="md:col-span-2 text-center view-mode">
+                <button type="button" id="btn-edit" class="p-3 rounded font-bold bg-accent text-white shadow text-shadow cursor-pointer">Modifier</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const editButton = document.getElementById('btn-edit');
+        const saveButton = document.getElementById('btn-save');
+        const cancelButton = document.getElementById('btn-cancel');
+        const deleteButton = document.getElementById('btn-delete');
+
+        const viewElements = document.querySelectorAll('.view-mode');
+        const editElements = document.querySelectorAll('.edit-mode');
+
+        // Fonction pour passer en mode édition
+        function enableEditMode() {
+            viewElements.forEach(el => el.classList.add('hidden'));
+            editElements.forEach(el => el.classList.remove('hidden'));
+
+            // Remplir les inputs avec les valeurs affichées
+            document.getElementById('pseudo').value = document.getElementById('pseudo-display').textContent;
+            document.getElementById('nom').value = document.getElementById('nom-display').textContent;
+            document.getElementById('prenom').value = document.getElementById('prenom-display').textContent;
+            document.getElementById('email').value = document.getElementById('email-display').textContent;
+            document.getElementById('telephone').value = document.getElementById('telephone-display').textContent;
+            document.getElementById('rue').value = document.getElementById('rue-display').textContent;
+            document.getElementById('codePostal').value = document.getElementById('codePostal-display').textContent;
+            document.getElementById('ville').value = document.getElementById('ville-display').textContent;
+        }
+
+        // Fonction pour revenir en mode affichage
+        function disableEditMode() {
+            viewElements.forEach(el => el.classList.remove('hidden'));
+            editElements.forEach(el => el.classList.add('hidden'));
+        }
+
+        // Fonction pour sauvegarder les modifications
+        function saveChanges() {
+            // Ici, vous intégrerez l'appel AJAX vers l'API de votre collègue
+
+            // Mise à jour des valeurs affichées
+            document.getElementById('pseudo-display').textContent = document.getElementById('pseudo').value;
+            document.getElementById('nom-display').textContent = document.getElementById('nom').value;
+            document.getElementById('prenom-display').textContent = document.getElementById('prenom').value;
+            document.getElementById('email-display').textContent = document.getElementById('email').value;
+            document.getElementById('telephone-display').textContent = document.getElementById('telephone').value;
+            document.getElementById('rue-display').textContent = document.getElementById('rue').value;
+            document.getElementById('codePostal-display').textContent = document.getElementById('codePostal').value;
+            document.getElementById('ville-display').textContent = document.getElementById('ville').value;
+
+            // Afficher message de succès
+            const messageSuccess = document.getElementById('messageSuccess');
+            messageSuccess.classList.remove('hidden');
+            setTimeout(() => {
+                messageSuccess.classList.add('hidden');
+            }, 3000);
+
+            disableEditMode();
+        }
+
+        // Gestion des événements
+        editButton.addEventListener('click', enableEditMode);
+        cancelButton.addEventListener('click', disableEditMode);
+        saveButton.addEventListener('click', saveChanges);
+        deleteButton.addEventListener('click', function() {
+            if (confirm('Êtes-vous sûr de vouloir supprimer votre compte ?')) {
+                // Appel à l'API de suppression
+                alert('Compte supprimé');
+            }
+        });
+    });
+</script>
