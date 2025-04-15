@@ -2,6 +2,7 @@ package fr.eni.encheres.bo;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -10,8 +11,8 @@ public class ArticleVendu {
     private String noArticle;
     private String nomArticle;
     private String description;
-    private Date dateDebutEncheres;
-    private Date DateFinEnchere;
+    private LocalDateTime dateDebutEncheres;
+    private LocalDateTime dateFinEnchere;
     private int misAPrix;
     private int prixVente;
     //Voir si on fait pas une enum ici car toujours pareil
@@ -24,15 +25,23 @@ public class ArticleVendu {
     //private Utilisateur acheteur;
     //private Utilisateur vendeur;
 
-
+    public ArticleVendu(String nomArticle, String description, Categorie categorie, int misAPrix, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, Retrait retrait) {
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.categorie = categorie;
+        this.misAPrix = misAPrix;
+        this.dateDebutEncheres = dateDebutEncheres;
+        this.dateFinEnchere = dateFinEnchere;
+        this.retrait = retrait;
+    }
 
     //Constructeur sans les autres classes
-    public ArticleVendu(String noArticle, String nomArticle, String description, Date dateDebutEncheres, Date dateFinEnchere, int misAPrix, int prixVente, String etatVente) {
+    public ArticleVendu(String noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, int misAPrix, int prixVente, String etatVente) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.description = description;
         this.dateDebutEncheres = dateDebutEncheres;
-        DateFinEnchere = dateFinEnchere;
+        this.dateFinEnchere = dateFinEnchere;
         this.misAPrix = misAPrix;
         this.prixVente = prixVente;
         this.etatVente = etatVente;
@@ -40,12 +49,12 @@ public class ArticleVendu {
 
 
     //Add utilisateur dans le futur
-    public ArticleVendu(String noArticle, String nomArticle, String description, Date dateDebutEncheres, Date dateFinEnchere, int misAPrix, int prixVente, String etatVente, Categorie categorie, Enchere enchere, Retrait retrait) {
+    public ArticleVendu(String noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, int misAPrix, int prixVente, String etatVente, Categorie categorie, Enchere enchere, Retrait retrait) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.description = description;
         this.dateDebutEncheres = dateDebutEncheres;
-        DateFinEnchere = dateFinEnchere;
+        this.dateFinEnchere = dateFinEnchere;
         this.misAPrix = misAPrix;
         this.prixVente = prixVente;
         this.etatVente = etatVente;
@@ -53,4 +62,11 @@ public class ArticleVendu {
         this.enchere = enchere;
         this.retrait = retrait;
     }
+
+    public int getMisAPrix() {
+        return misAPrix;
+    }
+
+
+
 }

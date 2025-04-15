@@ -3,9 +3,12 @@ package fr.eni.encheres.service.implementation;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Categorie;
 import fr.eni.encheres.bo.Enchere;
+import fr.eni.encheres.service.ArticleService;
 import fr.eni.encheres.service.EnchereService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,38 +21,27 @@ public class EnchereServiceImpl implements EnchereService {
     private static List<Enchere> encheres = new ArrayList<>();
 
 
-    public EnchereServiceImpl() {
+    private ArticleService articleService;
 
+
+    public EnchereServiceImpl(ArticleService articleService) {
+        this.articleService = articleService;
+        mockEnchere();
     }
 
     public void mockEnchere(){
-        ArticleVendu fauteuil = new ArticleVendu(
-                "123",
-                "Fauteil",
-                "Fauteil en cuir",
-                new Date(2018, 8, 10),
-                new Date(2018, 1,9),
-                310,
-                400,
-                "En cours"
-        );
 
-        ArticleVendu pc = new ArticleVendu(
-                "002",
-                "PC Gamer",
-                "Un PC Gamer haute performance avec une carte graphique de dernière génération",
-                new Date(2025, 4, 20),
-                new Date(2018, 10, 9),
-                1000,
-                1444,
-                "Vendu"
-        );
+        Enchere enchere1 = new Enchere(LocalDateTime.now());
+        Enchere enchere2 = new Enchere(LocalDateTime.now());
 
-        Enchere enchere1 = new Enchere(new Date(2025, 4, 20),1000,pc);
-        Enchere enchere2 = new Enchere(new Date(2018, 8, 10),1000,fauteuil);
+        enchere1.setMontantEnchere(articleService.getArticles().get(0).getMisAPrix());
+        enchere2.setMontantEnchere(articleService.getArticles().get(1).getMisAPrix());
+        enchere1.setArticleVendu(articleService.getArticles().get(0));
+        enchere2.setArticleVendu(articleService.getArticles().get(1));
 
         encheres.add(enchere1);
         encheres.add(enchere2);
+
     }
 
 
@@ -64,7 +56,8 @@ public class EnchereServiceImpl implements EnchereService {
     }
 
     @Override
-    public void addEnchere(Enchere enchere) {
-
+    public void addEnchere(ArticleVendu articleVendu) {
+        Enchere enchere = new Enchere(LocalDateTime.now(),articleVendu.getMisAPrix(),articleVendu);
+        encheres.add(enchere);
     }
 }
