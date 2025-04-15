@@ -1,0 +1,65 @@
+<head>
+    <title>ENI Enchère - Nouvelle enchère</title>
+</head>
+<div th:replace="~{base :: layout(~{::title}, ~{::section})}">
+    <section class="p-3 my-5">
+        <h3 class="text-center font-bold text-primary my-5 text-2xl">Nouvelle vente</h3>
+        <form class="p-2 max-w-lg space-y-4 mx-auto">
+            <div class="grid grid-cols-2 items-center gap-2">
+                <label for="" class="font-semibold">Article :</label>
+                <input type="text" class="border p-1 rounded">
+            </div>
+            <div class="grid grid-cols-2 items-center gap-2">
+                <label for="" class="font-semibold">Catégorie :</label>
+                <select class="border p-1 rounded">
+                    <option value=""></option>
+                </select>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <label for="" class="font-semibold">Description :</label>
+                <textarea class="border p-1 rounded resize-none" rows="5">
+                </textarea>
+            </div>
+            <div class="col-span-2 grid grid-cols-2 gap-2 items-center">
+                <!-- Champ personnalisé avec bouton -->
+                <label for="imageUpload" class="font-semibold">Photo de l'article :</label>
+                <label
+                        for="imageUpload"
+                        class="cursor-pointer px-6 py-3 bg-accent text-light rounded-lg shadow-lg text-center font-semibold flex items-center justify-center"
+                >
+                    Choisir une image
+                    <i class="fa-solid fa-image mx-3 text-xl"></i>
+                </label>
+                <input
+                        id="imageUpload"
+                        type="file"
+                        accept="image/*"
+                        class="hidden"
+                >
+            </div>
+            <div class="grid grid-cols-2 gap-2 items-center">
+                <label for="" class="font-semibold">Prix initial :</label>
+                <input type="number" class="border p-1 rounded">
+            </div>
+            <div class="grid grid-cols-2 gap-2 items-center">
+                <label for="" class="font-semibold">Début de l'enchère :</label>
+                <input type="datetime-local" class="border p-1 rounded">
+            </div>
+            <div class="grid grid-cols-2 gap-2 items-center">
+                <label for="" class="font-semibold">Fin de l'enchère :</label>
+                <input type="datetime-local" class="border p-1 rounded">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <span class="font-semibold">Retrait :</span>
+                <span>5 rue des pinsons</span>
+            </div>
+            <div class="col-span-2 flex justify-center gap-2 items-center">
+                <button type="submit" class="cursor-pointer p-3 bg-accent text-light rounded-lg shadow-lg text-center font-semibold">
+                    Enregistrer
+                    <i class="fa-solid fa-floppy-disk ms-2"></i>
+                </button>
+                <a th:href="@{/}" class="cursor-pointer p-3 bg-secondary text-light rounded-lg shadow-lg text-center font-semibold">Annuler</a>
+            </div>
+        </form>
+    </section>
+</div>
