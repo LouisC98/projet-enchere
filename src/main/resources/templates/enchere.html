@@ -1,0 +1,62 @@
+
+<head>
+  <title>ENI Enchère - </title>
+</head>
+<div th:replace="~{base :: layout(~{::title}, ~{::section})}">
+  <section class="p-3 mt-5">
+    <h3 class="text-center text-2xl font-bold text-primary my-3 text-shadow-sm">Détail vente</h3>
+    <div class="p-3 grid grid-cols-1 md:grid-cols-2 max-w-lg md:max-w-4xl gap-3 md:gap-5 mx-auto items-center">
+      <div class="border w-full aspect-video md:aspect-square object-cover">
+        <img src="" alt="image de l'article">
+      </div>
+      <div class="space-y-4">
+        <h4 class="text-2xl font-bold text-secondary text-shadow-sm my-3 col-span-2">Pc gamer pour travailler</h4>
+        <div class="grid grid-cols-2">
+          <label for="" class="font-semibold">Description : </label>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, voluptate.</p>
+        </div>
+        <div class="grid grid-cols-2 items-center">
+          <label for="" class="font-semibold" >Catégorie : </label>
+          <span>Informatique</span>
+        </div>
+        <div class="grid grid-cols-2 items-center">
+          <label for="" class="font-semibold">Meilleur offre : </label>
+          <div>
+            <span>210</span>
+            pts par
+            <span>Bob</span>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 items-center">
+          <label for="" class="font-semibold">Mis à prix : </label>
+          <div>
+            <span>185</span> points
+          </div>
+        </div>
+        <div class="grid grid-cols-2 items-center">
+          <label for="" class="font-semibold">Fin de l'enchère : </label>
+          <span>09/10/2018</span>
+        </div>
+        <div class="grid grid-cols-2">
+          <label for="" class="font-semibold">Retrait : </label>
+          <p>10 allée des Alouettes 44800 Saint Herblain</p>
+        </div>
+        <div class="grid grid-cols-2 items-center">
+          <label for="" class="font-semibold">Vendeur : </label>
+          <span>jojo44</span>
+        </div>
+
+        <!--   ENCHERIR   -->
+        <div class="grid grid-cols-3 gap-3 items-center">
+          <label for="" class="font-semibold whitespace-nowrap">Ma proposition :</label>
+          <input type="number" class="border rounded p-1 mx-2">
+          <button class="bg-secondary text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer tracking-widest" type="submit">Enchérir</button>
+        </div>
+        <!--      -->
+      </div>
+    </div>
+    <div class="text-center mt-10">
+      <a th:href="@{/}" class="bg-accent text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer">Retour</a>
+    </div>
+  </section>
+</div>
