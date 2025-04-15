@@ -1,0 +1,20 @@
+<nav class="p-5 bg-primary text-light flex justify-between items-center gap-2 w-full">
+    <div>
+        <h1 class="text-2xl font-bold">
+            <a th:href="@{/}" class="whitespace-nowrap">ENI - Enchères</a>
+        </h1>
+    </div>
+    <div class="flex justify-end items-center gap-2 flex-wrap">
+        <!--    if not connected    -->
+            <a th:href="@{/register}" class="hover:font-bold">S'inscrire</a>
+            <a th:href="@{/login}" class="hover:font-bold">Se connecter</a>
+        <!--                        -->
+        <!--    if connected        -->
+            <a href="#" class="hover:font-bold">Enchères</a>
+            <a href="#" class="hover:font-bold">Vendre un article</a>
+            <a href="#" class="hover:font-bold">Mon profil</a>
+            <a href="#" class="hover:font-bold">Déconnexion</a>
+        <!--                        -->
+
+    </div>
+</nav>

@@ -45,16 +45,34 @@ public class EnchereServiceImpl implements EnchereService {
     }
 
 
+    /***
+     * Retourne la liste des enchères.
+     * Rajouter une logique de date pour retourner que celle en cours
+     * @return
+     */
     @Override
     public List<Enchere> getEncheres() {
         return encheres;
     }
 
+
+    /**
+     * Retourne une liste d'encheres en fonction du nom de l'article vendus
+     *
+     * @param name
+     * @return
+     */
     @Override
     public Enchere getEnchere(String name) {
         return null;
     }
 
+
+    /**
+     * Création d'une enchère en prenant la date du jour et l'article lié.
+     *
+     * @param articleVendu
+     */
     @Override
     public void addEnchere(ArticleVendu articleVendu) {
         Enchere enchere = new Enchere(LocalDateTime.now(),articleVendu.getMisAPrix(),articleVendu);

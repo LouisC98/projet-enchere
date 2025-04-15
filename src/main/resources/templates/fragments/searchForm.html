@@ -1,0 +1,70 @@
+<form class="grid grid-cols-1 md:grid-cols-2 gap-2 items-center mx-auto max-w-lg md:max-w-2xl p-4">
+    <div class="grid grid-cols-2 gap-2">
+        <h3 class="font-bold col-span-2 text-lg">Filtres :</h3>
+        <!--        if connected .... -->
+            <div class="col-span-2 flex flex-col gap-2">
+                <div>
+                    <label class="flex items-center gap-2 font-semibold">
+                        <input type="radio" name="mode" value="achats" onclick="toggleSections()">
+                        Achats
+                    </label>
+                    <div class="mt-2 ms-5 achats-section hidden flex flex-col gap-1">
+                        <label><input type="checkbox" name="achat1"> enchères ouvertes</label>
+                        <label><input type="checkbox" name="achat2"> mes enchères en cours</label>
+                        <label><input type="checkbox" name="achat3"> mes enchères remportées</label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="flex items-center gap-2 font-semibold">
+                        <input type="radio" name="mode" value="ventes" onclick="toggleSections()">
+                        Mes ventes
+                    </label>
+                    <div class="mt-2 ms-5 ventes-section hidden flex flex-col gap-1">
+                        <label><input type="checkbox" name="vente1" disabled> mes ventes en cours</label>
+                        <label><input type="checkbox" name="vente2" disabled> ventes non débutées</label>
+                        <label><input type="checkbox" name="vente3" disabled> ventes terminées</label>
+                    </div>
+                </div>
+            </div>
+        <!--            ....          -->
+        <label for="">
+            Catégories :
+        </label>
+        <select name="" id="" class="border border-black p-1 rounded">
+            <option value="">Toutes</option>
+        </select>
+        <div class="relative mx-2 col-span-2">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+            <input
+                    type="text"
+                    placeholder="Le nom de l'article contient"
+                    class="pl-10 border border-black p-1 rounded w-full"
+            >
+        </div>
+    </div>
+    <button class="md:col-span-1 col-span-2 bg-secondary p-4 font-bold text-xl rounded m-3 text-white shadow tracking-widest text-shadow-sm cursor-pointer" type="submit">
+        Rechercher
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+</form>
+
+<script>
+    function toggleSections() {
+        const isAchats = document.querySelector('input[name="mode"][value="achats"]').checked;
+        const isVentes = document.querySelector('input[name="mode"][value="ventes"]').checked;
+
+        // toggle visibility
+        document.querySelector('.achats-section').classList.toggle('hidden', !isAchats);
+        document.querySelector('.ventes-section').classList.toggle('hidden', !isVentes);
+
+        // toggle checkboxes
+        document.querySelectorAll('.achats-section input[type="checkbox"]').forEach(cb => {
+            cb.disabled = !isAchats;
+        });
+
+        document.querySelectorAll('.ventes-section input[type="checkbox"]').forEach(cb => {
+            cb.disabled = !isVentes;
+        });
+    }
+</script>

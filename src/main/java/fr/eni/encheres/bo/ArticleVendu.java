@@ -25,13 +25,14 @@ public class ArticleVendu {
     //private Utilisateur acheteur;
     //private Utilisateur vendeur;
 
-    public ArticleVendu(String nomArticle, String description, Categorie categorie, int misAPrix, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, Retrait retrait) {
+    public ArticleVendu(String noArticle, String nomArticle, String description, Categorie categorie, int misAPrix, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, Retrait retrait) {
+        this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.description = description;
         this.categorie = categorie;
-        this.misAPrix = misAPrix;
         this.dateDebutEncheres = dateDebutEncheres;
         this.dateFinEnchere = dateFinEnchere;
+        this.misAPrix = misAPrix;
         this.retrait = retrait;
     }
 
