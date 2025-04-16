@@ -1,4 +1,4 @@
-<a th:fragment="enchereCard(enchere)" class="grid grid-cols-2 sm:grid-cols-3  border border-primary p-4 rounded-lg hover:shadow-xl gap-4 items-center text-dark h-full cursor-pointer">
+<a th:fragment="enchereCard(enchere)" th:href="@{|/articles/${enchere.articleVendu.noArticle}|}" class="grid grid-cols-2 sm:grid-cols-3  border border-primary p-4 rounded-lg hover:shadow-xl gap-4 items-center text-dark h-full cursor-pointer">
     <div  class="w-full h-full aspect-square overflow-hidden rounded-lg border border-primary">
         <img src="" alt="image de l'article" class="w-full h-full object-cover" />
     </div>
