@@ -13,7 +13,7 @@ public interface EnchereService {
 
     public void addEnchere(ArticleVendu articleVendu);
 
-    public Enchere getEnchereById(String id);
+    public Enchere getEnchereById(Long id);
 
 
 }

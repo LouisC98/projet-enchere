@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("")
 public class EnchereController {
 
+
     @Autowired
     private EnchereServiceImpl service;
 
@@ -32,7 +33,7 @@ public class EnchereController {
     @GetMapping("/{name}")
     public String getEnchere(@PathVariable String name, Model model) {
         model.addAttribute("encheres",service.getEnchere(name));
-        return "enchere/enchere";
+        return "article/article";
     }
 
 
