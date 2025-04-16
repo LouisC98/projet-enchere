@@ -22,7 +22,7 @@ public class ArticleServiceImpl implements ArticleService {
         this.categorieService = categorieService;
         articles.add(new ArticleVendu(
                 123L,
-                "Fauteil",
+                "Fauteuil",
                 "Fauteil en cuir",
                 categorieService.getCategories().get(0),
                 310,
