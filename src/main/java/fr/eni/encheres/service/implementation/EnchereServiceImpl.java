@@ -21,7 +21,7 @@ public class EnchereServiceImpl implements EnchereService {
     private static List<Enchere> encheres = new ArrayList<>();
 
     @Autowired
-    ArticleService articleService;
+    private ArticleService articleService;
 
 
     public EnchereServiceImpl(ArticleService articleService) {

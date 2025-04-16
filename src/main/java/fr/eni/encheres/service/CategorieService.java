@@ -8,5 +8,5 @@ public interface CategorieService {
 
     public List<Categorie> getCategories();
 
-    public Categorie getCategorie(int id);
+    public Categorie getCategorie(Long noCategorie);
 }
