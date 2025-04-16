@@ -25,8 +25,10 @@ public class CategorieServiceImpl implements CategorieService {
 
     //A changer
     @Override
-    public Categorie getCategorie(int id) {
-        return categories.get(id);
+    public Categorie getCategorie(Long noCategorie) {
+        return categories.stream().filter(
+                categorie -> categorie.getNoCategorie().equals(noCategorie)
+        ).findFirst().orElse(null);
     }
 
     public void mockCategories(){
