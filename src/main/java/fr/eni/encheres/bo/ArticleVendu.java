@@ -1,10 +1,11 @@
 package fr.eni.encheres.bo;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
+@NoArgsConstructor
 @Data
 public class ArticleVendu {
 
@@ -17,7 +18,6 @@ public class ArticleVendu {
     private int prixVente;
     //Voir si on fait pas une enum ici car toujours pareil
     private String etatVente;
-
 
     private Categorie categorie;
     private Enchere enchere;

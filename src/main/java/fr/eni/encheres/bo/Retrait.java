@@ -1,9 +1,11 @@
 package fr.eni.encheres.bo;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Optional;
 
+@NoArgsConstructor
 @Data
 public class Retrait {
 
