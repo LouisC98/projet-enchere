@@ -63,8 +63,17 @@ public class ArticleController {
 
     @PostMapping
     public String createArticle(@ModelAttribute ArticleVendu article) {
-         articleService.creerArticle(article);
+        articleService.creerArticle(article);
         enchereService.addEnchere(article);
         return "redirect:/";
+    }
+
+    @PostMapping("/{noArticle}")
+    public String encherir(@PathVariable Long noArticle, @RequestParam int prix) {
+
+        enchereService.encherir(noArticle,prix);
+        System.out.println(prix);
+        return "redirect:/";
+
     }
 }

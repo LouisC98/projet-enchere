@@ -25,7 +25,7 @@ public class ArticleVendu {
     //private Utilisateur acheteur;
     //private Utilisateur vendeur;
 
-    public ArticleVendu(Long noArticle, String nomArticle, String description, Categorie categorie, int misAPrix, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, Retrait retrait) {
+    public ArticleVendu(Long noArticle, String nomArticle, String description, Categorie categorie, int misAPrix, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, Retrait retrait, Enchere enchere) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.description = description;
@@ -34,6 +34,7 @@ public class ArticleVendu {
         this.dateFinEnchere = dateFinEnchere;
         this.misAPrix = misAPrix;
         this.retrait = retrait;
+        this.enchere = enchere;
     }
 
     //Constructeur sans les autres classes

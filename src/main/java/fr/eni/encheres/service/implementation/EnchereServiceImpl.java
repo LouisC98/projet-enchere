@@ -85,5 +85,17 @@ public class EnchereServiceImpl implements EnchereService {
         return encheres.stream().filter(e -> e.getArticleVendu().getNoArticle().equals(id)).findFirst().orElse(null);
     }
 
+    @Override
+    public void encherir(Long id, int prix) {
+        Enchere enchere = getEnchereById(id);
+        if(prix>enchere.getMontantEnchere()){
+            enchere.setMontantEnchere(prix);
+            articleService.getArticle(id).getEnchere().setMontantEnchere(prix);
+        }
+
+
+
+    }
+
 
 }

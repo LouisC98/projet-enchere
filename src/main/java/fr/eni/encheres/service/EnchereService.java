@@ -15,5 +15,7 @@ public interface EnchereService {
 
     public Enchere getEnchereById(Long id);
 
+    public void encherir(Long id, int prix);
+
 
 }
