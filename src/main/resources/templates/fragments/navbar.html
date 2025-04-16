@@ -5,16 +5,23 @@
         </h1>
     </div>
     <div class="flex justify-end items-center gap-2 flex-wrap">
-        <!--    if not connected    -->
+        <!-- Non connecté -->
+        <div sec:authorize="!isAuthenticated()">
             <a th:href="@{/register}" class="hover:font-bold">S'inscrire</a>
             <a th:href="@{/login}" class="hover:font-bold">Se connecter</a>
-        <!--                        -->
-        <!--    if connected        -->
+        </div>
+        
+        <!-- Connecté -->
+        <div sec:authorize="isAuthenticated()">
             <a href="#" class="hover:font-bold">Enchères</a>
             <a href="#" class="hover:font-bold">Vendre un article</a>
             <a href="#" class="hover:font-bold">Mon profil</a>
-            <a href="#" class="hover:font-bold">Déconnexion</a>
-        <!--                        -->
-
+            <!-- Remplacez le lien de déconnexion par un formulaire POST -->
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="hover:font-bold">
+                    Déconnexion
+                </button>
+            </form>
+        </div>
     </div>
 </nav>
