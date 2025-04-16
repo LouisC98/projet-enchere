@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -43,6 +44,25 @@ public class ArticleServiceImpl implements ArticleService {
                 .filter(article -> article.getNoArticle().equals(noArticle))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<ArticleVendu> searchArticles(Long noCategorie, String searchName) {
+        List<ArticleVendu> result = new ArrayList<>(getArticles());
+
+        if (noCategorie != null) {
+            result = result.stream()
+                    .filter(article -> article.getCategorie().getNoCategorie().equals(noCategorie))
+                    .collect(Collectors.toList());
+        }
+
+        if (searchName != null && !searchName.trim().isEmpty()) {
+            String searchNameLower = searchName.toLowerCase();
+            result = result.stream()
+                    .filter(article -> article.getNomArticle().toLowerCase().contains(searchNameLower))
+                    .collect(Collectors.toList());
+        }
+
+        return result;
     }
 
     /**
