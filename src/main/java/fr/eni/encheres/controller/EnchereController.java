@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/encheres")
 public class EnchereController {
 
 
@@ -25,9 +25,9 @@ public class EnchereController {
     }
 
     @GetMapping()
-    public String getEncheres(Model model) {
-        model.addAttribute("encheres",service.getEncheres());
-        return "home";
+    public void getEncheres(Model model) {
+//        model.addAttribute("encheres",service.getEncheres());
+        System.out.println(service.getEncheres());
     };
 
     @GetMapping("/{name}")
