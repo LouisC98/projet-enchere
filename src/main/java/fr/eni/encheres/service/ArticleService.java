@@ -9,4 +9,6 @@ public interface ArticleService {
     public void creerArticle(ArticleVendu article);
 
     public List<ArticleVendu> getArticles();
+
+    ArticleVendu getArticle(Long noArticle);
 }
