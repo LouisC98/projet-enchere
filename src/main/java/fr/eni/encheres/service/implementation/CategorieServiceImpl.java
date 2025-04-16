@@ -14,7 +14,8 @@ public class CategorieServiceImpl implements CategorieService {
     private List<Categorie> categories = new ArrayList<Categorie>();
 
     public CategorieServiceImpl() {
-        mockCategories();
+        categories.add(new Categorie("123","Maison"));
+        categories.add(new Categorie("456","Informatique"));
     }
 
     @Override
@@ -29,8 +30,4 @@ public class CategorieServiceImpl implements CategorieService {
         return categories.get(id);
     }
 
-    public void mockCategories(){
-        categories.add(new Categorie("123","Maison"));
-        categories.add(new Categorie("456","Informatique"));
-    }
 }

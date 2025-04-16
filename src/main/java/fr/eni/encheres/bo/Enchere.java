@@ -2,10 +2,9 @@ package fr.eni.encheres.bo;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
+
 
 
 @Data
@@ -35,15 +34,4 @@ public class Enchere {
         this.articleVendu = articleVendu;
     }
 
-    public void setMontantEnchere(int montantEnchere) {
-        this.montantEnchere = montantEnchere;
-    }
-
-    public void setArticleVendu(ArticleVendu articleVendu) {
-        this.articleVendu = articleVendu;
-    }
-
-    public ArticleVendu getArticleVendu() {
-        return articleVendu;
-    }
 }

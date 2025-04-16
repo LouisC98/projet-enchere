@@ -38,7 +38,7 @@ public class EnchereServiceImpl implements EnchereService {
         enchere2.setMontantEnchere(articleService.getArticles().get(1).getMisAPrix());
         enchere1.setArticleVendu(articleService.getArticles().get(0));
         enchere2.setArticleVendu(articleService.getArticles().get(1));
-
+        System.out.println(articleService.getArticles().get(1).getMisAPrix());
         encheres.add(enchere1);
         encheres.add(enchere2);
 

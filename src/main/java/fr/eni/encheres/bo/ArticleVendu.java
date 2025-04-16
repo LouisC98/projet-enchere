@@ -64,15 +64,4 @@ public class ArticleVendu {
         this.retrait = retrait;
     }
 
-    public int getMisAPrix() {
-        return misAPrix;
-    }
-
-    public String getNomArticle() {
-        return nomArticle;
-    }
-
-    public String getNoArticle() {
-        return noArticle;
-    }
 }
