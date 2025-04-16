@@ -35,15 +35,15 @@ public class Enchere {
         this.articleVendu = articleVendu;
     }
 
-    public void setMontantEnchere(int montantEnchere) {
-        this.montantEnchere = montantEnchere;
-    }
-
-    public void setArticleVendu(ArticleVendu articleVendu) {
-        this.articleVendu = articleVendu;
-    }
-
-    public ArticleVendu getArticleVendu() {
-        return articleVendu;
-    }
+//    public void setMontantEnchere(int montantEnchere) {
+//        this.montantEnchere = montantEnchere;
+//    }
+//
+//    public void setArticleVendu(ArticleVendu articleVendu) {
+//        this.articleVendu = articleVendu;
+//    }
+//
+//    public ArticleVendu getArticleVendu() {
+//        return articleVendu;
+//    }
 }

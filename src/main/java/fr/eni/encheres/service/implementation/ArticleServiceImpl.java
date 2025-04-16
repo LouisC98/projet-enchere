@@ -3,6 +3,7 @@ package fr.eni.encheres.service.implementation;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.service.ArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -32,13 +33,21 @@ public class ArticleServiceImpl implements ArticleService {
         return articles;
     }
 
+    @Override
+    public ArticleVendu getArticle(Long noArticle) {
+        return articles.stream()
+                .filter(article -> article.getNoArticle().equals(noArticle))
+                .findFirst()
+                .orElse(null);
+    }
+
     /**
      * Mock des articles
      * Ajouter les adresses par défaut de l'acheteur.
      */
     public void mockArticles(){
         ArticleVendu fauteuil = new ArticleVendu(
-                "123",
+                Long.valueOf(123),
                 "Fauteil",
                 "Fauteil en cuir",
                 categorieService.getCategories().get(0),
@@ -51,7 +60,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 
         ArticleVendu pc = new ArticleVendu(
-                "002",
+                Long.valueOf(2),
                 "PC Gamer",
                 "Un PC Gamer haute performance avec une carte graphique de dernière génération",
                 categorieService.getCategories().get(1),

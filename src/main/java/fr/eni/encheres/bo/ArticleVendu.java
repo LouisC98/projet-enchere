@@ -8,7 +8,7 @@ import java.util.Date;
 @Data
 public class ArticleVendu {
 
-    private String noArticle;
+    private Long noArticle;
     private String nomArticle;
     private String description;
     private LocalDateTime dateDebutEncheres;
@@ -25,7 +25,7 @@ public class ArticleVendu {
     //private Utilisateur acheteur;
     //private Utilisateur vendeur;
 
-    public ArticleVendu(String noArticle, String nomArticle, String description, Categorie categorie, int misAPrix, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, Retrait retrait) {
+    public ArticleVendu(Long noArticle, String nomArticle, String description, Categorie categorie, int misAPrix, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, Retrait retrait) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.description = description;
@@ -37,7 +37,7 @@ public class ArticleVendu {
     }
 
     //Constructeur sans les autres classes
-    public ArticleVendu(String noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, int misAPrix, int prixVente, String etatVente) {
+    public ArticleVendu(Long noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, int misAPrix, int prixVente, String etatVente) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.description = description;
@@ -50,7 +50,7 @@ public class ArticleVendu {
 
 
     //Add utilisateur dans le futur
-    public ArticleVendu(String noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, int misAPrix, int prixVente, String etatVente, Categorie categorie, Enchere enchere, Retrait retrait) {
+    public ArticleVendu(Long noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, int misAPrix, int prixVente, String etatVente, Categorie categorie, Enchere enchere, Retrait retrait) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.description = description;
@@ -63,16 +63,16 @@ public class ArticleVendu {
         this.enchere = enchere;
         this.retrait = retrait;
     }
-
-    public int getMisAPrix() {
-        return misAPrix;
-    }
-
-    public String getNomArticle() {
-        return nomArticle;
-    }
-
-    public String getNoArticle() {
-        return noArticle;
-    }
+//
+//    public int getMisAPrix() {
+//        return misAPrix;
+//    }
+//
+//    public String getNomArticle() {
+//        return nomArticle;
+//    }
+//
+//    public String getNoArticle() {
+//        return noArticle;
+//    }
 }

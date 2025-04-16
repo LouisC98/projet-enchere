@@ -30,7 +30,7 @@ public class CategorieServiceImpl implements CategorieService {
     }
 
     public void mockCategories(){
-        categories.add(new Categorie("123","Maison"));
-        categories.add(new Categorie("456","Informatique"));
+        categories.add(new Categorie(Long.valueOf(123),"Maison"));
+        categories.add(new Categorie(Long.valueOf(456),"Informatique"));
     }
 }
