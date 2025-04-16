@@ -1,0 +1,168 @@
+<head>
+    <title>ENI Enchère - Nouvelle enchère</title>
+</head>
+<div th:replace="~{base :: layout(~{::title}, ~{::section})}">
+    <section class="p-3 my-5">
+        <h3 class="text-center font-bold text-primary my-5 text-2xl">Nouvelle vente</h3>
+        <div class="md:flex md:justify-center md:items-center gap-6">
+            <div id="imagePreviewDesktop" class="hidden md:w-1/2 aspect-video my-3 "></div>
+            <form class="p-2 max-w-lg space-y-4 mx-auto md:mx-0" th:action="@{/articles}" th:method="POST" th:object="${article}">
+                <div class="grid grid-cols-2 items-center gap-2">
+                    <label for="nomArticle" class="font-semibold">Article :</label>
+                    <input type="text" id="nomArticle" class="border p-1 rounded" th:field="*{nomArticle}">
+                </div>
+                <div class="grid grid-cols-2 items-center gap-2">
+                    <label for="categorie" class="font-semibold">Catégorie :</label>
+                    <select id="categorie" th:field="*{categorie.noCategorie}" class="border p-1 rounded">
+                        <option th:each="categorie : ${categories}" th:value="${categorie.noCategorie}" th:text="${categorie.libelle}"></option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <label for="description" class="font-semibold">Description :</label>
+                    <textarea id="description" th:field="*{description}" class="border p-1 rounded resize-none" rows="5">
+                </textarea>
+                </div>
+                <div class="col-span-2 grid grid-cols-2 gap-2 items-center">
+                    <label class="font-semibold">Photo de l'article :</label>
+                    <label
+                            for="imageUpload"
+                            class="cursor-pointer px-6 py-3 bg-accent text-white rounded-lg shadow-lg text-center font-semibold flex items-center justify-center"
+                    >
+                        Choisir une image
+                        <i class="fa-solid fa-image mx-3 text-xl"></i>
+                    </label>
+                    <input
+                            id="imageUpload"
+                            type="file"
+                            accept="image/*"
+                            class="hidden"
+                            onchange="previewImage()"
+                    >
+                    <div id="imagePreview" class="hidden w-full col-span-2 aspect-video mx-auto my-3"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 items-center">
+                    <label for="misAPrix" class="font-semibold">Prix initial :</label>
+                    <input type="number" id="misAPrix" th:field="*{misAPrix}" class="border p-1 rounded">
+                </div>
+                <div class="grid grid-cols-2 gap-2 items-center">
+                    <label for="dateDebutEncheres" class="font-semibold">Début de l'enchère :</label>
+                    <input type="datetime-local" id="dateDebutEncheres" th:field="*{dateDebutEncheres}" class="border p-1 rounded">
+                </div>
+                <div class="grid grid-cols-2 gap-2 items-center">
+                    <label for="dateFinEnchere" class="font-semibold">Fin de l'enchère :</label>
+                    <input type="datetime-local" id="dateFinEnchere" th:field="*{dateFinEnchere}" class="border p-1 rounded">
+                </div>
+                <div class="col-span-2">
+                    <div class="font-semibold bg-body p-2 transform translate-x-6 translate-y-5 w-fit">Retrait</div>
+                    <div class="border p-4 rounded shadow">
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3">
+                                <label for="street" class="w-24">Rue :</label>
+                                <input type="text" id="street"th:field="*{retrait.rue}" class="border p-1 rounded flex-grow">
+                            </div>
+
+                            <div class="flex items-center gap-3">
+                                <label for="postal" class="w-24">Code postal :</label>
+                                <input type="text" id="postal" th:field="*{retrait.codePostal}" class="border p-1 rounded flex-grow">
+                            </div>
+
+                            <div class="flex items-center gap-3">
+                                <label for="city" class="w-24">Ville :</label>
+                                <input type="text" id="city" th:field="*{retrait.ville}" class="border p-1 rounded flex-grow">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-2 flex justify-center gap-4 items-center">
+                    <button type="submit" class="cursor-pointer p-3 bg-accent text-white rounded-lg shadow-lg text-center font-semibold">
+                        Enregistrer
+                        <i class="fa-solid fa-floppy-disk ms-2"></i>
+                    </button>
+                    <a th:href="@{/}" class="cursor-pointer p-3 bg-secondary text-white rounded-lg shadow-lg text-center font-semibold">Annuler</a>
+                </div>
+            </form>
+        </div>
+
+    </section>
+</div>
+<script>
+    function previewImage() {
+        const input = document.getElementById('imageUpload');
+        const preview1 = document.getElementById('imagePreview');
+        const preview2 = document.getElementById('imagePreviewDesktop');
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                preview1.innerHTML = '';
+                preview2.innerHTML = '';
+
+                const img1 = document.createElement('img');
+                img1.src = e.target.result;
+                img1.className = 'object-contain rounded shadow';
+
+                const img2 = document.createElement('img');
+                img2.src = e.target.result;
+                img2.className = 'object-contain rounded shadow';
+
+                preview1.innerHTML = '';
+                preview1.appendChild(img1);
+                preview1.classList.remove('hidden');
+                preview1.classList.add('block');
+                preview1.classList.add('md:hidden');
+
+                preview2.innerHTML = '';
+                preview2.appendChild(img2);
+                preview2.classList.add('hidden');
+                preview2.classList.add('md:block');
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview1.classList.add('hidden');
+            preview2.classList.add('hidden');
+            preview1.innerHTML = '';
+            preview2.innerHTML = '';
+        }
+    }
+
+    function setCurrentDateTime() {
+        const now = new Date();
+        // Format pour datetime-local: YYYY-MM-DDThh:mm
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+
+        const formattedDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        // Sélectionner tous les champs datetime-local
+        const datetimeInputs = document.querySelectorAll('input[type="datetime-local"]');
+
+        // Le premier est pour la date de début
+        if (datetimeInputs.length > 0) {
+            datetimeInputs[0].value = formattedDateTime;
+        }
+
+        // Calculer la date de fin (J+1)
+        const tomorrow = new Date(now);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        const tomorrowYear = tomorrow.getFullYear();
+        const tomorrowMonth = String(tomorrow.getMonth() + 1).padStart(2, '0');
+        const tomorrowDay = String(tomorrow.getDate()).padStart(2, '0');
+
+        const formattedTomorrow = `${tomorrowYear}-${tomorrowMonth}-${tomorrowDay}T${hours}:${minutes}`;
+
+        // Le deuxième est pour la date de fin
+        if (datetimeInputs.length > 1) {
+            datetimeInputs[1].value = formattedTomorrow;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        setCurrentDateTime();
+    });
+</script>

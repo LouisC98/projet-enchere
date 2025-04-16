@@ -1,21 +1,24 @@
-<div class="grid grid-cols-2 sm:grid-cols-3  border border-primary p-4 rounded-lg shadow-md gap-4 items-center text-dark">
-    <div class="w-full h-full aspect-square overflow-hidden rounded-lg border border-primary">
+<a th:fragment="enchereCard(article)" th:href="@{|/articles/${article.noArticle}|}" class="grid grid-cols-2 sm:grid-cols-3  border border-primary p-4 rounded-lg hover:shadow-xl gap-4 items-center text-dark h-full cursor-pointer">
+    <div  class="w-full h-full aspect-square overflow-hidden rounded-lg border border-primary">
         <img src="" alt="image de l'article" class="w-full h-full object-cover" />
     </div>
 
     <div class="sm:col-span-2 grid grid-cols-2 gap-2 justify-evenly h-full">
-        <h4 class="col-span-2 font-bold text-lg text-primary">Nom de l'article</h4>
+        <h4 class="col-span-2 font-bold text-lg text-primary" th:text="${article.nomArticle}">Nom de l'article</h4>
 
-        <p>Prix : <span class="text-accent font-semibold">210 points</span></p>
+        <!--   A changer quand enchere ok     -->
+        <p>Prix : <span class="text-accent font-semibold" th:text="${article.misAPrix}"></span> points</p>
+        <!--        -->
         <p>Classement : <span class="font-medium">2</span></p>
 
-        <p class="col-span-2">Fin de l'enchère : <span class="text-danger font-medium">10/08/2018</span></p>
+        <p class="">Fin de l'enchère : </p>
+        <span class="text-danger font-medium" th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy à HH:mm')}"></span>
 
         <div class="col-span-2 flex gap-1">
             <p class="whitespace-nowrap">Retrait :</p>
-            <span>10 allée des alouettes 44800 Saint Herblain</span>
+            <span th:text="|${article.retrait.rue} ${article.retrait.codePostal} ${article.retrait.ville}|"></span>
         </div>
 
         <p class="whitespace-nowrap">Vendeur : <span class="text-primary font-semibold">jojo44</span></p>
     </div>
-</div>
+</a>
