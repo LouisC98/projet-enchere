@@ -1,4 +1,4 @@
-<form class="grid grid-cols-1 md:grid-cols-2 gap-2 items-center mx-auto max-w-lg md:max-w-2xl p-4">
+<form th:fragment="parameters(categories)" class="grid grid-cols-1 md:grid-cols-2 gap-2 items-center mx-auto max-w-lg md:max-w-2xl p-4" th:action="@{/articles/search}" method="post">
     <div class="grid grid-cols-2 gap-2">
         <h3 class="font-bold col-span-2 text-lg">Filtres :</h3>
         <!--        if connected .... -->
@@ -28,11 +28,12 @@
                 </div>
             </div>
         <!--            ....          -->
-        <label for="">
+        <label for="noCategorie">
             Catégories :
         </label>
-        <select name="" id="" class="border border-black p-1 rounded">
-            <option value="">Toutes</option>
+        <select name="noCategorie" id="noCategorie" class="border border-black p-1 rounded">
+            <option value="">-- Toute catégorie --</option>
+            <option th:each="categorie : ${categories}" th:value="${categorie.noCategorie}" th:text="${categorie.libelle}"></option>
         </select>
         <div class="relative mx-2 col-span-2">
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
@@ -40,6 +41,7 @@
                     type="text"
                     placeholder="Le nom de l'article contient"
                     class="pl-10 border border-black p-1 rounded w-full"
+                    name="searchName"
             >
         </div>
     </div>

@@ -22,7 +22,7 @@
         <div class="grid grid-cols-2 items-center">
           <label for="" class="font-semibold">Meilleur offre : </label>
           <div>
-            <span class="text-secondary fond-semibold">210</span>
+            <span th:text="${article.enchere.montantEnchere}" class="text-secondary fond-semibold">210</span>
             pts par
             <span>Bob</span>
           </div>
@@ -47,11 +47,11 @@
         </div>
 
         <!--   ENCHERIR   -->
-        <div class="grid grid-cols-3 gap-3 items-center">
+        <form th:action="@{/articles/{noArticle}(noArticle=${article.noArticle})}" method="post"  class="grid grid-cols-3 gap-3 items-center">
           <label for="" class="font-semibold whitespace-nowrap">Ma proposition :</label>
-          <input type="number" class="border rounded p-1 mx-2">
+          <input name="prix" type="number" class="border rounded p-1 mx-2">
           <button class="bg-secondary text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer tracking-widest" type="submit">Enchérir</button>
-        </div>
+        </form>
         <!--      -->
       </div>
     </div>

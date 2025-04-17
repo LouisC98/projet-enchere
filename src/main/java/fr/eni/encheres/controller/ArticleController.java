@@ -34,6 +34,20 @@ public class ArticleController {
         return "article";
     }
 
+    @PostMapping("/search")
+    public String searchArticle(
+            @RequestParam(required = false) Long noCategorie,
+            @RequestParam(required = false) String searchName,
+            Model model) {
+
+        List<ArticleVendu> filteredArticles = articleService.searchArticles(noCategorie, searchName);
+
+        model.addAttribute("articles", filteredArticles);
+        model.addAttribute("categories", categorieService.getCategories());
+
+        return "home";
+    }
+
     @GetMapping("/{noArticle}")
     public String getArticleByNo(@PathVariable Long noArticle, Model model) {
         model.addAttribute("article",articleService.getArticle(noArticle));
@@ -49,8 +63,17 @@ public class ArticleController {
 
     @PostMapping
     public String createArticle(@ModelAttribute ArticleVendu article) {
-         articleService.creerArticle(article);
+        articleService.creerArticle(article);
         enchereService.addEnchere(article);
         return "redirect:/";
+    }
+
+    @PostMapping("/{noArticle}")
+    public String encherir(@PathVariable Long noArticle, @RequestParam int prix) {
+
+        enchereService.encherir(noArticle,prix);
+        System.out.println(prix);
+        return "redirect:/";
+
     }
 }

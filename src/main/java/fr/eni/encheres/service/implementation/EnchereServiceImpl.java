@@ -86,4 +86,18 @@ public class EnchereServiceImpl implements EnchereService {
     }
 
 
+    //Vérifier que le user a assez de crédit
+    @Override
+    public void encherir(Long id, int prix) {
+        Enchere enchere = getEnchereById(id);
+        if(prix>enchere.getMontantEnchere()){
+            enchere.setMontantEnchere(prix);
+            articleService.getArticle(id).getEnchere().setMontantEnchere(prix);
+        }
+
+
+
+    }
+
+
 }
