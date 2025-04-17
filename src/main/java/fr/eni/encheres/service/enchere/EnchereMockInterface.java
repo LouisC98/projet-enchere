@@ -1,9 +1,8 @@
-package fr.eni.encheres.service.implementation;
+package fr.eni.encheres.service.enchere;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.service.article.ArticleServiceInterface;
-import fr.eni.encheres.service.EnchereService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +11,7 @@ import java.util.*;
 
 
 @Service
-public class EnchereServiceImpl implements EnchereService {
+public class EnchereMockInterface implements EnchereServiceInterface {
 
 
     private static List<Enchere> encheres = new ArrayList<>();
@@ -21,7 +20,7 @@ public class EnchereServiceImpl implements EnchereService {
     private ArticleServiceInterface articleServiceInterface;
 
 
-    public EnchereServiceImpl(ArticleServiceInterface articleServiceInterface) {
+    public EnchereMockInterface(ArticleServiceInterface articleServiceInterface) {
         this.articleServiceInterface = articleServiceInterface;
         mockEnchere();
     }

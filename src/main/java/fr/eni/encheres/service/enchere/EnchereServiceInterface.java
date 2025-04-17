@@ -1,11 +1,10 @@
-package fr.eni.encheres.service;
+package fr.eni.encheres.service.enchere;
 
-import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 
 import java.util.List;
 
-public interface EnchereService {
+public interface EnchereServiceInterface {
 
     public List<Enchere> getEncheres();
 
