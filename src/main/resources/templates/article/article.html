@@ -47,9 +47,9 @@
         </div>
 
         <!--   ENCHERIR   -->
-        <form th:action="@{/articles/{noArticle}(noArticle=${article.noArticle})}" method="post"  class="grid grid-cols-3 gap-3 items-center">
-          <label for="" class="font-semibold whitespace-nowrap">Ma proposition :</label>
-          <input name="prix" type="number" class="border rounded p-1 mx-2">
+        <form th:action="@{|/encheres/${article.noArticle}|}" method="post"  class="grid grid-cols-3 gap-3 items-center">
+          <label for="propal" class="font-semibold whitespace-nowrap">Ma proposition :</label>
+          <input name="propal" id="propal" type="number" class="border rounded p-1 mx-2">
           <button class="bg-secondary text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer tracking-widest" type="submit">Enchérir</button>
         </form>
         <!--      -->

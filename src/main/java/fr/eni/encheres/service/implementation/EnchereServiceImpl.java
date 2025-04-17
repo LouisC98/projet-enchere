@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -67,37 +65,28 @@ public class EnchereServiceImpl implements EnchereService {
         return encheres.stream().filter(enchere -> enchere.getArticleVendu().getNomArticle().equals(name)).findFirst().orElse(null);
     }
 
-
-
-    /**
-     * Création d'une enchère en prenant la date du jour et l'article lié.
-     *
-     * @param articleVendu
-     */
     @Override
-    public void addEnchere(ArticleVendu articleVendu) {
-        Enchere enchere = new Enchere(LocalDateTime.now(),articleVendu.getMisAPrix(),articleVendu);
-        encheres.add(enchere);
+    public List<Enchere> getEncheresByNoArticle(Long noArticle) {
+        return encheres.stream().filter(e -> e.getArticleVendu().getNoArticle().equals(noArticle)).toList();
     }
 
     @Override
-    public Enchere getEnchereById(Long id) {
-        return encheres.stream().filter(e -> e.getArticleVendu().getNoArticle().equals(id)).findFirst().orElse(null);
-    }
+    public void addEnchere(Long noArticle, int propal) {
+        ArticleVendu article = articleService.getArticle(noArticle);
+        List<Enchere> encheresByArticle = getEncheresByNoArticle(noArticle);
 
+        Optional<Enchere> maxEnchere = encheresByArticle.stream()
+                .max(Comparator.comparingInt(Enchere::getMontantEnchere));
 
-    //Vérifier que le user a assez de crédit
-    @Override
-    public void encherir(Long id, int prix) {
-        Enchere enchere = getEnchereById(id);
-        if(prix>enchere.getMontantEnchere()){
-            enchere.setMontantEnchere(prix);
-            articleService.getArticle(id).getEnchere().setMontantEnchere(prix);
+        if (maxEnchere.isEmpty()) {
+            if (propal > article.getMisAPrix()) {
+                Enchere nouvelleEnchere = new Enchere(LocalDateTime.now(), propal, article);
+                encheres.add(nouvelleEnchere);
+            }
         }
-
-
-
+        else if (propal > maxEnchere.get().getMontantEnchere()) {
+            Enchere nouvelleEnchere = new Enchere(LocalDateTime.now(), propal, article);
+            encheres.add(nouvelleEnchere);
+        }
     }
-
-
 }
