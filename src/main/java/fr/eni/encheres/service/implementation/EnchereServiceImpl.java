@@ -85,6 +85,8 @@ public class EnchereServiceImpl implements EnchereService {
         return encheres.stream().filter(e -> e.getArticleVendu().getNoArticle().equals(id)).findFirst().orElse(null);
     }
 
+
+    //Vérifier que le user a assez de crédit
     @Override
     public void encherir(Long id, int prix) {
         Enchere enchere = getEnchereById(id);
