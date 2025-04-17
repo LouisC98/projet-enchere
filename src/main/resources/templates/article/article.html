@@ -22,9 +22,12 @@
         <div class="grid grid-cols-2 items-center">
           <label for="" class="font-semibold">Meilleur offre : </label>
           <div>
-            <span th:text="${article.data.enchere.montantEnchere}" class="text-secondary fond-semibold">210</span>
-            pts par
-            <span>Bob</span>
+            <span th:if="${article.data.enchere?.montantEnchere == null}" th:text="'Aucune offre'"></span>
+            <span th:unless="${article.data.enchere?.montantEnchere == null}">
+              <span th:text="${article.data.enchere.montantEnchere}" class="text-secondary fond-semibold">210</span>
+              pts par
+              <span>Bob</span>
+            </span>
           </div>
         </div>
         <div class="grid grid-cols-2 items-center">
@@ -43,7 +46,7 @@
         </div>
         <div class="grid grid-cols-2 items-center">
           <label for="" class="font-semibold">Vendeur : </label>
-          <span class="text-primary">jojo44</span>
+          <span class="text-primary font-semibold" th:text="${article.data.vendeur != null ? article.vendeur.pseudo : 'JOJO'}"></span>
         </div>
 
         <!--   ENCHERIR   -->

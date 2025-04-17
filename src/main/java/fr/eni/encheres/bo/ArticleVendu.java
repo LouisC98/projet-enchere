@@ -23,7 +23,7 @@ public class ArticleVendu {
     private Enchere enchere;
     private Retrait retrait;
     //private Utilisateur acheteur;
-    //private Utilisateur vendeur;
+    private Utilisateur vendeur;
 
     public ArticleVendu(Long noArticle, String nomArticle, String description, Categorie categorie, int misAPrix, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, Retrait retrait, Enchere enchere) {
         this.noArticle = noArticle;

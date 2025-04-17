@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ArticleServiceInterface {
 
-    public void creerArticle(ArticleVendu article);
+    public void creerArticle(ArticleVendu article, String username);
 
     public List<ArticleVendu> getArticles();
 

@@ -2,6 +2,7 @@ package fr.eni.encheres.bo;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.util.Optional;
 
@@ -13,6 +14,7 @@ public class Retrait {
     private int codePostal;
     private String ville;
 
+    @ToString.Exclude
     private Optional<ArticleVendu> articleVendu;
 
 

@@ -3,6 +3,7 @@ package fr.eni.encheres.service;
 import java.util.List;
 import java.util.Optional;
 
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 
 public interface UtilisateurService {
@@ -27,4 +28,6 @@ public interface UtilisateurService {
     boolean isEmailExistant(String email);
 
     Optional<Utilisateur> getUtilisateurByEmail(String email);
+
+    void addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre);
 }
