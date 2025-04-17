@@ -6,6 +6,10 @@
     <section class="p-3 mt-5 grid">
         <h3 class="text-primary text-2xl text-center my-5 font-bold">Créer un compte</h3>
 
+        <div th:if="${errorMessage}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 max-w-lg lg:max-w-2xl mx-auto">
+            <span th:text="${errorMessage}"></span>
+        </div>
+
         <form th:action="@{/register}" method="post" th:object="${utilisateur}"
               class="grid grid-cols-2 lg:grid-cols-4 max-w-lg lg:max-w-2xl lg:gap-x-7 items-center gap-4 mx-auto">
 

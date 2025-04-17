@@ -26,36 +26,42 @@ public class UtilisateurController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/register")
-    public String registerSubmit(@ModelAttribute Utilisateur utilisateur, 
-                                @RequestParam String confirmation,
-                                Model model, 
-                                RedirectAttributes redirectAttributes) {
-        System.out.println("Tentative d'inscription pour: " + utilisateur.getPseudo());
-        
-        if (!utilisateur.getMotDePasse().equals(confirmation)) {
-            model.addAttribute("errorMessage", "Les mots de passe ne correspondent pas.");
-            model.addAttribute("utilisateur", utilisateur);
-            return "register";
+    @GetMapping("/register")
+    public String register(Model model) {
+        if (!model.containsAttribute("utilisateur")) {
+            model.addAttribute("utilisateur", new Utilisateur());
         }
-        
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerSubmit(@ModelAttribute Utilisateur utilisateur,
+            @RequestParam String confirmation,
+            RedirectAttributes redirectAttributes) {
+
+        if (!utilisateur.getMotDePasse().equals(confirmation)) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Les mots de passe ne correspondent pas.");
+            redirectAttributes.addFlashAttribute("utilisateur", utilisateur);
+            return "redirect:/register";
+        }
+
         try {
             String encodedPassword = passwordEncoder.encode(utilisateur.getMotDePasse());
             utilisateur.setMotDePasse(encodedPassword);
-            
+
             utilisateur.setCredit(0);
             utilisateur.setAdministrateur(false);
-            
+
             utilisateurService.sInscrire(utilisateur);
-            System.out.println("Utilisateur créé avec succès: " + utilisateur.getPseudo());
-            
-            redirectAttributes.addFlashAttribute("successMessage", "Compte créé avec succès. Vous pouvez maintenant vous connecter.");
+
+            redirectAttributes.addFlashAttribute("successMessage",
+                    "Compte créé avec succès. Vous pouvez maintenant vous connecter.");
             return "redirect:/login";
         } catch (Exception e) {
             System.out.println("Erreur lors de l'inscription: " + e.getMessage());
-            model.addAttribute("errorMessage", e.getMessage());
-            model.addAttribute("utilisateur", utilisateur);
-            return "register";
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            redirectAttributes.addFlashAttribute("utilisateur", utilisateur);
+            return "redirect:/register";
         }
     }
 
@@ -63,9 +69,9 @@ public class UtilisateurController {
     public String getProfil(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String pseudo = authentication.getName();
-        
+
         Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
-        
+
         if (utilisateur.isPresent()) {
             model.addAttribute("utilisateur", utilisateur.get());
             return "profil";
@@ -79,9 +85,9 @@ public class UtilisateurController {
     public String editProfil(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String pseudo = authentication.getName();
-        
+
         Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
-        
+
         if (utilisateur.isPresent()) {
             model.addAttribute("utilisateur", utilisateur.get());
             return "edit-profil";
@@ -93,27 +99,27 @@ public class UtilisateurController {
 
     @PostMapping("/profil/edit")
     public String updateProfil(@ModelAttribute Utilisateur utilisateur,
-                              @RequestParam(required = false) String newPassword,
-                              @RequestParam(required = false) String confirmation,
-                              Model model,
-                              RedirectAttributes redirectAttributes) {
+            @RequestParam(required = false) String newPassword,
+            @RequestParam(required = false) String confirmation,
+            Model model,
+            RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String pseudo = authentication.getName();
-        
+
         Optional<Utilisateur> utilisateurConnecte = utilisateurService.getUtilisateurByPseudo(pseudo);
-        
+
         if (utilisateurConnecte.isEmpty()) {
             model.addAttribute("errorMessage", "Utilisateur connecté non trouvé");
             return "error";
         }
-        
+
         Utilisateur userConnecte = utilisateurConnecte.get();
-        
+
         if (!userConnecte.getId().equals(utilisateur.getId())) {
             model.addAttribute("errorMessage", "Vous ne pouvez pas modifier le profil d'un autre utilisateur");
             return "error";
         }
-        
+
         if (newPassword != null && !newPassword.isEmpty()) {
             if (!newPassword.equals(confirmation)) {
                 model.addAttribute("errorMessage", "Les mots de passe ne correspondent pas");
@@ -124,10 +130,10 @@ public class UtilisateurController {
         } else {
             utilisateur.setMotDePasse(userConnecte.getMotDePasse());
         }
-        
+
         utilisateur.setAdministrateur(userConnecte.getAdministrateur());
         utilisateur.setCredit(userConnecte.getCredit());
-        
+
         try {
             utilisateurService.modifierProfil(utilisateur);
             redirectAttributes.addFlashAttribute("successMessage", "Profil mis à jour avec succès");
@@ -143,16 +149,16 @@ public class UtilisateurController {
     public String deleteAccount(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String pseudo = authentication.getName();
-        
+
         Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
-        
+
         if (utilisateur.isEmpty()) {
             redirectAttributes.addFlashAttribute("errorMessage", "Utilisateur non trouvé");
             return "redirect:/";
         }
-        
+
         boolean success = utilisateurService.supprimerCompte(utilisateur.get().getId());
-        
+
         if (success) {
             return "redirect:/logout";
         } else {
@@ -170,9 +176,9 @@ public class UtilisateurController {
 
     @PostMapping("/admin/users/{id}/credits")
     @PreAuthorize("hasRole('ADMIN')")
-    public String addCredits(@PathVariable Integer id, 
-                            @RequestParam Integer montant,
-                            RedirectAttributes redirectAttributes) {
+    public String addCredits(@PathVariable Integer id,
+            @RequestParam Integer montant,
+            RedirectAttributes redirectAttributes) {
         try {
             utilisateurService.ajouterCredit(id, montant);
             redirectAttributes.addFlashAttribute("successMessage", "Crédits ajoutés avec succès");

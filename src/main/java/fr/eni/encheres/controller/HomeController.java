@@ -35,10 +35,4 @@ public class HomeController {
     public String logout() {
         return "logout";
     }
-
-    @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("utilisateur", new Utilisateur());
-        return "register";
-    }
 }
