@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -61,8 +62,9 @@ public class ArticleController {
     }
 
     @PostMapping
-    public String createArticle(@ModelAttribute ArticleVendu article) {
-        articleService.creerArticle(article);
+    public String createArticle(@ModelAttribute ArticleVendu article, Principal principal) {
+        String userName = principal.getName();
+        articleService.creerArticle(article, userName);
         return "redirect:/";
     }
 }

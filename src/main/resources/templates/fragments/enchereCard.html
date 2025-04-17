@@ -19,6 +19,8 @@
             <span th:text="|${article.retrait.rue} ${article.retrait.codePostal} ${article.retrait.ville}|"></span>
         </div>
 
-        <p class="whitespace-nowrap">Vendeur : <span class="text-primary font-semibold">jojo44</span></p>
+        <p class="whitespace-nowrap">Vendeur :
+            <span class="text-primary font-semibold" th:text="${article.vendeur != null ? article.vendeur.pseudo : 'JOJO'}"></span>
+        </p>
     </div>
 </a>

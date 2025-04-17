@@ -3,7 +3,9 @@ package fr.eni.encheres.service.implementation;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.service.ArticleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,17 +22,25 @@ public class ArticleServiceImpl implements ArticleService {
 
     CategorieServiceImpl categorieService;
 
+    @Autowired
+    UtilisateurServiceImpl utilisateurService;
+
     public ArticleServiceImpl(CategorieServiceImpl categorieService ) {
         this.categorieService = categorieService;
         mockArticles();
     }
 
     @Override
-    public void creerArticle(ArticleVendu article) {
+    public void creerArticle(ArticleVendu article, String userName) {
         INDEX++;
         article.setNoArticle((long) INDEX);
         article.setCategorie(categorieService.getCategorie(article.getCategorie().getNoCategorie()));
         article.getRetrait().setArticleVendu(Optional.of(article));
+
+        Utilisateur user = utilisateurService.getUtilisateurByPseudo(userName).orElseThrow();
+        article.setVendeur(user);
+        utilisateurService.addArticleAVendre(user, article);
+
         articles.add(article);
     }
 

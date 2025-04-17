@@ -1,6 +1,7 @@
 package fr.eni.encheres.service.implementation;
 
 import fr.eni.encheres.bll.UtilisateurMock;
+import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.service.UtilisateurService;
 import org.springframework.stereotype.Service;
@@ -82,5 +83,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public Optional<Utilisateur> getUtilisateurByEmail(String email) {
         return UtilisateurMock.getUtilisateurByEmail(email);
+    }
+
+    public void addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre) {
+        utilisateur.getArticleVenduList().add(articleAVendre);
     }
 }
