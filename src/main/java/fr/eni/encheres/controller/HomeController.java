@@ -1,5 +1,6 @@
 package fr.eni.encheres.controller;
 
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.service.ArticleService;
 import fr.eni.encheres.service.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +24,15 @@ public class HomeController {
         model.addAttribute("categories", categorieService.getCategories());
         model.addAttribute("articles", articleService.getArticles());
         return "home";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/logout")
+    public String logout() {
+        return "logout";
     }
 }
