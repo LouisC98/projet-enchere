@@ -1,4 +1,4 @@
-package fr.eni.encheres.service;
+package fr.eni.encheres.service.article;
 
 import fr.eni.encheres.bo.ArticleVendu;
 

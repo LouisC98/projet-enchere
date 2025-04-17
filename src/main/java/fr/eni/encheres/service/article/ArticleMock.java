@@ -1,11 +1,10 @@
-package fr.eni.encheres.service.implementation;
+package fr.eni.encheres.service.article;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
-import fr.eni.encheres.service.ArticleServiceInterface;
+import fr.eni.encheres.service.implementation.CategorieServiceImpl;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

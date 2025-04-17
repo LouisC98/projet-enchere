@@ -1,6 +1,6 @@
 package fr.eni.encheres.controller;
 
-import fr.eni.encheres.service.ArticleServiceInterface;
+import fr.eni.encheres.service.article.ArticleServiceInterface;
 import fr.eni.encheres.service.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

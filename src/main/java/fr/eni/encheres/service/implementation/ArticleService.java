@@ -1,7 +1,7 @@
 package fr.eni.encheres.service.implementation;
 
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.service.ArticleServiceInterface;
+import fr.eni.encheres.service.article.ArticleServiceInterface;
 import fr.eni.encheres.service.response.ServiceConstant;
 import fr.eni.encheres.service.response.ServiceResponse;
 import org.springframework.stereotype.Service;

@@ -2,7 +2,7 @@ package fr.eni.encheres.service.implementation;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
-import fr.eni.encheres.service.ArticleServiceInterface;
+import fr.eni.encheres.service.article.ArticleServiceInterface;
 import fr.eni.encheres.service.EnchereService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

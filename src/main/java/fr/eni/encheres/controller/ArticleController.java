@@ -1,15 +1,12 @@
 package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.service.ArticleServiceInterface;
 import fr.eni.encheres.service.CategorieService;
 import fr.eni.encheres.service.implementation.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/articles")
