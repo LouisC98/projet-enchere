@@ -49,24 +49,29 @@
         Rechercher
         <i class="fa-solid fa-magnifying-glass"></i>
     </button>
+    <script>
+        function toggleSections() {
+            const isAchats = document.querySelector('input[name="mode"][value="achats"]').checked;
+            const isVentes = document.querySelector('input[name="mode"][value="ventes"]').checked;
+
+            // toggle visibility
+            document.querySelector('.achats-section').classList.toggle('hidden', !isAchats);
+            document.querySelector('.ventes-section').classList.toggle('hidden', !isVentes);
+
+            // toggle checkboxes enabled/disabled state and reset them when disabled
+            document.querySelectorAll('.achats-section input[type="checkbox"]').forEach(cb => {
+                cb.disabled = !isAchats;
+                if (!isAchats) {
+                    cb.checked = false; // reset checkbox when section is disabled
+                }
+            });
+
+            document.querySelectorAll('.ventes-section input[type="checkbox"]').forEach(cb => {
+                cb.disabled = !isVentes;
+                if (!isVentes) {
+                    cb.checked = false; // reset checkbox when section is disabled
+                }
+            });
+        }
+    </script>
 </form>
-
-<script>
-    function toggleSections() {
-        const isAchats = document.querySelector('input[name="mode"][value="achats"]').checked;
-        const isVentes = document.querySelector('input[name="mode"][value="ventes"]').checked;
-
-        // toggle visibility
-        document.querySelector('.achats-section').classList.toggle('hidden', !isAchats);
-        document.querySelector('.ventes-section').classList.toggle('hidden', !isVentes);
-
-        // toggle checkboxes
-        document.querySelectorAll('.achats-section input[type="checkbox"]').forEach(cb => {
-            cb.disabled = !isAchats;
-        });
-
-        document.querySelectorAll('.ventes-section input[type="checkbox"]').forEach(cb => {
-            cb.disabled = !isVentes;
-        });
-    }
-</script>
