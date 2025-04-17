@@ -1,4 +1,4 @@
-package fr.eni.encheres.service.impl;
+package fr.eni.encheres.service.implementation;
 
 import fr.eni.encheres.bll.UtilisateurMock;
 import fr.eni.encheres.bo.Utilisateur;
@@ -18,13 +18,18 @@ public class UtilisateurServiceImpl implements UtilisateurService {
 
     @Override
     public Utilisateur sInscrire(Utilisateur utilisateur) throws Exception {
+        System.out.println("Tentative d'inscription pour: " + utilisateur.getPseudo());
         if (isPseudoExistant(utilisateur.getPseudo())) {
+            System.out.println("Pseudo déjà utilisé: " + utilisateur.getPseudo());
             throw new Exception("Ce pseudo est déjà utilisé.");
         }
         if (isEmailExistant(utilisateur.getEmail())) {
+            System.out.println("Email déjà utilisé: " + utilisateur.getEmail());
             throw new Exception("Cet e-mail est déjà utilisé.");
         }
-        return UtilisateurMock.ajouterUtilisateur(utilisateur);
+        Utilisateur nouvelUtilisateur = UtilisateurMock.ajouterUtilisateur(utilisateur);
+        System.out.println("Utilisateur créé avec succès: " + nouvelUtilisateur.getPseudo() + " (ID: " + nouvelUtilisateur.getId() + ")");
+        return nouvelUtilisateur;
     }
 
     @Override

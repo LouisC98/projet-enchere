@@ -69,8 +69,7 @@ public class UtilisateurMock {
 
     public static Optional<Utilisateur> authentifier(String login, String motDePasse) {
         return utilisateurs.values().stream()
-                .filter(u -> (u.getPseudo().equals(login) || u.getEmail().equals(login))
-                        && u.getMotDePasse().equals(motDePasse))
+                .filter(u -> (u.getPseudo().equals(login) || u.getEmail().equals(login)))
                 .findFirst();
     }
 

@@ -1,5 +1,6 @@
 package fr.eni.encheres.controller;
 
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,5 +29,11 @@ public class HomeController {
     @GetMapping("/logout")
     public String logout() {
         return "logout";
+    }
+
+    @GetMapping("/register")
+    public String register(Model model) {
+        model.addAttribute("utilisateur", new Utilisateur());
+        return "register";
     }
 }

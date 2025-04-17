@@ -2,199 +2,183 @@ package fr.eni.encheres.controller;
 
 import fr.eni.encheres.service.UtilisateurService;
 import fr.eni.encheres.bo.Utilisateur;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/utilisateurs")
+@Controller
 public class UtilisateurController {
 
     private final UtilisateurService utilisateurService;
+    private final PasswordEncoder passwordEncoder;
 
-    public UtilisateurController(UtilisateurService utilisateurService) {
+    @Autowired
+    public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
         this.utilisateurService = utilisateurService;
+        this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/inscription")
-    public ResponseEntity<?> inscription(@RequestBody Utilisateur utilisateur) {
+    @PostMapping("/register")
+    public String registerSubmit(@ModelAttribute Utilisateur utilisateur, 
+                                @RequestParam String confirmation,
+                                Model model, 
+                                RedirectAttributes redirectAttributes) {
+        System.out.println("Tentative d'inscription pour: " + utilisateur.getPseudo());
+        
+        if (!utilisateur.getMotDePasse().equals(confirmation)) {
+            model.addAttribute("errorMessage", "Les mots de passe ne correspondent pas.");
+            model.addAttribute("utilisateur", utilisateur);
+            return "register";
+        }
+        
         try {
-            Utilisateur nouvelUtilisateur = utilisateurService.sInscrire(utilisateur);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nouvelUtilisateur);
+            String encodedPassword = passwordEncoder.encode(utilisateur.getMotDePasse());
+            utilisateur.setMotDePasse(encodedPassword);
+            
+            utilisateur.setCredit(0);
+            utilisateur.setAdministrateur(false);
+            
+            utilisateurService.sInscrire(utilisateur);
+            System.out.println("Utilisateur créé avec succès: " + utilisateur.getPseudo());
+            
+            redirectAttributes.addFlashAttribute("successMessage", "Compte créé avec succès. Vous pouvez maintenant vous connecter.");
+            return "redirect:/login";
         } catch (Exception e) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erreur);
+            System.out.println("Erreur lors de l'inscription: " + e.getMessage());
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("utilisateur", utilisateur);
+            return "register";
         }
     }
 
     @GetMapping("/profil")
-    public ResponseEntity<?> getProfil() {
+    public String getProfil(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String pseudo = authentication.getName();
         
         Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
         
         if (utilisateur.isPresent()) {
-            return ResponseEntity.ok(utilisateur.get());
+            model.addAttribute("utilisateur", utilisateur.get());
+            return "profil";
         } else {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "Utilisateur non trouvé");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erreur);
+            model.addAttribute("errorMessage", "Utilisateur non trouvé");
+            return "error";
         }
     }
 
-    @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Utilisateur>> getAllUtilisateurs() {
-        return ResponseEntity.ok(utilisateurService.getAllUtilisateurs());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getUtilisateurById(@PathVariable Integer id) {
+    @GetMapping("/profil/edit")
+    public String editProfil(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String pseudo = authentication.getName();
-        Optional<Utilisateur> utilisateurConnecte = utilisateurService.getUtilisateurByPseudo(pseudo);
         
-        if (utilisateurConnecte.isEmpty()) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "Utilisateur connecté non trouvé");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erreur);
-        }
-        
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-        
-        if (!isAdmin && !utilisateurConnecte.get().getId().equals(id)) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "Accès non autorisé");
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erreur);
-        }
-        
-        Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurById(id);
+        Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
         
         if (utilisateur.isPresent()) {
-            return ResponseEntity.ok(utilisateur.get());
+            model.addAttribute("utilisateur", utilisateur.get());
+            return "edit-profil";
         } else {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "Utilisateur non trouvé");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erreur);
+            model.addAttribute("errorMessage", "Utilisateur non trouvé");
+            return "error";
         }
     }
 
-    @GetMapping("/verification/pseudo/{pseudo}")
-    public ResponseEntity<Map<String, Boolean>> verifierPseudo(@PathVariable String pseudo) {
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("disponible", !utilisateurService.isPseudoExistant(pseudo));
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/verification/email/{email}")
-    public ResponseEntity<Map<String, Boolean>> verifierEmail(@PathVariable String email) {
-        Map<String, Boolean> response = new HashMap<>();
-        response.put("disponible", !utilisateurService.isEmailExistant(email));
-        return ResponseEntity.ok(response);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> modifierProfil(@PathVariable Integer id, @RequestBody Utilisateur utilisateur) {
+    @PostMapping("/profil/edit")
+    public String updateProfil(@ModelAttribute Utilisateur utilisateur,
+                              @RequestParam(required = false) String newPassword,
+                              @RequestParam(required = false) String confirmation,
+                              Model model,
+                              RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String pseudo = authentication.getName();
+        
         Optional<Utilisateur> utilisateurConnecte = utilisateurService.getUtilisateurByPseudo(pseudo);
         
         if (utilisateurConnecte.isEmpty()) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "Utilisateur connecté non trouvé");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erreur);
+            model.addAttribute("errorMessage", "Utilisateur connecté non trouvé");
+            return "error";
         }
         
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+        Utilisateur userConnecte = utilisateurConnecte.get();
         
-        if (!isAdmin && !utilisateurConnecte.get().getId().equals(id)) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "Accès non autorisé");
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erreur);
+        if (!userConnecte.getId().equals(utilisateur.getId())) {
+            model.addAttribute("errorMessage", "Vous ne pouvez pas modifier le profil d'un autre utilisateur");
+            return "error";
         }
         
-        if (!id.equals(utilisateur.getId())) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "ID incohérent");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erreur);
+        if (newPassword != null && !newPassword.isEmpty()) {
+            if (!newPassword.equals(confirmation)) {
+                model.addAttribute("errorMessage", "Les mots de passe ne correspondent pas");
+                model.addAttribute("utilisateur", utilisateur);
+                return "edit-profil";
+            }
+            utilisateur.setMotDePasse(passwordEncoder.encode(newPassword));
+        } else {
+            utilisateur.setMotDePasse(userConnecte.getMotDePasse());
         }
         
-        if (!isAdmin && utilisateur.getAdministrateur() != null && utilisateur.getAdministrateur()) {
-            utilisateur.setAdministrateur(false);
-        }
+        utilisateur.setAdministrateur(userConnecte.getAdministrateur());
+        utilisateur.setCredit(userConnecte.getCredit());
         
         try {
-            Utilisateur utilisateurMisAJour = utilisateurService.modifierProfil(utilisateur);
-            return ResponseEntity.ok(utilisateurMisAJour);
+            utilisateurService.modifierProfil(utilisateur);
+            redirectAttributes.addFlashAttribute("successMessage", "Profil mis à jour avec succès");
+            return "redirect:/profil";
         } catch (Exception e) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erreur);
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("utilisateur", utilisateur);
+            return "edit-profil";
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> supprimerCompte(@PathVariable Integer id) {
+    @PostMapping("/profil/delete")
+    public String deleteAccount(RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String pseudo = authentication.getName();
-        Optional<Utilisateur> utilisateurConnecte = utilisateurService.getUtilisateurByPseudo(pseudo);
         
-        if (utilisateurConnecte.isEmpty()) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "Utilisateur connecté non trouvé");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(erreur);
+        Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
+        
+        if (utilisateur.isEmpty()) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Utilisateur non trouvé");
+            return "redirect:/";
         }
         
-        boolean isAdmin = authentication.getAuthorities().stream()
-                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
-        
-        if (!isAdmin && !utilisateurConnecte.get().getId().equals(id)) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "Accès non autorisé");
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(erreur);
-        }
-        
-        boolean success = utilisateurService.supprimerCompte(id);
+        boolean success = utilisateurService.supprimerCompte(utilisateur.get().getId());
         
         if (success) {
-            return ResponseEntity.noContent().build();
+            return "redirect:/logout";
         } else {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "Utilisateur non trouvé ou suppression impossible");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(erreur);
+            redirectAttributes.addFlashAttribute("errorMessage", "Impossible de supprimer le compte");
+            return "redirect:/profil";
         }
     }
 
-    @PostMapping("/{id}/credits")
+    @GetMapping("/admin/users")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> ajouterCredits(@PathVariable Integer id, @RequestBody Map<String, Integer> body) {
-        Integer montant = body.get("montant");
-        
-        if (montant == null) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", "Montant requis");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erreur);
-        }
-        
+    public String listUsers(Model model) {
+        model.addAttribute("users", utilisateurService.getAllUtilisateurs());
+        return "admin/users";
+    }
+
+    @PostMapping("/admin/users/{id}/credits")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String addCredits(@PathVariable Integer id, 
+                            @RequestParam Integer montant,
+                            RedirectAttributes redirectAttributes) {
         try {
-            Utilisateur utilisateur = utilisateurService.ajouterCredit(id, montant);
-            return ResponseEntity.ok(utilisateur);
+            utilisateurService.ajouterCredit(id, montant);
+            redirectAttributes.addFlashAttribute("successMessage", "Crédits ajoutés avec succès");
         } catch (Exception e) {
-            Map<String, String> erreur = new HashMap<>();
-            erreur.put("message", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erreur);
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
+        return "redirect:/admin/users";
     }
 }

@@ -1,4 +1,4 @@
-package fr.eni.encheres.service.impl;
+package fr.eni.encheres.service.implementation;
 
 import fr.eni.encheres.bll.UtilisateurMock;
 import fr.eni.encheres.bo.Utilisateur;
