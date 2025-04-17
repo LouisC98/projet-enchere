@@ -11,11 +11,7 @@ public interface EnchereService {
 
     public Enchere getEnchere(String name);
 
-    public void addEnchere(ArticleVendu articleVendu);
+    public void addEnchere(Long noArticle, int prix);
 
-    public Enchere getEnchereById(Long id);
-
-    public void encherir(Long id, int prix);
-
-
+    public List<Enchere> getEncheresByNoArticle(Long noArticle);
 }
