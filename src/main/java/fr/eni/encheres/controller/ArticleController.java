@@ -26,7 +26,7 @@ public class ArticleController {
 
     @GetMapping
     public String getAll(Model model) {
-        model.addAttribute("articles", articleServiceInterface.getAllArticles());
+        model.addAttribute("articles", articleServiceInterface.getAllArticles().data);
         return "article";
     }
 
@@ -37,7 +37,7 @@ public class ArticleController {
             Model model) {
 
 
-        model.addAttribute("articles", articleServiceInterface.SearchArticlesVendu(noCategorie, searchName));
+        model.addAttribute("articles", articleServiceInterface.SearchArticlesVendu(noCategorie, searchName).data);
         model.addAttribute("categories", categorieService.getCategories());
 
         return "home";

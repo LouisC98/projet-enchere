@@ -45,20 +45,8 @@ public class ArticleService {
     }
 
     public ServiceResponse<List<ArticleVendu>> SearchArticlesVendu(Long noCategorie, String searchName){
-        List<ArticleVendu> result = new ArrayList<>(articleService.getArticles());
-
-        if (noCategorie != null) {
-            result = result.stream()
-                    .filter(article -> article.getCategorie().getNoCategorie().equals(noCategorie))
-                    .collect(Collectors.toList());
-        }
-
-        if (searchName != null && !searchName.trim().isEmpty()) {
-            String searchNameLower = searchName.toLowerCase();
-            result = result.stream()
-                    .filter(article -> article.getNomArticle().toLowerCase().contains(searchNameLower))
-                    .collect(Collectors.toList());
-        }
+        List<ArticleVendu> result = articleService.searchArticles(noCategorie, searchName);
+        System.out.println( noCategorie+ searchName+ result);
 
         if (result.isEmpty()) {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "Aucun article trouvé", null);
