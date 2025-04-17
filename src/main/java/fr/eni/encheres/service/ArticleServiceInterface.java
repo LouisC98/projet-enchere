@@ -4,7 +4,7 @@ import fr.eni.encheres.bo.ArticleVendu;
 
 import java.util.List;
 
-public interface ArticleService {
+public interface ArticleServiceInterface {
 
     public void creerArticle(ArticleVendu article);
 

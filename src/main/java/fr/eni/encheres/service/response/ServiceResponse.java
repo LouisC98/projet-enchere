@@ -5,7 +5,7 @@ public class ServiceResponse<T> {
     public String message;
     public T data;
 
-    static <T> ServiceResponse<T> buildResponse(String code, String message, T data) {
+    public static <T> ServiceResponse<T> buildResponse(String code, String message, T data) {
         ServiceResponse<T> response = new ServiceResponse();
         response.code = code;
         response.message = message;

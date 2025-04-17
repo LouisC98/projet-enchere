@@ -1,9 +1,9 @@
 package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.service.ArticleService;
+import fr.eni.encheres.service.ArticleServiceInterface;
 import fr.eni.encheres.service.CategorieService;
-import fr.eni.encheres.service.EnchereService;
+import fr.eni.encheres.service.implementation.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,20 +16,20 @@ import java.util.List;
 public class ArticleController {
 
     @Autowired
-    private ArticleService articleService;
+    private ArticleService articleServiceInterface;
 
     @Autowired
     private CategorieService categorieService;
 
 
 
-    public ArticleController(ArticleService articleService) {
-        this.articleService = articleService;
+    public ArticleController(ArticleService articleServiceInterface) {
+        this.articleServiceInterface = articleServiceInterface;
     }
 
     @GetMapping
     public String getAll(Model model) {
-        model.addAttribute("articles",articleService.getArticles());
+        model.addAttribute("articles", articleServiceInterface.getAllArticles());
         return "article";
     }
 
@@ -39,9 +39,8 @@ public class ArticleController {
             @RequestParam(required = false) String searchName,
             Model model) {
 
-        List<ArticleVendu> filteredArticles = articleService.searchArticles(noCategorie, searchName);
 
-        model.addAttribute("articles", filteredArticles);
+        model.addAttribute("articles", articleServiceInterface.SearchArticlesVendu(noCategorie, searchName));
         model.addAttribute("categories", categorieService.getCategories());
 
         return "home";
@@ -49,7 +48,7 @@ public class ArticleController {
 
     @GetMapping("/{noArticle}")
     public String getArticleByNo(@PathVariable Long noArticle, Model model) {
-        model.addAttribute("article",articleService.getArticle(noArticle));
+        model.addAttribute("article", articleServiceInterface.getArticleById(noArticle));
         return "article/article";
     }
 
@@ -62,7 +61,7 @@ public class ArticleController {
 
     @PostMapping
     public String createArticle(@ModelAttribute ArticleVendu article) {
-        articleService.creerArticle(article);
+        articleServiceInterface.addArticle(article);
         return "redirect:/";
     }
 }

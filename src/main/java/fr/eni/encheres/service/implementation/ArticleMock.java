@@ -3,7 +3,8 @@ package fr.eni.encheres.service.implementation;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
-import fr.eni.encheres.service.ArticleService;
+import fr.eni.encheres.service.ArticleServiceInterface;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -12,15 +13,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
-public class ArticleServiceImpl implements ArticleService {
+@Component
+public class ArticleMock implements ArticleServiceInterface {
 
     private List<ArticleVendu> articles = new ArrayList<>();
     private static int INDEX = 2;
 
     CategorieServiceImpl categorieService;
 
-    public ArticleServiceImpl(CategorieServiceImpl categorieService ) {
+    public ArticleMock(CategorieServiceImpl categorieService ) {
         this.categorieService = categorieService;
         mockArticles();
     }
