@@ -10,19 +10,19 @@
         <img src="" alt="image de l'article">
       </div>
       <div class="space-y-4">
-        <h4 class="text-2xl font-bold text-secondary text-shadow-sm my-3 col-span-2" th:text="${article.nomArticle}">Pc gamer pour travailler</h4>
+        <h4 class="text-2xl font-bold text-secondary text-shadow-sm my-3 col-span-2" th:text="${article.data.nomArticle}">Pc gamer pour travailler</h4>
         <div class="grid grid-cols-2">
           <label for="" class="font-semibold">Description : </label>
-          <p th:text="${article.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, voluptate.</p>
+          <p th:text="${article.data.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, voluptate.</p>
         </div>
         <div class="grid grid-cols-2 items-center">
           <label for="" class="font-semibold" >Catégorie : </label>
-          <span th:text="${article.categorie.libelle}">Informatique</span>
+          <span th:text="${article.data.categorie.libelle}">Informatique</span>
         </div>
         <div class="grid grid-cols-2 items-center">
           <label for="" class="font-semibold">Meilleur offre : </label>
           <div>
-            <span th:text="${article.enchere.montantEnchere}" class="text-secondary fond-semibold">210</span>
+            <span th:text="${article.data.enchere.montantEnchere}" class="text-secondary fond-semibold">210</span>
             pts par
             <span>Bob</span>
           </div>
@@ -30,16 +30,16 @@
         <div class="grid grid-cols-2 items-center">
           <label for="" class="font-semibold">Mis à prix : </label>
           <div>
-            <span th:text="${article.misAPrix}" class="font-bold">185</span> points
+            <span th:text="${article.data.misAPrix}" class="font-bold">185</span> points
           </div>
         </div>
         <div class="grid grid-cols-2 items-center">
           <label for="" class="font-semibold">Fin de l'enchère : </label>
-          <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy à HH:mm')}" class="text-danger font-semibold">09/10/2018</span>
+          <span th:text="${#temporals.format(article.data.dateFinEnchere, 'dd/MM/yyyy à HH:mm')}" class="text-danger font-semibold">09/10/2018</span>
         </div>
         <div class="grid grid-cols-2">
           <label for="" class="font-semibold">Retrait : </label>
-          <p th:text="|${article.retrait.rue} ${article.retrait.codePostal} ${article.retrait.ville}|">10 allée des Alouettes 44800 Saint Herblain</p>
+          <p th:text="|${article.data.retrait.rue} ${article.data.retrait.codePostal} ${article.data.retrait.ville}|">10 allée des Alouettes 44800 Saint Herblain</p>
         </div>
         <div class="grid grid-cols-2 items-center">
           <label for="" class="font-semibold">Vendeur : </label>
@@ -47,7 +47,7 @@
         </div>
 
         <!--   ENCHERIR   -->
-        <form th:action="@{|/encheres/${article.noArticle}|}" method="post"  class="grid grid-cols-3 gap-3 items-center">
+        <form th:action="@{|/encheres/${article.data.noArticle}|}" method="post"  class="grid grid-cols-3 gap-3 items-center">
           <label for="propal" class="font-semibold whitespace-nowrap">Ma proposition :</label>
           <input name="propal" id="propal" type="number" class="border rounded p-1 mx-2">
           <button class="bg-secondary text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer tracking-widest" type="submit">Enchérir</button>
