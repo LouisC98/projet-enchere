@@ -6,6 +6,7 @@ import fr.eni.encheres.service.response.ServiceConstant;
 import fr.eni.encheres.service.response.ServiceResponse;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,8 +39,8 @@ public class ArticleService {
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Article récupéré",articleVendu);
     }
 
-    public ServiceResponse<String> addArticle(ArticleVendu article){
-        articleService.creerArticle(article);
+    public ServiceResponse<String> addArticle(ArticleVendu article, String username){
+        articleService.creerArticle(article, username);
 
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Article créé", article.getNomArticle());
     }

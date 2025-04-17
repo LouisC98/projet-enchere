@@ -63,7 +63,7 @@ public class ArticleController {
     public String createArticle(@ModelAttribute ArticleVendu article,Principal principal) {
 
         String userName = principal.getName();
-        articleServiceInterface.addArticle(article,userName);
+        articleServiceInterface.addArticle(article, userName);
         return "redirect:/";
     }
 }
