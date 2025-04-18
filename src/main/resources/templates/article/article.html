@@ -3,54 +3,54 @@
   <title>ENI Enchère - </title>
 </head>
 <div th:replace="~{base :: layout(~{::title}, ~{::section})}">
-  <section class="p-3 mt-5">
+  <section class="p-3 mt-5" th:object="${articleWithEnchere}">
     <h3 class="text-center text-2xl font-bold text-primary my-3 text-shadow-sm">Détail vente</h3>
     <div class="p-3 grid grid-cols-1 md:grid-cols-2 max-w-lg md:max-w-4xl gap-3 md:gap-5 mx-auto items-center">
       <div class="border w-full aspect-video md:aspect-square object-cover">
         <img src="" alt="image de l'article">
       </div>
       <div class="space-y-4">
-        <h4 class="text-2xl font-bold text-secondary text-shadow-sm my-3 col-span-2" th:text="${article.nomArticle}">Pc gamer pour travailler</h4>
+        <h4 class="text-2xl font-bold text-secondary text-shadow-sm my-3 col-span-2" th:text="*{article.nomArticle}">Pc gamer pour travailler</h4>
         <div class="grid grid-cols-2">
           <label for="" class="font-semibold">Description : </label>
-          <p th:text="${article.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, voluptate.</p>
+          <p th:text="*{article.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, voluptate.</p>
         </div>
         <div class="grid grid-cols-2 items-center">
           <label for="" class="font-semibold" >Catégorie : </label>
-          <span th:text="${article.categorie.libelle}">Informatique</span>
+          <span th:text="*{article.categorie.libelle}">Informatique</span>
         </div>
         <div class="grid grid-cols-2 items-center">
           <label for="" class="font-semibold">Meilleur offre : </label>
           <div>
-            <span th:if="${article.enchere?.montantEnchere == null}" th:text="'Aucune offre'"></span>
-            <span th:unless="${article.enchere?.montantEnchere == null}">
-              <span th:text="${article.enchere.montantEnchere}" class="text-secondary fond-semibold">210</span>
+            <span th:if="*{bestEnchere == null}" th:text="'Aucune offre'"></span>
+            <span th:unless="*{bestEnchere == null}">
+              <span th:text="*{bestEnchere.getMontantEnchere()}" class="text-secondary fond-semibold"></span>
               pts par
-              <span>Bob</span>
+              <span th:text="*{bestEnchere.encherisseur.pseudo}">Bob</span>
             </span>
           </div>
         </div>
         <div class="grid grid-cols-2 items-center">
-          <label for="" class="font-semibold">Mis à prix : </label>
+          <label class="font-semibold">Mis à prix : </label>
           <div>
-            <span th:text="${article.misAPrix}" class="font-bold">185</span> points
+            <span th:text="*{article.misAPrix}" class="font-bold">185</span> points
           </div>
         </div>
         <div class="grid grid-cols-2 items-center">
-          <label for="" class="font-semibold">Fin de l'enchère : </label>
-          <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy à HH:mm')}" class="text-danger font-semibold">09/10/2018</span>
+          <label class="font-semibold">Fin de l'enchère : </label>
+          <span th:text="*{#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy à HH:mm')}" class="text-danger font-semibold">09/10/2018</span>
         </div>
         <div class="grid grid-cols-2">
-          <label for="" class="font-semibold">Retrait : </label>
-          <p th:text="|${article.retrait.rue} ${article.retrait.codePostal} ${article.retrait.ville}|">10 allée des Alouettes 44800 Saint Herblain</p>
+          <label class="font-semibold">Retrait : </label>
+          <p th:text="|*{article.retrait.rue} *{article.retrait.codePostal} *{article.retrait.ville}|">10 allée des Alouettes 44800 Saint Herblain</p>
         </div>
         <div class="grid grid-cols-2 items-center">
-          <label for="" class="font-semibold">Vendeur : </label>
-          <span class="text-primary font-semibold" th:text="${article.vendeur != null ? article.vendeur.pseudo : 'JOJO'}"></span>
+          <label class="font-semibold">Vendeur : </label>
+          <span class="text-primary font-semibold" th:text="*{article.vendeur != null ? article.vendeur.pseudo : 'JOJO'}"></span>
         </div>
 
         <!--   ENCHERIR   -->
-        <form th:action="@{|/encheres/${article.noArticle}|}" method="post"  class="grid grid-cols-3 gap-3 items-center">
+        <form th:action="@{|/encheres/*{article.noArticle}|}" method="post"  class="grid grid-cols-3 gap-3 items-center">
           <label for="propal" class="font-semibold whitespace-nowrap">Ma proposition :</label>
           <input name="propal" id="propal" type="number" class="border rounded p-1 mx-2">
           <button class="bg-secondary text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer tracking-widest" type="submit">Enchérir</button>

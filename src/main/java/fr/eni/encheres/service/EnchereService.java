@@ -6,12 +6,14 @@ import fr.eni.encheres.bo.Enchere;
 import java.util.List;
 
 public interface EnchereService {
+    List<Enchere> getEncheres();
 
-    public List<Enchere> getEncheres();
+    Enchere getEnchere(String name);
 
-    public Enchere getEnchere(String name);
+    List<Enchere> getEncheresByNoArticle(Long noArticle);
 
-    public void addEnchere(Long noArticle, int prix);
+    Enchere getMaxEnchereByNoArticle(Long noArticle);
 
-    public List<Enchere> getEncheresByNoArticle(Long noArticle);
+    void addEnchere(Enchere enchere);
+
 }

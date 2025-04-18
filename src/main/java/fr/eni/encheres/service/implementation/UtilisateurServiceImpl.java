@@ -88,4 +88,11 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public void addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre) {
         utilisateur.getArticleVenduList().add(articleAVendre);
     }
+
+    @Override
+    public void removeCredits(Utilisateur utilisateur, int montant) {
+        if (montant <= utilisateur.getCredit()) {
+            utilisateur.setCredit(utilisateur.getCredit() - montant);
+        }
+    }
 }

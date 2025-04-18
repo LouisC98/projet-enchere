@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class CategorieServiceImpl implements CategorieService {
 
-    private List<Categorie> categories = new ArrayList<Categorie>();
+    private List<Categorie> categories = new ArrayList<>();
 
     public CategorieServiceImpl() {
         mockCategories();

@@ -11,7 +11,4 @@ public interface ArticleService {
     public List<ArticleVendu> getArticles();
 
     ArticleVendu getArticle(Long noArticle);
-
-
-    List<ArticleVendu> searchArticles(Long noCategorie, String searchName);
 }

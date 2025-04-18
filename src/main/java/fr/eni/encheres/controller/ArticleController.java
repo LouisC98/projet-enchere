@@ -1,6 +1,8 @@
 package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
+import fr.eni.encheres.service.ArticleEnchereService;
 import fr.eni.encheres.service.ArticleService;
 import fr.eni.encheres.service.CategorieService;
 import fr.eni.encheres.service.EnchereService;
@@ -22,7 +24,8 @@ public class ArticleController {
     @Autowired
     private CategorieService categorieService;
 
-
+    @Autowired
+    private ArticleEnchereService articleEnchereService;
 
     public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
@@ -40,7 +43,7 @@ public class ArticleController {
             @RequestParam(required = false) String searchName,
             Model model) {
 
-        List<ArticleVendu> filteredArticles = articleService.searchArticles(noCategorie, searchName);
+        List<ArticleWithBestEnchereDTO> filteredArticles = articleEnchereService.searchArticles(noCategorie, searchName);
 
         model.addAttribute("articles", filteredArticles);
         model.addAttribute("categories", categorieService.getCategories());
@@ -50,7 +53,7 @@ public class ArticleController {
 
     @GetMapping("/{noArticle}")
     public String getArticleByNo(@PathVariable Long noArticle, Model model) {
-        model.addAttribute("article",articleService.getArticle(noArticle));
+        model.addAttribute("articleWithEnchere", articleEnchereService.getArticleWithBestEnchere(noArticle));
         return "article/article";
     }
 

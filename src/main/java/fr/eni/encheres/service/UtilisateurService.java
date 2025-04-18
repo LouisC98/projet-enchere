@@ -30,4 +30,6 @@ public interface UtilisateurService {
     Optional<Utilisateur> getUtilisateurByEmail(String email);
 
     void addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre);
+
+    void removeCredits(Utilisateur utilisateur, int montant);
 }
