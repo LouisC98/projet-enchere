@@ -21,13 +21,13 @@ import java.util.stream.Collectors;
 public class ArticleEnchereMock implements ArticleEnchereInterface{
 
 
-    @Autowired
+
     private ArticleService articleService;
 
-    @Autowired
+
     private EnchereService enchereService;
 
-    @Autowired
+
     private UtilisateurService utilisateurService;
 
     public ArticleEnchereMock(ArticleService articleService, EnchereService enchereService, UtilisateurService utilisateurService) {
