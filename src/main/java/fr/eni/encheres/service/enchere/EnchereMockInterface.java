@@ -4,13 +4,14 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.service.article.ArticleServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 
-@Service
+@Component
 public class EnchereMockInterface implements EnchereServiceInterface {
 
 
@@ -51,17 +52,6 @@ public class EnchereMockInterface implements EnchereServiceInterface {
         return encheres;
     }
 
-
-    /**
-     * Retourne une liste d'encheres en fonction du nom de l'article vendus
-     *
-     * @param name
-     * @return
-     */
-    @Override
-    public Enchere getEnchere(String name) {
-        return encheres.stream().filter(enchere -> enchere.getArticleVendu().getNomArticle().equals(name)).findFirst().orElse(null);
-    }
 
     @Override
     public List<Enchere> getEncheresByNoArticle(Long noArticle) {

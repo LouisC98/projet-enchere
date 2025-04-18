@@ -42,7 +42,7 @@ public class ArticleService {
     public ServiceResponse<String> addArticle(ArticleVendu article, String username){
         articleService.creerArticle(article, username);
 
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Article créé", article.getNomArticle());
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Article créé par : " + username, article.getNomArticle());
     }
 
     public ServiceResponse<List<ArticleVendu>> SearchArticlesVendu(Long noCategorie, String searchName){

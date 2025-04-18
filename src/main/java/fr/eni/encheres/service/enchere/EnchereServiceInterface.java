@@ -8,8 +8,6 @@ public interface EnchereServiceInterface {
 
     public List<Enchere> getEncheres();
 
-    public Enchere getEnchere(String name);
-
     public void addEnchere(Long noArticle, int prix);
 
     public List<Enchere> getEncheresByNoArticle(Long noArticle);

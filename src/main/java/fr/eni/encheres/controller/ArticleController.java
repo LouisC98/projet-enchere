@@ -16,20 +16,20 @@ import java.util.List;
 public class ArticleController {
 
     @Autowired
-    private ArticleService articleServiceInterface;
+    private ArticleService articleService;
 
     @Autowired
     private CategorieService categorieService;
 
 
 
-    public ArticleController(ArticleService articleServiceInterface) {
-        this.articleServiceInterface = articleServiceInterface;
+    public ArticleController(ArticleService articleService) {
+        this.articleService = articleService;
     }
 
     @GetMapping
     public String getAll(Model model) {
-        model.addAttribute("articles", articleServiceInterface.getAllArticles().data);
+        model.addAttribute("articles", articleService.getAllArticles().data);
         return "article";
     }
 
@@ -40,7 +40,7 @@ public class ArticleController {
             Model model) {
 
 
-        model.addAttribute("articles", articleServiceInterface.SearchArticlesVendu(noCategorie, searchName).data);
+        model.addAttribute("articles", articleService.SearchArticlesVendu(noCategorie, searchName).data);
         model.addAttribute("categories", categorieService.getCategories());
 
         return "home";
@@ -48,7 +48,7 @@ public class ArticleController {
 
     @GetMapping("/{noArticle}")
     public String getArticleByNo(@PathVariable Long noArticle, Model model) {
-        model.addAttribute("article", articleServiceInterface.getArticleById(noArticle));
+        model.addAttribute("article", articleService.getArticleById(noArticle));
         return "article/article";
     }
 
@@ -63,7 +63,7 @@ public class ArticleController {
     public String createArticle(@ModelAttribute ArticleVendu article,Principal principal) {
 
         String userName = principal.getName();
-        articleServiceInterface.addArticle(article, userName);
+        articleService.addArticle(article, userName);
         return "redirect:/";
     }
 }
