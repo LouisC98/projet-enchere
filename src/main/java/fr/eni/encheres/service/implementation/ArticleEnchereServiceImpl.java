@@ -41,14 +41,16 @@ public class ArticleEnchereServiceImpl {
     public ServiceResponse<ArticleWithBestEnchereDTO> articlesWithBestEnchere(Long noArticle){
         ArticleWithBestEnchereDTO bestEnchereOnArticle = articleEnchereService.getArticleWithBestEnchere(noArticle);
         if (bestEnchereOnArticle==null){
-            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Meilleurs enchere sur l'article non existantes",null);
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Meilleure enchere sur l'article non existante",null);
         }
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Meilleurs enchere sur l'article récupérée",bestEnchereOnArticle);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Meilleure enchere sur l'article "+ noArticle +" récupérée",bestEnchereOnArticle);
     }
 
     public ServiceResponse<String> addEnchere(String userName, Long noArticle, int propal){
         // vérif de l'id
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"L'enchere a été créé","Ciye");
+
+        articleEnchereService.addEnchere(userName, noArticle, propal);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"L'enchere a été créé","ok");
     }
 
 }
