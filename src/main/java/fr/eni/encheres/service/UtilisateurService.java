@@ -32,4 +32,6 @@ public interface UtilisateurService {
     void addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre);
 
     void removeCredits(Utilisateur utilisateur, int montant);
+
+    void addCredits(Utilisateur utilisateur, int montant);
 }
