@@ -1,6 +1,8 @@
 package fr.eni.encheres.controller;
 
 import fr.eni.encheres.service.UtilisateurService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import fr.eni.encheres.bo.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,17 +68,23 @@ public class UtilisateurController {
     }
 
     @GetMapping("/profil")
-    public String getProfil(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String pseudo = authentication.getName();
+    public String getProfil(Model model, RedirectAttributes redirectAttributes) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String pseudo = authentication.getName();
 
-        Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
+            Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
 
-        if (utilisateur.isPresent()) {
-            model.addAttribute("utilisateur", utilisateur.get());
-            return "profil/profil";
-        } else {
-            model.addAttribute("errorMessage", "Utilisateur non trouvé");
+            if (utilisateur.isPresent()) {
+                model.addAttribute("utilisateur", utilisateur.get());
+                return "profil/profil";
+            } else {
+                model.addAttribute("errorMessage", "Utilisateur non trouvé");
+                return "error";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            model.addAttribute("errorMessage", "Erreur lors du chargement du profil: " + e.getMessage());
             return "error";
         }
     }
@@ -102,46 +110,66 @@ public class UtilisateurController {
             @RequestParam(required = false) String newPassword,
             @RequestParam(required = false) String confirmation,
             Model model,
-            RedirectAttributes redirectAttributes) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String pseudo = authentication.getName();
-
-        Optional<Utilisateur> utilisateurConnecte = utilisateurService.getUtilisateurByPseudo(pseudo);
-
-        if (utilisateurConnecte.isEmpty()) {
-            model.addAttribute("errorMessage", "Utilisateur connecté non trouvé");
-            return "error";
-        }
-
-        Utilisateur userConnecte = utilisateurConnecte.get();
-
-        if (!userConnecte.getId().equals(utilisateur.getId())) {
-            model.addAttribute("errorMessage", "Vous ne pouvez pas modifier le profil d'un autre utilisateur");
-            return "error";
-        }
-
-        if (newPassword != null && !newPassword.isEmpty()) {
-            if (!newPassword.equals(confirmation)) {
-                model.addAttribute("errorMessage", "Les mots de passe ne correspondent pas");
-                model.addAttribute("utilisateur", utilisateur);
-                return "edit-profil";
-            }
-            utilisateur.setMotDePasse(passwordEncoder.encode(newPassword));
-        } else {
-            utilisateur.setMotDePasse(userConnecte.getMotDePasse());
-        }
-
-        utilisateur.setAdministrateur(userConnecte.getAdministrateur());
-        utilisateur.setCredit(userConnecte.getCredit());
+            RedirectAttributes redirectAttributes,
+            HttpServletRequest request) {
 
         try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String pseudo = authentication.getName();
+            Optional<Utilisateur> utilisateurConnecte = utilisateurService.getUtilisateurByPseudo(pseudo);
+
+            if (utilisateurConnecte.isEmpty()) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Utilisateur connecté non trouvé");
+                return "redirect:/profil";
+            }
+
+            Utilisateur userConnecte = utilisateurConnecte.get();
+
+            if (!userConnecte.getId().equals(utilisateur.getId())) {
+                redirectAttributes.addFlashAttribute("errorMessage",
+                        "Vous ne pouvez pas modifier le profil d'un autre utilisateur");
+                return "redirect:/profil";
+            }
+
+            utilisateur.setArticleVenduList(userConnecte.getArticleVenduList());
+
+            if (newPassword != null && !newPassword.isEmpty()) {
+                if (!newPassword.equals(confirmation)) {
+                    redirectAttributes.addFlashAttribute("errorMessage", "Les mots de passe ne correspondent pas");
+                    redirectAttributes.addFlashAttribute("utilisateur", utilisateur);
+                    return "redirect:/profil/edit";
+                }
+                utilisateur.setMotDePasse(passwordEncoder.encode(newPassword));
+            } else {
+                utilisateur.setMotDePasse(userConnecte.getMotDePasse());
+            }
+
+            boolean pseudoModifie = !userConnecte.getPseudo().equals(utilisateur.getPseudo());
+
             utilisateurService.modifierProfil(utilisateur);
+
+            if (pseudoModifie) {
+                request.getSession().setAttribute("logoutMessage",
+                        "Profil mis à jour avec succès. Veuillez vous reconnecter avec votre nouveau pseudo.");
+
+                SecurityContextHolder.clearContext();
+                HttpSession session = request.getSession(false);
+                if (session != null) {
+                    session.invalidate();
+                }
+
+                return "redirect:/login";
+            }
+
             redirectAttributes.addFlashAttribute("successMessage", "Profil mis à jour avec succès");
             return "redirect:/profil";
+
         } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            model.addAttribute("utilisateur", utilisateur);
-            return "edit-profil";
+            e.printStackTrace();
+
+            redirectAttributes.addFlashAttribute("errorMessage",
+                    "Erreur lors de la mise à jour du profil: " + e.getMessage());
+            return "redirect:/profil/edit";
         }
     }
 
