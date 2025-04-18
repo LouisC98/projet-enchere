@@ -1,0 +1,59 @@
+<head>
+    <title>ENI Enchères - Mon profil</title>
+</head>
+<div th:replace="~{base :: layout(~{::title}, ~{::section})}">
+    <section class="p-2 mt-5">
+        <h3 class="text-center font-bold text-primary my-5 text-2xl">Mon profil</h3>
+
+        <form id="profileForm" class="grid md:grid-cols-2 gap-2 md:gap-x-4 max-w-md md:max-w-2xl mx-auto px-4 items-center">
+            <div class="grid grid-cols-2 items-center">
+                <label class="font-semibold">Pseudo :</label>
+                <span id="pseudo-display" >JohnDoe</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label class="font-semibold">Nom :</label>
+                <span id="nom-display" >Dupont</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label class="font-semibold">Prénom :</label>
+                <span id="prenom-display" >Jean</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label class="font-semibold">Email :</label>
+                <span id="email-display" >jean.dupont@example.com</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label class="font-semibold">Téléphone :</label>
+                <span id="telephone-display" >06 12 34 56 78</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label class="font-semibold">Rue :</label>
+                <span id="rue-display" >123 Rue de Paris</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label class="font-semibold">Code postal :</label>
+                <span id="codePostal-display" >75001</span>
+            </div>
+
+            <div class="grid grid-cols-2 items-center">
+                <label class="font-semibold">Ville :</label>
+                <span id="ville-display" >Paris</span>
+            </div>
+
+            <div class="md:col-span-2 grid grid-cols-2 items-center my-4">
+                <label class="text-center font-semibold">Crédit :</label>
+                <span id="credit-display" class="bold text-accent font-bold text-xl text-center">640</span>
+            </div>
+
+            <div class="md:col-span-2 text-center">
+                <a th:href="@{/profil/edit}" id="btn-edit" class="p-3 rounded font-bold bg-accent text-white shadow text-shadow-sm cursor-pointer">Modifier</a>
+            </div>
+        </form>
+    </section>
+</div>
