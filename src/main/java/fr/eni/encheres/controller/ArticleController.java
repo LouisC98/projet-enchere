@@ -2,9 +2,9 @@ package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.service.CategorieService;
-import fr.eni.encheres.service.implementation.ArticleService;
 import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
 import fr.eni.encheres.service.implementation.ArticleEnchereServiceImpl;
+import fr.eni.encheres.service.implementation.ArticleServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,17 +18,13 @@ import java.util.List;
 public class ArticleController {
 
     @Autowired
-    private ArticleService articleService;
+    private ArticleServiceImpl articleService;
 
     @Autowired
     private CategorieService categorieService;
 
     @Autowired
     private ArticleEnchereServiceImpl articleEnchereService;
-
-    public ArticleController(ArticleService articleService) {
-        this.articleService = articleService;
-    }
 
     @GetMapping
     public String getAll(Model model) {

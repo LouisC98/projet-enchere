@@ -2,24 +2,22 @@ package fr.eni.encheres.service.implementation;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
-import fr.eni.encheres.service.enchere.EnchereServiceInterface;
+import fr.eni.encheres.service.enchere.EnchereService;
 import fr.eni.encheres.service.response.ServiceConstant;
 import fr.eni.encheres.service.response.ServiceResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class EnchereService {
+public class EnchereServiceImpl {
 
-    private EnchereServiceInterface enchereService;
+    @Autowired
+    private EnchereService enchereService;
 
-    private ArticleService articleService;
-
-    public EnchereService(EnchereServiceInterface enchereService, ArticleService articleService) {
-        this.enchereService = enchereService;
-        this.articleService = articleService;
-    }
+    @Autowired
+    private ArticleServiceImpl articleService;
 
     public ServiceResponse<List<Enchere>> getAllEncheres(){
         List<Enchere> encheres = enchereService.getEncheres();

@@ -1,16 +1,13 @@
 package fr.eni.encheres.service.article;
 
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.service.CategorieService;
 import fr.eni.encheres.service.UtilisateurService;
-import fr.eni.encheres.service.article.ArticleServiceInterface;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -18,16 +15,16 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
-public class ArticleMock implements ArticleServiceInterface {
+public class ArticleServiceMock implements ArticleService {
 
     private List<ArticleVendu> articles = new ArrayList<>();
     private static int INDEX = 2;
 
     @Autowired
-    CategorieService categorieService;
+    private CategorieService categorieService;
 
     @Autowired
-    UtilisateurService utilisateurService;
+    private UtilisateurService utilisateurService;
 
     @PostConstruct
     public void init() {

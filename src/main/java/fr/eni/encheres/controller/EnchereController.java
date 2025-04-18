@@ -1,10 +1,8 @@
 package fr.eni.encheres.controller;
 
 
-import fr.eni.encheres.service.enchere.EnchereServiceInterface;
 import fr.eni.encheres.service.implementation.ArticleEnchereServiceImpl;
-import fr.eni.encheres.service.implementation.EnchereService;
-import fr.eni.encheres.service.ArticleEnchereService;
+import fr.eni.encheres.service.implementation.EnchereServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +18,12 @@ public class EnchereController {
     private ArticleEnchereServiceImpl articleEnchereService;
 
     @Autowired
-    private EnchereService enchereService;
+    private EnchereServiceImpl enchereServiceImpl;
 
     @GetMapping()
     public void getEncheres(Model model) {
 //        model.addAttribute("encheres",service.getEncheres());
-        System.out.println(enchereService.getAllEncheres());
+        System.out.println(enchereServiceImpl.getAllEncheres());
     };
 
 //    @GetMapping("/{name}")

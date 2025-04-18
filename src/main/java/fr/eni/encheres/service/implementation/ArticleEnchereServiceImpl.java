@@ -1,11 +1,10 @@
 package fr.eni.encheres.service.implementation;
 
-import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
-import fr.eni.encheres.service.ArticleEnchereService;
-import fr.eni.encheres.service.articleEnchere.ArticleEnchereInterface;
+import fr.eni.encheres.service.articleEnchere.ArticleEnchereService;
 import fr.eni.encheres.service.response.ServiceConstant;
 import fr.eni.encheres.service.response.ServiceResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +13,8 @@ import java.util.List;
 @Service
 public class ArticleEnchereServiceImpl {
 
-    private ArticleEnchereInterface articleEnchereService;
-
-    public ArticleEnchereServiceImpl(ArticleEnchereInterface articleEnchereService) {
-        this.articleEnchereService = articleEnchereService;
-    }
+    @Autowired
+    private ArticleEnchereService articleEnchereService;
 
     public ServiceResponse<List<ArticleWithBestEnchereDTO>> getAllArticlesWithBestEncheres() {
         List<ArticleWithBestEnchereDTO> allBestEncheres = articleEnchereService.getArticlesWithBestEncheres();

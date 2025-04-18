@@ -1,14 +1,12 @@
-package fr.eni.encheres.service.implementation;
+package fr.eni.encheres.service.enchere;
 
 import fr.eni.encheres.bo.Enchere;
-import fr.eni.encheres.service.enchere.EnchereServiceInterface;
-import fr.eni.encheres.service.enchere.EnchereServiceInterface;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
-public class EnchereMock implements EnchereServiceInterface {
+public class EnchereServiceMock implements EnchereService {
     private static List<Enchere> encheres = new ArrayList<>();
 
     /***

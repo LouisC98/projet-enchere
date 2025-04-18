@@ -4,7 +4,7 @@ import fr.eni.encheres.bo.Enchere;
 
 import java.util.List;
 
-public interface EnchereServiceInterface {
+public interface EnchereService {
     List<Enchere> getEncheres();
 
     Enchere getEnchere(String name);

@@ -4,7 +4,7 @@ import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
 
 import java.util.List;
 
-public interface ArticleEnchereInterface {
+public interface ArticleEnchereService {
 
     List<ArticleWithBestEnchereDTO> getArticlesWithBestEncheres();
     void addEnchere(String userName, Long noArticle, int propal);

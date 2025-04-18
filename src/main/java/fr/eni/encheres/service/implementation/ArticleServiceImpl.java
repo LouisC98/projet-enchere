@@ -1,24 +1,19 @@
 package fr.eni.encheres.service.implementation;
 
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.service.article.ArticleServiceInterface;
+import fr.eni.encheres.service.article.ArticleService;
 import fr.eni.encheres.service.response.ServiceConstant;
 import fr.eni.encheres.service.response.ServiceResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-public class ArticleService {
+public class ArticleServiceImpl {
 
-    private ArticleServiceInterface articleService;
-
-    public ArticleService(ArticleServiceInterface articleService) {
-        this.articleService = articleService;
-    }
+    @Autowired
+    private ArticleService articleService;
 
     public ServiceResponse<List<ArticleVendu>> getAllArticles(){
         List<ArticleVendu> articleVenduList = articleService.getArticles();

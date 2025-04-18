@@ -5,8 +5,8 @@ import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
 import fr.eni.encheres.service.UtilisateurService;
-import fr.eni.encheres.service.implementation.ArticleService;
-import fr.eni.encheres.service.implementation.EnchereService;
+import fr.eni.encheres.service.implementation.ArticleServiceImpl;
+import fr.eni.encheres.service.implementation.EnchereServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,24 +18,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
-public class ArticleEnchereMock implements ArticleEnchereInterface{
+public class ArticleEnchereServiceMock implements ArticleEnchereService {
 
-
-
-    private ArticleService articleService;
-
-
-    private EnchereService enchereService;
-
-
+    @Autowired
+    private ArticleServiceImpl articleService;
+    @Autowired
+    private EnchereServiceImpl enchereServiceImpl;
+    @Autowired
     private UtilisateurService utilisateurService;
-
-    public ArticleEnchereMock(ArticleService articleService, EnchereService enchereService, UtilisateurService utilisateurService) {
-        this.articleService = articleService;
-        this.enchereService = enchereService;
-        this.utilisateurService = utilisateurService;
-        mockEnchere();
-    }
 
     @Override
     public List<ArticleWithBestEnchereDTO> getArticlesWithBestEncheres() {
@@ -43,7 +33,7 @@ public class ArticleEnchereMock implements ArticleEnchereInterface{
         List<ArticleWithBestEnchereDTO> result = new ArrayList<>();
 
         for (ArticleVendu article : articles) {
-            Enchere bestEnchere = enchereService.getMaxEnchere(article.getNoArticle()).data;
+            Enchere bestEnchere = enchereServiceImpl.getMaxEnchere(article.getNoArticle()).data;
             result.add(new ArticleWithBestEnchereDTO(article, bestEnchere));
         }
         return result;
@@ -61,7 +51,7 @@ public class ArticleEnchereMock implements ArticleEnchereInterface{
         }
 
         // Trouver l'enchère maximale actuelle
-        Optional<Enchere> maxEnchere = enchereService.getEnchereByArticle(noArticle).data.stream()
+        Optional<Enchere> maxEnchere = enchereServiceImpl.getEnchereByArticle(noArticle).data.stream()
                 .max(Comparator.comparingInt(Enchere::getMontantEnchere));
 
         // Vérifier si l'enchère est valide
@@ -87,7 +77,7 @@ public class ArticleEnchereMock implements ArticleEnchereInterface{
         nouvelleEnchere.setEncherisseur(user);
 
         utilisateurService.removeCredits(user, propal);
-        enchereService.addEnchere(nouvelleEnchere);
+        enchereServiceImpl.addEnchere(nouvelleEnchere);
     }
 
 
@@ -105,8 +95,8 @@ public class ArticleEnchereMock implements ArticleEnchereInterface{
             enchere1.setEncherisseur(utilisateurService.getUtilisateurById(1).orElseThrow());
             enchere2.setEncherisseur(utilisateurService.getUtilisateurById(2).orElseThrow());
             System.out.println(articles.get(1).getMisAPrix());
-            enchereService.addEnchere(enchere1);
-            enchereService.addEnchere(enchere2);
+            enchereServiceImpl.addEnchere(enchere1);
+            enchereServiceImpl.addEnchere(enchere2);
         }
     }
 
@@ -132,7 +122,7 @@ public class ArticleEnchereMock implements ArticleEnchereInterface{
         // Transformer en DTO avec les meilleures enchères
         List<ArticleWithBestEnchereDTO> result = new ArrayList<>();
         for (ArticleVendu article : articles) {
-            Enchere meilleureEnchere = enchereService.getMaxEnchere(article.getNoArticle()).data;
+            Enchere meilleureEnchere = enchereServiceImpl.getMaxEnchere(article.getNoArticle()).data;
             result.add(new ArticleWithBestEnchereDTO(article, meilleureEnchere));
         }
 
@@ -142,7 +132,7 @@ public class ArticleEnchereMock implements ArticleEnchereInterface{
     @Override
     public ArticleWithBestEnchereDTO getArticleWithBestEnchere(Long noArticle) {
         ArticleVendu article = articleService.getArticleById(noArticle).data;
-        Enchere meilleureEnchere = enchereService.getMaxEnchere(noArticle).data;
+        Enchere meilleureEnchere = enchereServiceImpl.getMaxEnchere(noArticle).data;
         return new ArticleWithBestEnchereDTO(article, meilleureEnchere);
     }
 }
