@@ -74,7 +74,7 @@ public class UtilisateurController {
 
         if (utilisateur.isPresent()) {
             model.addAttribute("utilisateur", utilisateur.get());
-            return "profil";
+            return "profil/profil";
         } else {
             model.addAttribute("errorMessage", "Utilisateur non trouvé");
             return "error";
@@ -90,7 +90,7 @@ public class UtilisateurController {
 
         if (utilisateur.isPresent()) {
             model.addAttribute("utilisateur", utilisateur.get());
-            return "edit-profil";
+            return "profil/edit-profil";
         } else {
             model.addAttribute("errorMessage", "Utilisateur non trouvé");
             return "error";

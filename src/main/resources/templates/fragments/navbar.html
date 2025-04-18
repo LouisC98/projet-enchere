@@ -16,6 +16,7 @@
             <a href="#" class="hover:font-bold">Enchères</a>
             <a th:href="@{/articles/new}" class="hover:font-bold">Vendre un article</a>
             <a th:href="@{/profil}" class="hover:font-bold">Mon profil</a>
+            <!-- Remplacez le lien de déconnexion par un formulaire POST -->
             <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit" class="hover:font-bold">
                     Déconnexion
