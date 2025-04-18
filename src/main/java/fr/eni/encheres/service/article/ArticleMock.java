@@ -1,19 +1,21 @@
-package fr.eni.encheres.service.implementation;
+package fr.eni.encheres.service.article;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.service.CategorieService;
+import fr.eni.encheres.service.UtilisateurService;
 import fr.eni.encheres.service.article.ArticleServiceInterface;
-import fr.eni.encheres.service.implementation.CategorieServiceImpl;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import fr.eni.encheres.bo.Utilisateur;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Component
 public class ArticleMock implements ArticleServiceInterface {
@@ -21,13 +23,14 @@ public class ArticleMock implements ArticleServiceInterface {
     private List<ArticleVendu> articles = new ArrayList<>();
     private static int INDEX = 2;
 
-    CategorieServiceImpl categorieService;
+    @Autowired
+    CategorieService categorieService;
 
     @Autowired
-    UtilisateurServiceImpl utilisateurService;
+    UtilisateurService utilisateurService;
 
-    public ArticleMock(CategorieServiceImpl categorieService ) {
-        this.categorieService = categorieService;
+    @PostConstruct
+    public void init() {
         mockArticles();
     }
 
@@ -58,54 +61,44 @@ public class ArticleMock implements ArticleServiceInterface {
                 .orElse(null);
     }
 
-    public List<ArticleVendu> searchArticles(Long noCategorie, String searchName) {
-        List<ArticleVendu> result = new ArrayList<>(getArticles());
-
-        if (noCategorie != null) {
-            result = result.stream()
-                    .filter(article -> article.getCategorie().getNoCategorie().equals(noCategorie))
-                    .collect(Collectors.toList());
-        }
-
-        if (searchName != null && !searchName.trim().isEmpty()) {
-            String searchNameLower = searchName.toLowerCase();
-            result = result.stream()
-                    .filter(article -> article.getNomArticle().toLowerCase().contains(searchNameLower))
-                    .collect(Collectors.toList());
-        }
-
-        return result;
-    }
-
     /**
      * Mock des articles
      * Ajouter les adresses par défaut de l'acheteur.
      */
     public void mockArticles(){
-        ArticleVendu fauteuil = new ArticleVendu(
-                123L,
-                "Fauteuil",
-                "Fauteil en cuir",
-                categorieService.getCategories().get(0),
-                310,
-                LocalDateTime.of(2018, 8, 10, 14, 45),
-                LocalDateTime.of(2022, 12, 1, 18, 15),
-                new Retrait("test",48, "Niort"),
-                new Enchere(LocalDateTime.now(),8));
+        // Premier article: Fauteuil
+        ArticleVendu fauteuil = new ArticleVendu();
+        fauteuil.setNoArticle(123L);
+        fauteuil.setNomArticle("Fauteuil");
+        fauteuil.setDescription("Fauteuil en cuir");
+        fauteuil.setCategorie(categorieService.getCategories().get(0));
+        fauteuil.setMisAPrix(310);
+        fauteuil.setDateDebutEncheres(LocalDateTime.of(2018, 8, 10, 14, 45));
+        fauteuil.setDateFinEnchere(LocalDateTime.of(2022, 12, 1, 18, 15));
+        fauteuil.setVendeur(utilisateurService.getUtilisateurById(1).orElseThrow());
 
+        Retrait retraitFauteuil = new Retrait();
+        retraitFauteuil.setRue("test");
+        retraitFauteuil.setCodePostal(48);
+        retraitFauteuil.setVille("Niort");
+        fauteuil.setRetrait(retraitFauteuil);
 
+        // Deuxième article: PC Gamer
+        ArticleVendu pc = new ArticleVendu();
+        pc.setNoArticle(2L);
+        pc.setNomArticle("PC Gamer");
+        pc.setDescription("Un PC Gamer haute performance avec une carte graphique de dernière génération");
+        pc.setCategorie(categorieService.getCategories().get(1));
+        pc.setMisAPrix(1000);
+        pc.setDateDebutEncheres(LocalDateTime.of(2025, 4, 15, 10, 30));
+        pc.setDateFinEnchere(LocalDateTime.of(2030, 6, 5, 7, 0));
+        pc.setVendeur(utilisateurService.getUtilisateurById(2).orElseThrow());
 
-
-        ArticleVendu pc = new ArticleVendu(
-                2L,
-                "PC Gamer",
-                "Un PC Gamer haute performance avec une carte graphique de dernière génération",
-                categorieService.getCategories().get(1),
-                1000,
-                LocalDateTime.of(2025, 4, 15, 10, 30),
-                LocalDateTime.of(2030, 6, 5, 7, 0),
-                new Retrait("test 18 rue", 87, "La Rochelle"),
-                new Enchere(LocalDateTime.now(),28));
+        Retrait retraitPc = new Retrait();
+        retraitPc.setRue("test 18 rue");
+        retraitPc.setCodePostal(87);
+        retraitPc.setVille("La Rochelle");
+        pc.setRetrait(retraitPc);
 
         articles.add(fauteuil);
         articles.add(pc);

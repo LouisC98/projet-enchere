@@ -51,7 +51,7 @@ public class ArticleVendu {
 
 
     //Add utilisateur dans le futur
-    public ArticleVendu(Long noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, int misAPrix, int prixVente, String etatVente, Categorie categorie, Enchere enchere, Retrait retrait) {
+    public ArticleVendu(Long noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, int misAPrix, int prixVente, Categorie categorie, Retrait retrait) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.description = description;
@@ -59,9 +59,7 @@ public class ArticleVendu {
         this.dateFinEnchere = dateFinEnchere;
         this.misAPrix = misAPrix;
         this.prixVente = prixVente;
-        this.etatVente = etatVente;
         this.categorie = categorie;
-        this.enchere = enchere;
         this.retrait = retrait;
     }
 

@@ -2,22 +2,25 @@ package fr.eni.encheres.controller;
 
 
 import fr.eni.encheres.service.enchere.EnchereServiceInterface;
+import fr.eni.encheres.service.implementation.ArticleEnchereServiceImpl;
 import fr.eni.encheres.service.implementation.EnchereService;
+import fr.eni.encheres.service.ArticleEnchereService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/encheres")
 public class EnchereController {
 
     @Autowired
-    private EnchereService enchereService;
+    private ArticleEnchereServiceImpl articleEnchereService;
 
-    public EnchereController(EnchereService enchereService) {
-        this.enchereService = enchereService;
-    }
+    @Autowired
+    private EnchereService enchereService;
 
     @GetMapping()
     public void getEncheres(Model model) {
@@ -32,10 +35,9 @@ public class EnchereController {
 //    }
 
     @PostMapping("/{noArticle}")
-    public String creerEnchere(@PathVariable Long noArticle, @RequestParam int propal) {
-
-        enchereService.addEnchere(noArticle,propal);
-        System.out.println(propal);
+    public String creerEnchere(@PathVariable Long noArticle, @RequestParam int propal, Principal principal) {
+        String userName = principal.getName();
+        articleEnchereService.addEnchere(userName, noArticle,propal);
         return "redirect:/articles/"+noArticle;
     }
 }

@@ -45,14 +45,14 @@ public class ArticleService {
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Article créé par : " + username, article.getNomArticle());
     }
 
-    public ServiceResponse<List<ArticleVendu>> SearchArticlesVendu(Long noCategorie, String searchName){
-        List<ArticleVendu> result = articleService.searchArticles(noCategorie, searchName);
-        System.out.println( noCategorie+ searchName+ result);
-
-        if (result.isEmpty()) {
-            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "Aucun article trouvé", null);
-        }
-
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Liste d'articles trouvée", result);
-    }
+//    public ServiceResponse<List<ArticleVendu>> SearchArticlesVendu(Long noCategorie, String searchName){
+//        List<ArticleVendu> result = articleService.(noCategorie, searchName);
+//        System.out.println( noCategorie+ searchName+ result);
+//
+//        if (result.isEmpty()) {
+//            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "Aucun article trouvé", null);
+//        }
+//
+//        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Liste d'articles trouvée", result);
+//    }
 }

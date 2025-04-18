@@ -1,7 +1,7 @@
 package fr.eni.encheres.controller;
 
-import fr.eni.encheres.service.article.ArticleServiceInterface;
 import fr.eni.encheres.service.CategorieService;
+import fr.eni.encheres.service.implementation.ArticleEnchereServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 
     @Autowired
-    ArticleServiceInterface articleServiceInterface;
+    private CategorieService categorieService;
 
     @Autowired
-    CategorieService categorieService;
+    private ArticleEnchereServiceImpl articleEnchereService;
 
     @GetMapping
     public String home(Model model) {
         model.addAttribute("categories", categorieService.getCategories());
-        model.addAttribute("articles", articleServiceInterface.getArticles());
+        model.addAttribute("articles", articleEnchereService.getAllArticlesWithBestEncheres().data);
         return "home";
     }
 

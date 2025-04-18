@@ -66,7 +66,7 @@ public class ArticleEnchereMock implements ArticleEnchereInterface{
         }
     }
 
-    @Override
+
     public void mockEnchere() {
         List<ArticleVendu> articles = articleService.getAllArticles().data;
         if (articles.size() >= 2) {
