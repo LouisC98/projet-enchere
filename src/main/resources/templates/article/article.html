@@ -24,7 +24,7 @@
           <div>
             <span th:if="*{bestEnchere == null}" th:text="'Aucune offre'"></span>
             <span th:unless="*{bestEnchere == null}">
-              <span th:text="*{bestEnchere.getMontantEnchere()}" class="text-secondary fond-semibold"></span>
+              <span th:text="*{bestEnchere}" class="text-secondary fond-semibold"></span>
               pts par
               <span th:text="*{bestEnchere.encherisseur.pseudo}">Bob</span>
             </span>
