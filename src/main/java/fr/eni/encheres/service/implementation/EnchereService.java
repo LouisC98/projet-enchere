@@ -51,4 +51,13 @@ public class EnchereService {
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere a bien été créé", noArticle.toString());
     }
 
+    public ServiceResponse<Enchere> getMaxEnchere(Long noArticle){
+        Enchere enchereMax = enchereService.getMaxEnchereByNoArticle(noArticle);
+
+        //Rajouter une erreur si pas d'enchere max
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere a bien été créé", enchereMax);
+    }
+
+
+
 }

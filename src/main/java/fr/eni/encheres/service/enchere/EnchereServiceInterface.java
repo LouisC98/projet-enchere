@@ -11,4 +11,6 @@ public interface EnchereServiceInterface {
     public void addEnchere(Long noArticle, int prix);
 
     public List<Enchere> getEncheresByNoArticle(Long noArticle);
+
+    public Enchere getMaxEnchereByNoArticle(Long noArticle);
 }

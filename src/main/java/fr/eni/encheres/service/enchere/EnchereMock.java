@@ -5,14 +5,13 @@ import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.service.article.ArticleServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 
 @Component
-public class EnchereMockInterface implements EnchereServiceInterface {
+public class EnchereMock implements EnchereServiceInterface {
 
 
     private static List<Enchere> encheres = new ArrayList<>();
@@ -21,7 +20,7 @@ public class EnchereMockInterface implements EnchereServiceInterface {
     private ArticleServiceInterface articleServiceInterface;
 
 
-    public EnchereMockInterface(ArticleServiceInterface articleServiceInterface) {
+    public EnchereMock(ArticleServiceInterface articleServiceInterface) {
         this.articleServiceInterface = articleServiceInterface;
         mockEnchere();
     }
@@ -76,5 +75,13 @@ public class EnchereMockInterface implements EnchereServiceInterface {
             Enchere nouvelleEnchere = new Enchere(LocalDateTime.now(), propal, article);
             encheres.add(nouvelleEnchere);
         }
+    }
+
+    @Override
+    public Enchere getMaxEnchereByNoArticle(Long noArticle) {
+        return encheres.stream()
+                .filter(e -> e.getArticleVendu().getNoArticle().equals(noArticle))
+                .max(Comparator.comparingInt(Enchere::getMontantEnchere))
+                .orElse(null);
     }
 }
