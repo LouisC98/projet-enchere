@@ -95,4 +95,9 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             utilisateur.setCredit(utilisateur.getCredit() - montant);
         }
     }
+
+    @Override
+    public void addCredits(Utilisateur utilisateur, int montant) {
+        utilisateur.setCredit(utilisateur.getCredit() + montant);
+    }
 }

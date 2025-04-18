@@ -71,6 +71,23 @@ public class ArticleEnchereMock implements ArticleEnchereInterface{
         if (propal <= enchereMinimale) {
             return;
         }
+
+        // Re-créditer l'enchérisseur précédent si il existe
+        maxEnchere.ifPresent(enchere -> {
+            Utilisateur ancienEncherisseur = enchere.getEncherisseur();
+            int montantAncienneEnchere = enchere.getMontantEnchere();
+            utilisateurService.addCredits(ancienEncherisseur, montantAncienneEnchere);
+        });
+
+        // Créer et enregistrer la nouvelle enchère
+        Enchere nouvelleEnchere = new Enchere();
+        nouvelleEnchere.setDateEnchere(LocalDateTime.now());
+        nouvelleEnchere.setMontantEnchere(propal);
+        nouvelleEnchere.setArticleVendu(article);
+        nouvelleEnchere.setEncherisseur(user);
+
+        utilisateurService.removeCredits(user, propal);
+        enchereService.addEnchere(nouvelleEnchere);
     }
 
 

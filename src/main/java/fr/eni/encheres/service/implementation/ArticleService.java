@@ -36,7 +36,7 @@ public class ArticleService {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "Aucun article correspondant",null);
         }
 
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Article récupéré",articleVendu);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Article " + noArticle + " récupéré",articleVendu);
     }
 
     public ServiceResponse<String> addArticle(ArticleVendu article, String username){

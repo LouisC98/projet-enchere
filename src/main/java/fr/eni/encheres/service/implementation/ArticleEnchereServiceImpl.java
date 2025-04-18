@@ -40,7 +40,9 @@ public class ArticleEnchereServiceImpl {
 
     public ServiceResponse<ArticleWithBestEnchereDTO> articlesWithBestEnchere(Long noArticle){
         ArticleWithBestEnchereDTO bestEnchereOnArticle = articleEnchereService.getArticleWithBestEnchere(noArticle);
-
+        if (bestEnchereOnArticle==null){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Meilleurs enchere sur l'article non existantes",null);
+        }
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Meilleurs enchere sur l'article récupérée",bestEnchereOnArticle);
     }
 

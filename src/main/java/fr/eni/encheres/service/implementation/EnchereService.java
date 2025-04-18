@@ -45,7 +45,7 @@ public class EnchereService {
     //To change
     public ServiceResponse<String> addEnchere(Enchere enchere){
         ArticleVendu articleVendu = articleService.getArticleById(enchere.getArticleVendu().getNoArticle()).data;
-        if (articleVendu != null) {
+        if (articleVendu == null) {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"L'article n'existe pas", null);
         }
 
