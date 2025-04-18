@@ -2,6 +2,9 @@ package fr.eni.encheres.controller;
 
 import fr.eni.encheres.service.*;
 import fr.eni.encheres.service.implementation.ArticleEnchereServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +30,12 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(HttpServletRequest request, Model model) {
+        HttpSession session = request.getSession(false);
+        if (session != null && session.getAttribute("logoutMessage") != null) {
+            model.addAttribute("logoutMessage", session.getAttribute("logoutMessage"));
+            session.removeAttribute("logoutMessage");
+        }
         return "login";
     }
 

@@ -174,27 +174,38 @@ public class UtilisateurController {
     }
 
     @PostMapping("/profil/delete")
-    public String deleteAccount(RedirectAttributes redirectAttributes) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String pseudo = authentication.getName();
+    public String deleteAccount(HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String pseudo = authentication.getName();
 
-        Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
+            Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
 
-        if (utilisateur.isEmpty()) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Utilisateur non trouvé");
-            return "redirect:/";
-        }
+            if (utilisateur.isEmpty()) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Utilisateur non trouvé");
+                return "redirect:/";
+            }
 
-        boolean success = utilisateurService.supprimerCompte(utilisateur.get().getId());
+            boolean success = utilisateurService.supprimerCompte(utilisateur.get().getId());
 
-        if (success) {
-            return "redirect:/logout";
-        } else {
-            redirectAttributes.addFlashAttribute("errorMessage", "Impossible de supprimer le compte");
+            if (success) {
+                HttpSession session = request.getSession(true);
+                session.setAttribute("logoutMessage", "Votre compte a été supprimé avec succès.");
+                
+                SecurityContextHolder.clearContext();
+                
+                return "redirect:/login";
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "Impossible de supprimer le compte");
+                return "redirect:/profil";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la suppression du compte: " + e.getMessage());
             return "redirect:/profil";
         }
     }
-
+    
     @GetMapping("/admin/users")
     @PreAuthorize("hasRole('ADMIN')")
     public String listUsers(Model model) {
