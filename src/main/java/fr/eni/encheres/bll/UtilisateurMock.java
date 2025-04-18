@@ -19,14 +19,16 @@ public class UtilisateurMock {
 
     static {
         ajouterUtilisateur(new Utilisateur("jdupont", "Dupont", "Jean", "jean.dupont@example.com",
-                "0123456789", "123 Rue de Paris", "75001", "Paris", passwordEncoder.encode("motdepasse1"), 100, false));
+                "0123456789", "123 Rue de Paris", "75001", "Paris", passwordEncoder.encode("motdepasse1"), 100, false,
+                false));
 
         ajouterUtilisateur(new Utilisateur("mmartin", "Martin", "Marie", "marie.martin@example.com",
                 "0987654321", "456 Avenue des Champs", "69002", "Lyon", passwordEncoder.encode("motdepasse2"), 200,
-                false));
+                false, false));
 
         ajouterUtilisateur(new Utilisateur("admin", "admin", "admin", "admin@example.com",
-                "0123123123", "789 Boulevard Admin", "35000", "Rennes", passwordEncoder.encode("admin"), 1000, true));
+                "0123123123", "789 Boulevard Admin", "35000", "Rennes", passwordEncoder.encode("admin"), 1000, true,
+                false));
     }
 
     public static Utilisateur ajouterUtilisateur(Utilisateur utilisateur) {
