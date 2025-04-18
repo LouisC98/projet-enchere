@@ -1,11 +1,13 @@
 package fr.eni.encheres.controller;
 
-import fr.eni.encheres.service.*;
+import fr.eni.encheres.service.ArticleEnchereService;
+import fr.eni.encheres.service.CategorieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 @RequestMapping("/")
 @Controller
