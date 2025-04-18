@@ -27,7 +27,7 @@ public class ArticleService {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "Liste vide",null);
 
         }
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Liste est bonne",articleVenduList);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"La liste des articles a été récupéré",articleVenduList);
     }
 
     public ServiceResponse<ArticleVendu> getArticleById(long noArticle){

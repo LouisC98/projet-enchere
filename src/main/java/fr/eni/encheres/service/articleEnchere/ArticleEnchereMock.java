@@ -30,6 +30,13 @@ public class ArticleEnchereMock implements ArticleEnchereInterface{
     @Autowired
     private UtilisateurService utilisateurService;
 
+    public ArticleEnchereMock(ArticleService articleService, EnchereService enchereService, UtilisateurService utilisateurService) {
+        this.articleService = articleService;
+        this.enchereService = enchereService;
+        this.utilisateurService = utilisateurService;
+        mockEnchere();
+    }
+
     @Override
     public List<ArticleWithBestEnchereDTO> getArticlesWithBestEncheres() {
         List<ArticleVendu> articles = articleService.getAllArticles().data;

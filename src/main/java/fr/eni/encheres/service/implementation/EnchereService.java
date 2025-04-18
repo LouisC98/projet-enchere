@@ -50,14 +50,16 @@ public class EnchereService {
         }
 
         enchereService.addEnchere(enchere);
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere a bien été créé", "");
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere "+enchere.getArticleVendu().getNomArticle() + " a bien été créé", "");
     }
 
     public ServiceResponse<Enchere> getMaxEnchere(Long noArticle){
         Enchere enchereMax = enchereService.getMaxEnchereByNoArticle(noArticle);
-
+        if(enchereMax==null){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "Aucune enchere sur " + noArticle + " a été trouvé",null);
+        }
         //Rajouter une erreur si pas d'enchere max
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere a bien été créé", enchereMax);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere "+ enchereMax.getArticleVendu().getNomArticle() + " est existante", enchereMax);
     }
 
 

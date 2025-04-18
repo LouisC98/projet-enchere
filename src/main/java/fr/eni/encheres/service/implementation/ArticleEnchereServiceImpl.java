@@ -23,7 +23,7 @@ public class ArticleEnchereServiceImpl {
     public ServiceResponse<List<ArticleWithBestEnchereDTO>> getAllArticlesWithBestEncheres() {
         List<ArticleWithBestEnchereDTO> allBestEncheres = articleEnchereService.getArticlesWithBestEncheres();
 
-        if (allBestEncheres != null) {
+        if (allBestEncheres == null) {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Liste des meilleures encheres vide",null);
         }
 
