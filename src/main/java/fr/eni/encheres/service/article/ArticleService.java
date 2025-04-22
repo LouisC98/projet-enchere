@@ -11,4 +11,6 @@ public interface ArticleService {
     public List<ArticleVendu> getArticles();
 
     ArticleVendu getArticle(Long noArticle);
+
+    ArticleVendu updateEtatVente(ArticleVendu article);
 }

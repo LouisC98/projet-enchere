@@ -52,4 +52,21 @@ public class EnchereServiceMock implements EnchereService {
     public void addEnchere(Enchere enchere) {
         encheres.add(enchere);
     }
+
+    @Override
+    public void updateEnchere(Enchere enchere) {
+        // Trouver l'indice de l'enchère à mettre à jour
+        for (int i = 0; i < encheres.size(); i++) {
+            Enchere existingEnchere = encheres.get(i);
+            // Si même article et même enchérisseur
+            if (existingEnchere.getArticleVendu().getNoArticle().equals(enchere.getArticleVendu().getNoArticle()) &&
+                    existingEnchere.getEncherisseur().getId().equals(enchere.getEncherisseur().getId())) {
+                // Remplacer l'ancienne enchère par la nouvelle
+                encheres.set(i, enchere);
+                return;
+            }
+        }
+        // Si l'enchère n'existe pas encore, l'ajouter
+        encheres.add(enchere);
+    }
 }

@@ -15,4 +15,5 @@ public interface EnchereService {
 
     void addEnchere(Enchere enchere);
 
+    void updateEnchere(Enchere enchere);
 }

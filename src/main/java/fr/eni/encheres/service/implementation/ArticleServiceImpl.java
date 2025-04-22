@@ -40,6 +40,26 @@ public class ArticleServiceImpl {
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Article créé par : " + username, article.getNomArticle());
     }
 
+    public ServiceResponse<ArticleVendu> updateEtatVente(Long noArticle) {
+        ArticleVendu article = articleService.getArticle(noArticle);
+
+        if (article == null) {
+            return ServiceResponse.buildResponse(
+                    ServiceConstant.CD_ERR_NOT_FOUND,
+                    "Article non trouvé",
+                    null
+            );
+        }
+
+        article = articleService.updateEtatVente(article);
+
+        return ServiceResponse.buildResponse(
+                ServiceConstant.CD_SUCCESS,
+                "État de l'article mis à jour avec succès",
+                article
+        );
+    }
+
 //    public ServiceResponse<List<ArticleVendu>> SearchArticlesVendu(Long noCategorie, String searchName){
 //        List<ArticleVendu> result = articleService.(noCategorie, searchName);
 //        System.out.println( noCategorie+ searchName+ result);
