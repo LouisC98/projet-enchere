@@ -62,8 +62,8 @@ public class SecurityConfig {
                 .rememberMe(remember -> remember
                         .rememberMeServices(rememberMeServices())
                         .key("rememberMeKey")
-                        .rememberMeParameter("remember-me") // Nom du paramètre dans le formulaire
-                        .tokenValiditySeconds(86400 * 30)) // 30 jours
+                        .rememberMeParameter("remember-me")
+                        .tokenValiditySeconds(86400 * 30))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")
