@@ -47,38 +47,60 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
         ArticleVendu article = articleService.getArticleById(noArticle).data;
 
         // Vérifier les conditions préalables
-        if (article.getVendeur().equals(user) || user.getCredit() < propal) {
-            return;
+        if (article.getVendeur().equals(user)) {
+            return; // Un vendeur ne peut pas enchérir sur son propre article
         }
 
         // Trouver l'enchère maximale actuelle
-        Optional<Enchere> maxEnchere = enchereServiceImpl.getEnchereByArticle(noArticle).data.stream()
-                .max(Comparator.comparingInt(Enchere::getMontantEnchere));
+        Enchere maxEnchere = enchereServiceImpl.getMaxEnchere(noArticle).data;
 
         // Vérifier si l'enchère est valide
-        int enchereMinimale = maxEnchere.map(Enchere::getMontantEnchere).orElseGet(article::getMisAPrix);
+        int enchereMinimale = maxEnchere != null ? maxEnchere.getMontantEnchere() : article.getMisAPrix();
 
         // Si l'enchère n'est pas supérieure à l'enchère maximale actuelle ou au prix initial
         if (propal <= enchereMinimale) {
             return;
         }
 
-        // Re-créditer l'enchérisseur précédent si il existe
-        maxEnchere.ifPresent(enchere -> {
-            Utilisateur ancienEncherisseur = enchere.getEncherisseur();
-            int montantAncienneEnchere = enchere.getMontantEnchere();
+        // Vérifier si l'utilisateur est déjà le meilleur enchérisseur
+        boolean isCurrentBestBidder = maxEnchere != null &&
+                maxEnchere.getEncherisseur().getId().equals(user.getId());
+
+
+        // Calculer le montant à débiter (ajustement si l'utilisateur surenchérit sur sa propre enchère)
+        int montantADebiter = isCurrentBestBidder ?
+                propal - maxEnchere.getMontantEnchere() :
+                propal;
+
+        // Vérifier si l'utilisateur a suffisamment de crédits pour cette nouvelle enchère
+        if (user.getCredit() < montantADebiter) {
+            return;
+        }
+
+        // Re-créditer l'enchérisseur précédent si ce n'est pas le même utilisateur
+        if (maxEnchere != null && !isCurrentBestBidder) {
+            Utilisateur ancienEncherisseur = maxEnchere.getEncherisseur();
+            int montantAncienneEnchere = maxEnchere.getMontantEnchere();
             utilisateurService.addCredits(ancienEncherisseur, montantAncienneEnchere);
-        });
+        }
 
-        // Créer et enregistrer la nouvelle enchère
-        Enchere nouvelleEnchere = new Enchere();
-        nouvelleEnchere.setDateEnchere(LocalDateTime.now());
-        nouvelleEnchere.setMontantEnchere(propal);
-        nouvelleEnchere.setArticleVendu(article);
-        nouvelleEnchere.setEncherisseur(user);
+        // Débiter l'utilisateur du montant approprié
+        utilisateurService.removeCredits(user, montantADebiter);
 
-        utilisateurService.removeCredits(user, propal);
-        enchereServiceImpl.addEnchere(nouvelleEnchere);
+        if (isCurrentBestBidder) {
+            // Mettre à jour l'enchère existante du même utilisateur
+            maxEnchere.setDateEnchere(LocalDateTime.now());
+            maxEnchere.setMontantEnchere(propal);
+            enchereServiceImpl.updateEnchere(maxEnchere);
+        } else {
+            // Créer une nouvelle enchère pour un nouvel enchérisseur
+            Enchere nouvelleEnchere = new Enchere();
+            nouvelleEnchere.setDateEnchere(LocalDateTime.now());
+            nouvelleEnchere.setMontantEnchere(propal);
+            nouvelleEnchere.setArticleVendu(article);
+            nouvelleEnchere.setEncherisseur(user);
+            enchereServiceImpl.addEnchere(nouvelleEnchere);
+        }
     }
 
 

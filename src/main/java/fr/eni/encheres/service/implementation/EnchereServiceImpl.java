@@ -60,6 +60,14 @@ public class EnchereServiceImpl {
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere "+ enchereMax.getArticleVendu().getNomArticle() + " est existante", enchereMax);
     }
 
+    public ServiceResponse<Enchere> updateEnchere(Enchere enchere){
+        // Mettre à jour l'enchère via le service mock
+        enchereService.updateEnchere(enchere);
 
+        // Récupérer l'enchère mise à jour
+        Enchere enchereUpdated = enchereService.getMaxEnchereByNoArticle(enchere.getArticleVendu().getNoArticle());
 
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,
+                "L'enchère sur " + enchere.getArticleVendu().getNomArticle() + " a été mise à jour", enchereUpdated);
+    }
 }
