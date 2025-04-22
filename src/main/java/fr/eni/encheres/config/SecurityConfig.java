@@ -10,6 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 @Configuration
@@ -51,26 +52,31 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/change-password","/login", "/register", "/css/**", "/js/**", "/images/**").permitAll()
-                        .anyRequest().authenticated())
-                .formLogin(form -> form
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/", true)
-                        .permitAll())
-                .rememberMe(remember -> remember
-                        .rememberMeServices(rememberMeServices())
-                        .key("rememberMeKey")
-                        .rememberMeParameter("remember-me")
-                        .tokenValiditySeconds(86400 * 30))
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID", "remember-me")
-                        .clearAuthentication(true)
-                        .permitAll());
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/login", "/register", "/change-password", "/css/**", "/js/**", "/images/**").permitAll()
+                    .anyRequest().authenticated())
+            .formLogin(form -> form
+                    .loginPage("/login")
+                    .loginProcessingUrl("/login")
+                    .defaultSuccessUrl("/", true)
+                    .permitAll())
+            .rememberMe(remember -> remember
+                    .rememberMeServices(rememberMeServices())
+                    .key("rememberMeKey")
+                    .rememberMeParameter("remember-me")
+                    .tokenValiditySeconds(86400 * 30))
+            .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/login")
+                    .invalidateHttpSession(true)
+                    .deleteCookies("JSESSIONID", "remember-me")
+                    .clearAuthentication(true)
+                    .permitAll())
+            .sessionManagement(session -> session
+                    .invalidSessionUrl("/login?expired")
+                    .maximumSessions(1)
+                    .expiredUrl("/login?expired")
+                    .maxSessionsPreventsLogin(false))
+            .addFilterBefore(new SessionExpirationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
-    }
-}
+    }}
