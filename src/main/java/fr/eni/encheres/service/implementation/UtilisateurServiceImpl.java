@@ -1,103 +1,159 @@
 package fr.eni.encheres.service.implementation;
 
-import fr.eni.encheres.bll.UtilisateurMock;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.service.UtilisateurService;
+import fr.eni.encheres.service.response.ServiceConstant;
+import fr.eni.encheres.service.response.ServiceResponse;
+import fr.eni.encheres.service.user.UtilisateurService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UtilisateurServiceImpl implements UtilisateurService {
+public class UtilisateurServiceImpl {
 
-    @Override
+
+    @Autowired
+    UtilisateurService utilisateurService;
+
+
     public Optional<Utilisateur> seConnecter(String pseudo, String motDePasse) {
-        return UtilisateurMock.authentifier(pseudo, motDePasse);
+        return utilisateurService.authentifier(pseudo, motDePasse);
     }
 
-    @Override
-    public Utilisateur sInscrire(Utilisateur utilisateur) throws Exception {
+    
+    public ServiceResponse<Utilisateur> sInscrire(Utilisateur utilisateur){
+
+        //A changer par un simple boolean
         if (isPseudoExistant(utilisateur.getPseudo())) {
-            throw new Exception("Ce pseudo est déjà utilisé.");
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH, "Ce pseudo est déjà utilisé.", utilisateur);
         }
         if (isEmailExistant(utilisateur.getEmail())) {
-            throw new Exception("Cet e-mail est déjà utilisé.");
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH, "Cet e-mail est déjà utilisé.", utilisateur);
         }
-        Utilisateur nouvelUtilisateur = UtilisateurMock.ajouterUtilisateur(utilisateur);
-        return nouvelUtilisateur;
+        Utilisateur nouvelUtilisateur = utilisateurService.ajouterUtilisateur(utilisateur);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Utilisateur "+utilisateur.getPseudo() +" créé avec succès",utilisateur);
     }
 
-    @Override
-    public Utilisateur modifierProfil(Utilisateur utilisateur) throws Exception {
-        boolean updated = UtilisateurMock.updateUtilisateur(utilisateur);
+    
+    public ServiceResponse<Utilisateur> modifierProfil(Utilisateur utilisateur){
+        boolean updated = utilisateurService.updateUtilisateur(utilisateur);
         if (!updated) {
-            throw new Exception("Impossible de mettre à jour l'utilisateur (ID inexistant ?).");
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH,"Impossible de mettre à jour l'utilisateur (ID inexistant ?).",utilisateur);
         }
-        return utilisateur;
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"L'utilisateur " +utilisateur.getPseudo() + "a été modifié." ,utilisateur);
     }
 
-    @Override
+    
     public boolean supprimerCompte(Integer id) {
-        return UtilisateurMock.deleteUtilisateur(id);
+        return utilisateurService.deleteUtilisateur(id);
     }
 
-    @Override
-    public Optional<Utilisateur> getUtilisateurById(Integer id) {
-        return UtilisateurMock.getUtilisateurById(id);
+    
+    public ServiceResponse<Optional<Utilisateur>> getUtilisateurById(Integer id) {
+        Optional<Utilisateur> utilisateurRecherche = utilisateurService.getUtilisateurById(id);
+
+        if (utilisateurRecherche.isEmpty()) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur est introuvable", null);
+        }
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'utilisateur " +utilisateurRecherche.get().getPseudo() + " a été trouvé", utilisateurRecherche);
     }
 
-    @Override
-    public Optional<Utilisateur> getUtilisateurByPseudo(String pseudo) {
-        return UtilisateurMock.getUtilisateurByPseudo(pseudo);
+    
+    public ServiceResponse<Optional<Utilisateur>> getUtilisateurByPseudo(String pseudo) {
+        Optional<Utilisateur> utilisateurRecherche = utilisateurService.getUtilisateurByPseudo(pseudo);
+
+        if (utilisateurRecherche.isEmpty()) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur est introuvable", null);
+        }
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'utilisateur " +utilisateurRecherche.get().getPseudo() + " a été trouvé", utilisateurRecherche);
+
     }
 
-    @Override
-    public List<Utilisateur> getAllUtilisateurs() {
-        return UtilisateurMock.getAllUtilisateurs();
+    
+    public ServiceResponse<List<Utilisateur>> getAllUtilisateurs() {
+        List<Utilisateur> utilisateurList= utilisateurService.getAllUtilisateurs();
+        if (utilisateurList.isEmpty()) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur est introuvable", null);
+        }
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "La liste des utilisateur a été récupéré avec succès", utilisateurList);
+
     }
 
-    @Override
-    public Utilisateur ajouterCredit(Integer utilisateurId, Integer montant) throws Exception {
-        Optional<Utilisateur> optUser = UtilisateurMock.getUtilisateurById(utilisateurId);
+    
+    public ServiceResponse<Utilisateur> ajouterCredit(Integer utilisateurId, Integer montant) throws Exception {
+        Optional<Utilisateur> optUser = utilisateurService.getUtilisateurById(utilisateurId);
         if (optUser.isEmpty()) {
-            throw new Exception("Utilisateur inexistant (ID: " + utilisateurId + ").");
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Utilisateur inexistant (ID: " + utilisateurId + ").",null);
         }
         Utilisateur user = optUser.get();
         user.setCredit(user.getCredit() + montant);
-        UtilisateurMock.updateUtilisateur(user);
-        return user;
+        utilisateurService.updateUtilisateur(user);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a été ajouté à'utilisateur " +user.getPseudo(), user);
     }
 
-    @Override
+    
     public boolean isPseudoExistant(String pseudo) {
-        return UtilisateurMock.isPseudoExistant(pseudo);
+        return utilisateurService.isPseudoExistant(pseudo);
     }
 
-    @Override
+    
     public boolean isEmailExistant(String email) {
-        return UtilisateurMock.isEmailExistant(email);
+        return utilisateurService.isEmailExistant(email);
     }
 
-    @Override
-    public Optional<Utilisateur> getUtilisateurByEmail(String email) {
-        return UtilisateurMock.getUtilisateurByEmail(email);
-    }
+    
+    public ServiceResponse <Optional<Utilisateur>> getUtilisateurByEmail(String email) {
+        Optional<Utilisateur> utilisateurRecherche = utilisateurService.getUtilisateurByEmail(email);
 
-    public void addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre) {
-        utilisateur.getArticleVenduList().add(articleAVendre);
-    }
-
-    @Override
-    public void removeCredits(Utilisateur utilisateur, int montant) {
-        if (montant <= utilisateur.getCredit()) {
-            utilisateur.setCredit(utilisateur.getCredit() - montant);
+        if (utilisateurRecherche.isEmpty()) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur est introuvable", null);
         }
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'utilisateur " +utilisateurRecherche.get().getPseudo() + " a été trouvé", utilisateurRecherche);
+
     }
 
-    @Override
-    public void addCredits(Utilisateur utilisateur, int montant) {
+    public ServiceResponse<String> addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre) {
+        Optional<Utilisateur> utilisateurArticle = utilisateurService.getUtilisateurById(utilisateur.getId());
+        if (utilisateurArticle.isEmpty()){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur n'a pas été trouvé", "");
+        }
+
+
+        if (articleAVendre==null){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "Aucun article correspondant","");
+        }
+        utilisateur.getArticleVenduList().add(articleAVendre);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'article a bien été ajouté à la vente","") ;
+    }
+
+    
+    public ServiceResponse<String> removeCredits(Utilisateur utilisateur, int montant) {
+
+        Optional<Utilisateur> utilisateurArticle = utilisateurService.getUtilisateurById(utilisateur.getId());
+        if (utilisateurArticle.isEmpty()){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur n'a pas été trouvé", "");
+        }
+
+        if (montant >= utilisateur.getCredit()) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH, "L'utilisateur n'a pas assez de crédit", "");
+        }
+        utilisateur.setCredit(utilisateur.getCredit() - montant);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a bien été débité","") ;
+
+    }
+
+    
+    public ServiceResponse<String> addCredits(Utilisateur utilisateur, int montant) {
+        Optional<Utilisateur> utilisateurArticle = utilisateurService.getUtilisateurById(utilisateur.getId());
+        if (utilisateurArticle.isEmpty()){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur n'a pas été trouvé", "");
+        }
+
         utilisateur.setCredit(utilisateur.getCredit() + montant);
+
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a bien été ajouté","") ;
     }
 }

@@ -19,6 +19,8 @@ public class EnchereServiceImpl {
     @Autowired
     private ArticleServiceImpl articleService;
 
+
+
     public ServiceResponse<List<Enchere>> getAllEncheres(){
         List<Enchere> encheres = enchereService.getEncheres();
 

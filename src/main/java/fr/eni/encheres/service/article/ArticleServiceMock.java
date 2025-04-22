@@ -5,7 +5,9 @@ import fr.eni.encheres.bo.EtatVente;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.service.categorie.CategorieService;
-import fr.eni.encheres.service.UtilisateurService;
+import fr.eni.encheres.service.implementation.CategorieServiceImpl;
+import fr.eni.encheres.service.implementation.UtilisateurServiceImpl;
+import fr.eni.encheres.service.user.UtilisateurService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,10 +24,10 @@ public class ArticleServiceMock implements ArticleService {
     private static int INDEX = 2;
 
     @Autowired
-    private CategorieService categorieService;
+    private CategorieServiceImpl categorieService;
 
     @Autowired
-    private UtilisateurService utilisateurService;
+    private UtilisateurServiceImpl utilisateurService;
 
     @PostConstruct
     public void init() {
@@ -36,10 +38,11 @@ public class ArticleServiceMock implements ArticleService {
     public void creerArticle(ArticleVendu article, String userName) {
         INDEX++;
         article.setNoArticle((long) INDEX);
-        article.setCategorie(categorieService.getCategorie(article.getCategorie().getNoCategorie()));
+        article.setCategorie(categorieService.getCategorie(article.getCategorie().getNoCategorie()).data);
         article.getRetrait().setArticleVendu(Optional.of(article));
 
-        Utilisateur user = utilisateurService.getUtilisateurByPseudo(userName).orElseThrow();
+        Utilisateur user = utilisateurService.getUtilisateurByPseudo(userName).data.get();
+        article.setVendeur(user);
         article.setVendeur(user);
         utilisateurService.addArticleAVendre(user, article);
 
@@ -97,11 +100,11 @@ public class ArticleServiceMock implements ArticleService {
         fauteuil.setNoArticle(123L);
         fauteuil.setNomArticle("Fauteuil");
         fauteuil.setDescription("Fauteuil en cuir");
-        fauteuil.setCategorie(categorieService.getCategories().get(0));
+        fauteuil.setCategorie(categorieService.getAllCategorie().data.get(0));
         fauteuil.setMisAPrix(310);
         fauteuil.setDateDebutEncheres(LocalDateTime.of(2018, 8, 10, 14, 45));
         fauteuil.setDateFinEnchere(LocalDateTime.of(2022, 12, 1, 18, 15));
-        fauteuil.setVendeur(utilisateurService.getUtilisateurById(1).orElseThrow());
+        fauteuil.setVendeur(utilisateurService.getUtilisateurById(1).data.get());
 
         Retrait retraitFauteuil = new Retrait();
         retraitFauteuil.setRue("test");
@@ -114,11 +117,11 @@ public class ArticleServiceMock implements ArticleService {
         pc.setNoArticle(2L);
         pc.setNomArticle("PC Gamer");
         pc.setDescription("Un PC Gamer haute performance avec une carte graphique de dernière génération");
-        pc.setCategorie(categorieService.getCategories().get(1));
+        pc.setCategorie(categorieService.getAllCategorie().data.get(1));
         pc.setMisAPrix(1000);
         pc.setDateDebutEncheres(LocalDateTime.of(2025, 4, 15, 10, 30));
         pc.setDateFinEnchere(LocalDateTime.of(2030, 6, 5, 7, 0));
-        pc.setVendeur(utilisateurService.getUtilisateurById(2).orElseThrow());
+        pc.setVendeur(utilisateurService.getUtilisateurById(2).data.get());
 
         Retrait retraitPc = new Retrait();
         retraitPc.setRue("test 18 rue");

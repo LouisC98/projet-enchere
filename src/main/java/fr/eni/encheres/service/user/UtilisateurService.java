@@ -1,4 +1,4 @@
-package fr.eni.encheres.service;
+package fr.eni.encheres.service.user;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,4 +34,12 @@ public interface UtilisateurService {
     void removeCredits(Utilisateur utilisateur, int montant);
 
     void addCredits(Utilisateur utilisateur, int montant);
+
+    boolean deleteUtilisateur(Integer utilisateurId);
+
+    Utilisateur ajouterUtilisateur(Utilisateur utilisateur);
+
+    boolean updateUtilisateur(Utilisateur utilisateur);
+
+    Optional<Utilisateur> authentifier(String login, String motDePasse);
 }

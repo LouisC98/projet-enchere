@@ -1,6 +1,7 @@
 package fr.eni.encheres.controller;
 
-import fr.eni.encheres.service.UtilisateurService;
+import fr.eni.encheres.service.implementation.UtilisateurServiceImpl;
+import fr.eni.encheres.service.user.UtilisateurService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import fr.eni.encheres.bo.Utilisateur;
@@ -19,11 +20,11 @@ import java.util.Optional;
 @Controller
 public class UtilisateurController {
 
-    private final UtilisateurService utilisateurService;
+    private final UtilisateurServiceImpl utilisateurService;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
+    public UtilisateurController(UtilisateurServiceImpl utilisateurService, PasswordEncoder passwordEncoder) {
         this.utilisateurService = utilisateurService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -73,7 +74,7 @@ public class UtilisateurController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String pseudo = authentication.getName();
 
-            Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
+            Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo).data;
 
             if (utilisateur.isPresent()) {
                 model.addAttribute("utilisateur", utilisateur.get());
@@ -94,7 +95,7 @@ public class UtilisateurController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String pseudo = authentication.getName();
 
-        Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
+        Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo).data;
 
         if (utilisateur.isPresent()) {
             model.addAttribute("utilisateur", utilisateur.get());
@@ -116,7 +117,7 @@ public class UtilisateurController {
         try {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String pseudo = authentication.getName();
-            Optional<Utilisateur> utilisateurConnecte = utilisateurService.getUtilisateurByPseudo(pseudo);
+            Optional<Utilisateur> utilisateurConnecte = utilisateurService.getUtilisateurByPseudo(pseudo).data;
 
             if (utilisateurConnecte.isEmpty()) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Utilisateur connecté non trouvé");
@@ -179,7 +180,7 @@ public class UtilisateurController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             String pseudo = authentication.getName();
 
-            Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo);
+            Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo).data;
 
             if (utilisateur.isEmpty()) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Utilisateur non trouvé");
@@ -244,7 +245,7 @@ public class UtilisateurController {
                 return "redirect:/change-password";
             }
             
-            Optional<Utilisateur> optUser = utilisateurService.getUtilisateurByEmail(email);
+            Optional<Utilisateur> optUser = utilisateurService.getUtilisateurByEmail(email).data;
             if (optUser.isEmpty()) {
                 redirectAttributes.addFlashAttribute("errorMessage", "Aucun compte n'est associé à cet email");
                 return "redirect:/change-password";

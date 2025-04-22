@@ -6,7 +6,7 @@ import fr.eni.encheres.bo.EtatVente;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
 import fr.eni.encheres.dto.SearchCriteriaDTO;
-import fr.eni.encheres.service.UtilisateurService;
+import fr.eni.encheres.service.user.UtilisateurService;
 import fr.eni.encheres.service.implementation.ArticleServiceImpl;
 import fr.eni.encheres.service.implementation.EnchereServiceImpl;
 import fr.eni.encheres.service.response.ServiceConstant;
@@ -227,6 +227,7 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
         verifierEtFinaliserEncheres();
         return new ArticleWithBestEnchereDTO(article, meilleureEnchere);
     }
+
 
     @Override
     public List<ArticleWithBestEnchereDTO> advancedSearch(String username, SearchCriteriaDTO criteria) {

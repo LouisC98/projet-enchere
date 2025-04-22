@@ -50,10 +50,8 @@ public class ArticleController {
 
         String username = principal != null ? principal.getName() : null;
 
-        ServiceResponse<List<ArticleWithBestEnchereDTO>> response =
-                articleEnchereService.advancedSearch(username, criteria);
 
-        model.addAttribute("articles", response.data);
+        model.addAttribute("articles", articleEnchereService.advancedSearch(username,criteria).data);
         model.addAttribute("categories", categorieService.getAllCategorie().data);
 
         return "home";
