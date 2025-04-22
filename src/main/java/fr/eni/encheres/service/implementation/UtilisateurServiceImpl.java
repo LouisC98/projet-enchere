@@ -2,6 +2,8 @@ package fr.eni.encheres.service.implementation;
 
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
+import fr.eni.encheres.service.response.ServiceConstant;
+import fr.eni.encheres.service.response.ServiceResponse;
 import fr.eni.encheres.service.user.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,30 +17,35 @@ public class UtilisateurServiceImpl {
     
     @Autowired
     UtilisateurService utilisateurService;
+
+
+    ArticleServiceImpl articleService;
     
     public Optional<Utilisateur> seConnecter(String pseudo, String motDePasse) {
         return utilisateurService.authentifier(pseudo, motDePasse);
     }
 
     
-    public Utilisateur sInscrire(Utilisateur utilisateur) throws Exception {
+    public ServiceResponse<Utilisateur> sInscrire(Utilisateur utilisateur){
+
+        //A changer par un simple boolean
         if (isPseudoExistant(utilisateur.getPseudo())) {
-            throw new Exception("Ce pseudo est déjà utilisé.");
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH, "Ce pseudo est déjà utilisé.", utilisateur);
         }
         if (isEmailExistant(utilisateur.getEmail())) {
-            throw new Exception("Cet e-mail est déjà utilisé.");
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH, "Cet e-mail est déjà utilisé.", utilisateur);
         }
         Utilisateur nouvelUtilisateur = utilisateurService.ajouterUtilisateur(utilisateur);
-        return nouvelUtilisateur;
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Utilisateur "+utilisateur.getPseudo() +" créé avec succès",utilisateur);
     }
 
     
-    public Utilisateur modifierProfil(Utilisateur utilisateur) throws Exception {
+    public ServiceResponse<Utilisateur> modifierProfil(Utilisateur utilisateur){
         boolean updated = utilisateurService.updateUtilisateur(utilisateur);
         if (!updated) {
-            throw new Exception("Impossible de mettre à jour l'utilisateur (ID inexistant ?).");
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH,"Impossible de mettre à jour l'utilisateur (ID inexistant ?).",utilisateur);
         }
-        return utilisateur;
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"L'utilisateur " +utilisateur.getPseudo() + "a été modifié." ,utilisateur);
     }
 
     
@@ -47,30 +54,46 @@ public class UtilisateurServiceImpl {
     }
 
     
-    public Optional<Utilisateur> getUtilisateurById(Integer id) {
-        return utilisateurService.getUtilisateurById(id);
+    public ServiceResponse<Optional<Utilisateur>> getUtilisateurById(Integer id) {
+        Optional<Utilisateur> utilisateurRecherche = utilisateurService.getUtilisateurById(id);
+
+        if (utilisateurRecherche.isEmpty()) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur est introuvable", null);
+        }
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'utilisateur " +utilisateurRecherche.get().getPseudo() + " a été trouvé", utilisateurRecherche);
     }
 
     
-    public Optional<Utilisateur> getUtilisateurByPseudo(String pseudo) {
-        return utilisateurService.getUtilisateurByPseudo(pseudo);
+    public ServiceResponse<Optional<Utilisateur>> getUtilisateurByPseudo(String pseudo) {
+        Optional<Utilisateur> utilisateurRecherche = utilisateurService.getUtilisateurByPseudo(pseudo);
+
+        if (utilisateurRecherche.isEmpty()) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur est introuvable", null);
+        }
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'utilisateur " +utilisateurRecherche.get().getPseudo() + " a été trouvé", utilisateurRecherche);
+
     }
 
     
-    public List<Utilisateur> getAllUtilisateurs() {
-        return utilisateurService.getAllUtilisateurs();
+    public ServiceResponse<List<Utilisateur>> getAllUtilisateurs() {
+        List<Utilisateur> utilisateurList= utilisateurService.getAllUtilisateurs();
+        if (utilisateurList.isEmpty()) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur est introuvable", null);
+        }
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "La liste des utilisateur a été récupéré avec succès", utilisateurList);
+
     }
 
     
-    public Utilisateur ajouterCredit(Integer utilisateurId, Integer montant) throws Exception {
+    public ServiceResponse<Utilisateur> ajouterCredit(Integer utilisateurId, Integer montant) throws Exception {
         Optional<Utilisateur> optUser = utilisateurService.getUtilisateurById(utilisateurId);
         if (optUser.isEmpty()) {
-            throw new Exception("Utilisateur inexistant (ID: " + utilisateurId + ").");
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Utilisateur inexistant (ID: " + utilisateurId + ").",null);
         }
         Utilisateur user = optUser.get();
         user.setCredit(user.getCredit() + montant);
         utilisateurService.updateUtilisateur(user);
-        return user;
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a été ajouté à'utilisateur " +user.getPseudo(), user);
     }
 
     
@@ -84,23 +107,55 @@ public class UtilisateurServiceImpl {
     }
 
     
-    public Optional<Utilisateur> getUtilisateurByEmail(String email) {
-        return utilisateurService.getUtilisateurByEmail(email);
-    }
+    public ServiceResponse <Optional<Utilisateur>> getUtilisateurByEmail(String email) {
+        Optional<Utilisateur> utilisateurRecherche = utilisateurService.getUtilisateurByEmail(email);
 
-    public void addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre) {
-        utilisateur.getArticleVenduList().add(articleAVendre);
-    }
-
-    
-    public void removeCredits(Utilisateur utilisateur, int montant) {
-        if (montant <= utilisateur.getCredit()) {
-            utilisateur.setCredit(utilisateur.getCredit() - montant);
+        if (utilisateurRecherche.isEmpty()) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur est introuvable", null);
         }
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'utilisateur " +utilisateurRecherche.get().getPseudo() + " a été trouvé", utilisateurRecherche);
+
+    }
+
+    public ServiceResponse<String> addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre) {
+        Optional<Utilisateur> utilisateurArticle = utilisateurService.getUtilisateurById(utilisateur.getId());
+        if (utilisateurArticle.isEmpty()){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur n'a pas été trouvé", "");
+        }
+
+        ArticleVendu articleVendu = articleService.getArticleById(articleAVendre.getNoArticle()).data;
+        if (articleVendu==null){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "Aucun article correspondant","");
+        }
+        utilisateur.getArticleVenduList().add(articleAVendre);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'article a bien été ajouté à la vente","") ;
     }
 
     
-    public void addCredits(Utilisateur utilisateur, int montant) {
+    public ServiceResponse<String> removeCredits(Utilisateur utilisateur, int montant) {
+
+        Optional<Utilisateur> utilisateurArticle = utilisateurService.getUtilisateurById(utilisateur.getId());
+        if (utilisateurArticle.isEmpty()){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur n'a pas été trouvé", "");
+        }
+
+        if (montant >= utilisateur.getCredit()) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH, "L'utilisateur n'a pas assez de crédit", "");
+        }
+        utilisateur.setCredit(utilisateur.getCredit() - montant);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a bien été débité","") ;
+
+    }
+
+    
+    public ServiceResponse<String> addCredits(Utilisateur utilisateur, int montant) {
+        Optional<Utilisateur> utilisateurArticle = utilisateurService.getUtilisateurById(utilisateur.getId());
+        if (utilisateurArticle.isEmpty()){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur n'a pas été trouvé", "");
+        }
+
         utilisateur.setCredit(utilisateur.getCredit() + montant);
+
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a bien été ajouté","") ;
     }
 }

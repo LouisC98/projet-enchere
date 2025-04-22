@@ -21,10 +21,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Optional<Utilisateur> optUtilisateur = utilisateurServiceImpl.getUtilisateurByPseudo(login);
+        Optional<Utilisateur> optUtilisateur = utilisateurServiceImpl.getUtilisateurByPseudo(login).data;
 
         if (optUtilisateur.isEmpty()) {
-            optUtilisateur = utilisateurServiceImpl.getUtilisateurByEmail(login);
+            optUtilisateur = utilisateurServiceImpl.getUtilisateurByEmail(login).data;
         }
 
         if (optUtilisateur.isEmpty()) {

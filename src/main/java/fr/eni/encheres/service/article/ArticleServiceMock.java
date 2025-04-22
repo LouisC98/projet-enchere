@@ -40,7 +40,8 @@ public class ArticleServiceMock implements ArticleService {
         article.setCategorie(categorieService.getCategorie(article.getCategorie().getNoCategorie()).data);
         article.getRetrait().setArticleVendu(Optional.of(article));
 
-        Utilisateur user = utilisateurService.getUtilisateurByPseudo(userName).orElseThrow();
+        Utilisateur user = utilisateurService.getUtilisateurByPseudo(userName).data.get();
+        article.setVendeur(user);
         article.setVendeur(user);
         utilisateurService.addArticleAVendre(user, article);
 
@@ -74,7 +75,7 @@ public class ArticleServiceMock implements ArticleService {
         fauteuil.setMisAPrix(310);
         fauteuil.setDateDebutEncheres(LocalDateTime.of(2018, 8, 10, 14, 45));
         fauteuil.setDateFinEnchere(LocalDateTime.of(2022, 12, 1, 18, 15));
-        fauteuil.setVendeur(utilisateurService.getUtilisateurById(1).orElse(null));
+        fauteuil.setVendeur(utilisateurService.getUtilisateurById(1).data.get());
 
         Retrait retraitFauteuil = new Retrait();
         retraitFauteuil.setRue("test");
@@ -91,7 +92,7 @@ public class ArticleServiceMock implements ArticleService {
         pc.setMisAPrix(1000);
         pc.setDateDebutEncheres(LocalDateTime.of(2025, 4, 15, 10, 30));
         pc.setDateFinEnchere(LocalDateTime.of(2030, 6, 5, 7, 0));
-        pc.setVendeur(utilisateurService.getUtilisateurById(2).orElse(null));
+        pc.setVendeur(utilisateurService.getUtilisateurById(2).data.get());
 
         Retrait retraitPc = new Retrait();
         retraitPc.setRue("test 18 rue");
