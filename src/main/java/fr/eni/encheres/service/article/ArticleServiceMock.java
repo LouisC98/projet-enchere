@@ -3,7 +3,7 @@ package fr.eni.encheres.service.article;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Retrait;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.service.CategorieService;
+import fr.eni.encheres.service.categorie.CategorieService;
 import fr.eni.encheres.service.UtilisateurService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;

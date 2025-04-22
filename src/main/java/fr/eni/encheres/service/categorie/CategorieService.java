@@ -1,4 +1,4 @@
-package fr.eni.encheres.service;
+package fr.eni.encheres.service.categorie;
 
 import fr.eni.encheres.bo.Categorie;
 

@@ -1,10 +1,11 @@
 package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bo.ArticleVendu;
-import fr.eni.encheres.service.CategorieService;
+import fr.eni.encheres.service.categorie.CategorieService;
 import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
 import fr.eni.encheres.service.implementation.ArticleEnchereServiceImpl;
 import fr.eni.encheres.service.implementation.ArticleServiceImpl;
+import fr.eni.encheres.service.implementation.CategorieServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,7 @@ public class ArticleController {
     private ArticleServiceImpl articleService;
 
     @Autowired
-    private CategorieService categorieService;
+    private CategorieServiceImpl categorieService;
 
     @Autowired
     private ArticleEnchereServiceImpl articleEnchereService;
@@ -41,7 +42,7 @@ public class ArticleController {
         List<ArticleWithBestEnchereDTO> filteredArticles = articleEnchereService.searchArticlesWithBestEnchere(noCategorie, searchName).data;
 
         model.addAttribute("articles", filteredArticles);
-        model.addAttribute("categories", categorieService.getCategories());
+        model.addAttribute("categories", categorieService.getAllCategorie().data);
 
         return "home";
     }
@@ -55,7 +56,7 @@ public class ArticleController {
     @GetMapping("/new")
     public String newArticle(Model model) {
         model.addAttribute("article", new ArticleVendu());
-        model.addAttribute("categories", categorieService.getCategories());
+        model.addAttribute("categories", categorieService.getAllCategorie().data);
         return "article/new-article";
     }
 
