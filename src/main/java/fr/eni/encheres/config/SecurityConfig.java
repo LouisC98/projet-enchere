@@ -10,6 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 
 @Configuration
 public class SecurityConfig {
@@ -40,6 +41,14 @@ public class SecurityConfig {
     }
 
     @Bean
+    public TokenBasedRememberMeServices rememberMeServices() {
+        TokenBasedRememberMeServices rememberMeServices = new TokenBasedRememberMeServices(
+                "rememberMeKey", userDetailsService);
+        rememberMeServices.setTokenValiditySeconds(86400 * 30); // 30 jours
+        return rememberMeServices;
+    }
+
+    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
@@ -50,11 +59,16 @@ public class SecurityConfig {
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/", true)
                         .permitAll())
+                .rememberMe(remember -> remember
+                        .rememberMeServices(rememberMeServices())
+                        .key("rememberMeKey")
+                        .rememberMeParameter("remember-me") // Nom du paramètre dans le formulaire
+                        .tokenValiditySeconds(86400 * 30)) // 30 jours
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")
-                        .invalidateHttpSession(false)
-                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID", "remember-me")
                         .clearAuthentication(true)
                         .permitAll());
         return http.build();
