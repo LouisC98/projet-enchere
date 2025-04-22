@@ -1,6 +1,6 @@
 <a th:fragment="enchereCard(article)" th:href="@{|/articles/${article.article.noArticle}|}" class="grid grid-cols-2 sm:grid-cols-3  border border-primary p-4 rounded-lg hover:shadow-xl gap-4 items-center text-dark h-full cursor-pointer">
     <div  class="w-full h-full aspect-square overflow-hidden rounded-lg border border-primary">
-        <img src="" alt="image de l'article" class="w-full h-full object-cover" />
+        <img th:src="@{|/images/${article.article.imageName}|}" alt="image de l'article" class="w-full h-full object-cover" />
     </div>
 
     <div class="sm:col-span-2 grid grid-cols-2 gap-2 justify-evenly h-full">
