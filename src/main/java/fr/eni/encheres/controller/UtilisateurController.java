@@ -226,4 +226,10 @@ public class UtilisateurController {
         }
         return "redirect:/admin/users";
     }
+
+    @GetMapping("/change-password")
+    public String editPassword() {
+
+        return "change-password";
+    }
 }
