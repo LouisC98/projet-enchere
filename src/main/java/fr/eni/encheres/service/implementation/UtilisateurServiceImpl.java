@@ -1,23 +1,26 @@
 package fr.eni.encheres.service.implementation;
 
-import fr.eni.encheres.bll.UtilisateurMock;
 import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
-import fr.eni.encheres.service.UtilisateurService;
+import fr.eni.encheres.service.user.UtilisateurService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UtilisateurServiceImpl implements UtilisateurService {
+public class UtilisateurServiceImpl {
 
-    @Override
+    
+    @Autowired
+    UtilisateurService utilisateurService;
+    
     public Optional<Utilisateur> seConnecter(String pseudo, String motDePasse) {
-        return UtilisateurMock.authentifier(pseudo, motDePasse);
+        return utilisateurService.authentifier(pseudo, motDePasse);
     }
 
-    @Override
+    
     public Utilisateur sInscrire(Utilisateur utilisateur) throws Exception {
         if (isPseudoExistant(utilisateur.getPseudo())) {
             throw new Exception("Ce pseudo est déjà utilisé.");
@@ -25,78 +28,78 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         if (isEmailExistant(utilisateur.getEmail())) {
             throw new Exception("Cet e-mail est déjà utilisé.");
         }
-        Utilisateur nouvelUtilisateur = UtilisateurMock.ajouterUtilisateur(utilisateur);
+        Utilisateur nouvelUtilisateur = utilisateurService.ajouterUtilisateur(utilisateur);
         return nouvelUtilisateur;
     }
 
-    @Override
+    
     public Utilisateur modifierProfil(Utilisateur utilisateur) throws Exception {
-        boolean updated = UtilisateurMock.updateUtilisateur(utilisateur);
+        boolean updated = utilisateurService.updateUtilisateur(utilisateur);
         if (!updated) {
             throw new Exception("Impossible de mettre à jour l'utilisateur (ID inexistant ?).");
         }
         return utilisateur;
     }
 
-    @Override
+    
     public boolean supprimerCompte(Integer id) {
-        return UtilisateurMock.deleteUtilisateur(id);
+        return utilisateurService.deleteUtilisateur(id);
     }
 
-    @Override
+    
     public Optional<Utilisateur> getUtilisateurById(Integer id) {
-        return UtilisateurMock.getUtilisateurById(id);
+        return utilisateurService.getUtilisateurById(id);
     }
 
-    @Override
+    
     public Optional<Utilisateur> getUtilisateurByPseudo(String pseudo) {
-        return UtilisateurMock.getUtilisateurByPseudo(pseudo);
+        return utilisateurService.getUtilisateurByPseudo(pseudo);
     }
 
-    @Override
+    
     public List<Utilisateur> getAllUtilisateurs() {
-        return UtilisateurMock.getAllUtilisateurs();
+        return utilisateurService.getAllUtilisateurs();
     }
 
-    @Override
+    
     public Utilisateur ajouterCredit(Integer utilisateurId, Integer montant) throws Exception {
-        Optional<Utilisateur> optUser = UtilisateurMock.getUtilisateurById(utilisateurId);
+        Optional<Utilisateur> optUser = utilisateurService.getUtilisateurById(utilisateurId);
         if (optUser.isEmpty()) {
             throw new Exception("Utilisateur inexistant (ID: " + utilisateurId + ").");
         }
         Utilisateur user = optUser.get();
         user.setCredit(user.getCredit() + montant);
-        UtilisateurMock.updateUtilisateur(user);
+        utilisateurService.updateUtilisateur(user);
         return user;
     }
 
-    @Override
+    
     public boolean isPseudoExistant(String pseudo) {
-        return UtilisateurMock.isPseudoExistant(pseudo);
+        return utilisateurService.isPseudoExistant(pseudo);
     }
 
-    @Override
+    
     public boolean isEmailExistant(String email) {
-        return UtilisateurMock.isEmailExistant(email);
+        return utilisateurService.isEmailExistant(email);
     }
 
-    @Override
+    
     public Optional<Utilisateur> getUtilisateurByEmail(String email) {
-        return UtilisateurMock.getUtilisateurByEmail(email);
+        return utilisateurService.getUtilisateurByEmail(email);
     }
 
     public void addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre) {
         utilisateur.getArticleVenduList().add(articleAVendre);
     }
 
-    @Override
+    
     public void removeCredits(Utilisateur utilisateur, int montant) {
         if (montant <= utilisateur.getCredit()) {
             utilisateur.setCredit(utilisateur.getCredit() - montant);
         }
     }
 
-    @Override
+    
     public void addCredits(Utilisateur utilisateur, int montant) {
         utilisateur.setCredit(utilisateur.getCredit() + montant);
     }

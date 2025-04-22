@@ -5,7 +5,7 @@ import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
 import fr.eni.encheres.dto.SearchCriteriaDTO;
-import fr.eni.encheres.service.UtilisateurService;
+import fr.eni.encheres.service.user.UtilisateurService;
 import fr.eni.encheres.service.implementation.ArticleServiceImpl;
 import fr.eni.encheres.service.implementation.EnchereServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,6 +136,7 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
         Enchere meilleureEnchere = enchereServiceImpl.getMaxEnchere(noArticle).data;
         return new ArticleWithBestEnchereDTO(article, meilleureEnchere);
     }
+
 
     @Override
     public List<ArticleWithBestEnchereDTO> advancedSearch(String username, SearchCriteriaDTO criteria) {

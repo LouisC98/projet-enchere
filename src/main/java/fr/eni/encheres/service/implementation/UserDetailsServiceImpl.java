@@ -1,7 +1,8 @@
 package fr.eni.encheres.service.implementation;
 
-import fr.eni.encheres.bll.UtilisateurMock;
+import fr.eni.encheres.service.user.UtilisateurMock;
 import fr.eni.encheres.bo.Utilisateur;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,12 +16,15 @@ import java.util.Optional;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    @Autowired
+    UtilisateurServiceImpl utilisateurServiceImpl;
+
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Optional<Utilisateur> optUtilisateur = UtilisateurMock.getUtilisateurByPseudo(login);
+        Optional<Utilisateur> optUtilisateur = utilisateurServiceImpl.getUtilisateurByPseudo(login);
 
         if (optUtilisateur.isEmpty()) {
-            optUtilisateur = UtilisateurMock.getUtilisateurByEmail(login);
+            optUtilisateur = utilisateurServiceImpl.getUtilisateurByEmail(login);
         }
 
         if (optUtilisateur.isEmpty()) {

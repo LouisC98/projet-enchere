@@ -1,6 +1,6 @@
 package fr.eni.encheres.controller;
 
-import fr.eni.encheres.service.UtilisateurService;
+import fr.eni.encheres.service.user.UtilisateurService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import fr.eni.encheres.bo.Utilisateur;

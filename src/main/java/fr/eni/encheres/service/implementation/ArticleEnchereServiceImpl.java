@@ -51,7 +51,7 @@ public class ArticleEnchereServiceImpl {
     }
 
     public ServiceResponse<List<ArticleWithBestEnchereDTO>> advancedSearch(String username, SearchCriteriaDTO criteria) {
-        List<ArticleWithBestEnchereDTO> result = articleEnchereService.advancedSearch(username, criteria);
+        List<ArticleWithBestEnchereDTO> result = articleEnchereService.advancedSearch(username,criteria);
 
         return ServiceResponse.buildResponse(
                 ServiceConstant.CD_SUCCESS,

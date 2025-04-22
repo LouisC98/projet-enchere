@@ -16,7 +16,7 @@ public class CategorieServiceImpl {
     @Autowired
     CategorieService categorieService;
 
-    public ServiceResponse<Categorie> getService(Long noCategorie){
+    public ServiceResponse<Categorie> getCategorie(Long noCategorie){
         Categorie categorieRecherche = categorieService.getCategorie(noCategorie);
 
         if(categorieRecherche == null){
