@@ -10,8 +10,8 @@
         <p>
             Prix :
             <span class="text-accent font-semibold"
-                  th:text="${bestEnchere != null
-                   ? bestEnchere.montantEnchere
+                  th:text="${article.bestEnchere != null
+                   ? article.bestEnchere.montantEnchere
                    : article.article.misAPrix}">
             </span> points
         </p>
