@@ -12,4 +12,7 @@ public interface ArticleEnchereService {
     List<ArticleWithBestEnchereDTO> searchArticles(Long noCategorie, String searchName);
     ArticleWithBestEnchereDTO getArticleWithBestEnchere(Long noArticle);
     List<ArticleWithBestEnchereDTO> advancedSearch(String username, SearchCriteriaDTO criteria);
+
+    void verifierEtFinaliserEncheres();
+    ArticleWithBestEnchereDTO finaliserEnchere(Long noArticle);
 }

@@ -50,7 +50,12 @@
         </div>
 
         <!--   ENCHERIR   -->
-        <form th:action="@{|/encheres/*{article.noArticle}|}" method="post"  class="grid grid-cols-3 gap-3 items-center">
+        <form
+                th:action="@{|/encheres/*{article.noArticle}|}"
+                method="post"
+                class="grid grid-cols-3 gap-3 items-center"
+                th:if="*{article.etatVente.name() == 'EN_COURS' and article.vendeur.pseudo != #authentication.name}"
+        >
           <label for="propal" class="font-semibold whitespace-nowrap">Ma proposition :</label>
           <input name="propal" id="propal" type="number" class="border rounded p-1 mx-2">
           <button class="bg-secondary text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer tracking-widest" type="submit">Enchérir</button>

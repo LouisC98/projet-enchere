@@ -16,51 +16,13 @@ public class ArticleVendu {
     private LocalDateTime dateFinEnchere;
     private int misAPrix;
     private int prixVente;
-    //Voir si on fait pas une enum ici car toujours pareil
-    private String etatVente;
+
+    private EtatVente etatVente = EtatVente.CREEE;
 
     private Categorie categorie;
     private Enchere enchere;
     private Retrait retrait;
-    //private Utilisateur acheteur;
+    private Utilisateur acheteur;
     private Utilisateur vendeur;
-
-    public ArticleVendu(Long noArticle, String nomArticle, String description, Categorie categorie, int misAPrix, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, Retrait retrait, Enchere enchere) {
-        this.noArticle = noArticle;
-        this.nomArticle = nomArticle;
-        this.description = description;
-        this.categorie = categorie;
-        this.dateDebutEncheres = dateDebutEncheres;
-        this.dateFinEnchere = dateFinEnchere;
-        this.misAPrix = misAPrix;
-        this.retrait = retrait;
-        this.enchere = enchere;
-    }
-
-    //Constructeur sans les autres classes
-    public ArticleVendu(Long noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, int misAPrix, int prixVente, String etatVente) {
-        this.noArticle = noArticle;
-        this.nomArticle = nomArticle;
-        this.description = description;
-        this.dateDebutEncheres = dateDebutEncheres;
-        this.dateFinEnchere = dateFinEnchere;
-        this.misAPrix = misAPrix;
-        this.prixVente = prixVente;
-        this.etatVente = etatVente;
-    }
-
-
-    //Add utilisateur dans le futur
-    public ArticleVendu(Long noArticle, String nomArticle, String description, LocalDateTime dateDebutEncheres, LocalDateTime dateFinEnchere, int misAPrix, int prixVente, Categorie categorie, Retrait retrait) {
-        this.noArticle = noArticle;
-        this.nomArticle = nomArticle;
-        this.description = description;
-        this.dateDebutEncheres = dateDebutEncheres;
-        this.dateFinEnchere = dateFinEnchere;
-        this.misAPrix = misAPrix;
-        this.prixVente = prixVente;
-        this.categorie = categorie;
-        this.retrait = retrait;
-    }
 
 }

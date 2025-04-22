@@ -24,7 +24,7 @@ public class Utilisateur {
     private Boolean suppr;
 
     private List<ArticleVendu> articleVenduList = new ArrayList<>();
-//    private List<ArticleVendu> articleAchatList;
+    private List<ArticleVendu> articleAchatList = new ArrayList<>();
 
     public Utilisateur() {
         this.credit = 0;
