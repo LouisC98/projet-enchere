@@ -1,11 +1,13 @@
 package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.dto.SearchCriteriaDTO;
 import fr.eni.encheres.service.categorie.CategorieService;
 import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
 import fr.eni.encheres.service.implementation.ArticleEnchereServiceImpl;
 import fr.eni.encheres.service.implementation.ArticleServiceImpl;
 import fr.eni.encheres.service.implementation.CategorieServiceImpl;
+import fr.eni.encheres.service.response.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,13 +37,16 @@ public class ArticleController {
 
     @PostMapping("/search")
     public String searchArticle(
-            @RequestParam(required = false) Long noCategorie,
-            @RequestParam(required = false) String searchName,
-            Model model) {
+            SearchCriteriaDTO criteria,
+            Model model,
+            Principal principal) {
 
-        List<ArticleWithBestEnchereDTO> filteredArticles = articleEnchereService.searchArticlesWithBestEnchere(noCategorie, searchName).data;
+        String username = principal != null ? principal.getName() : null;
 
-        model.addAttribute("articles", filteredArticles);
+        ServiceResponse<List<ArticleWithBestEnchereDTO>> response =
+                articleEnchereService.advancedSearch(username, criteria);
+
+        model.addAttribute("articles", response.data);
         model.addAttribute("categories", categorieService.getAllCategorie().data);
 
         return "home";

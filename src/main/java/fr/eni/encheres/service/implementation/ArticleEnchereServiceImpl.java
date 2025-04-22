@@ -1,6 +1,7 @@
 package fr.eni.encheres.service.implementation;
 
 import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
+import fr.eni.encheres.dto.SearchCriteriaDTO;
 import fr.eni.encheres.service.articleEnchere.ArticleEnchereService;
 import fr.eni.encheres.service.response.ServiceConstant;
 import fr.eni.encheres.service.response.ServiceResponse;
@@ -47,6 +48,16 @@ public class ArticleEnchereServiceImpl {
 
         articleEnchereService.addEnchere(userName, noArticle, propal);
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"L'enchere a été créé","ok");
+    }
+
+    public ServiceResponse<List<ArticleWithBestEnchereDTO>> advancedSearch(String username, SearchCriteriaDTO criteria) {
+        List<ArticleWithBestEnchereDTO> result = articleEnchereService.advancedSearch(username, criteria);
+
+        return ServiceResponse.buildResponse(
+                ServiceConstant.CD_SUCCESS,
+                "Recherche avancée effectuée avec succès",
+                result
+        );
     }
 
 }

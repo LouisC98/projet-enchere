@@ -4,6 +4,7 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Enchere;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
+import fr.eni.encheres.dto.SearchCriteriaDTO;
 import fr.eni.encheres.service.UtilisateurService;
 import fr.eni.encheres.service.implementation.ArticleServiceImpl;
 import fr.eni.encheres.service.implementation.EnchereServiceImpl;
@@ -134,5 +135,142 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
         ArticleVendu article = articleService.getArticleById(noArticle).data;
         Enchere meilleureEnchere = enchereServiceImpl.getMaxEnchere(noArticle).data;
         return new ArticleWithBestEnchereDTO(article, meilleureEnchere);
+    }
+
+    @Override
+    public List<ArticleWithBestEnchereDTO> advancedSearch(String username, SearchCriteriaDTO criteria) {
+        // Si l'utilisateur n'est pas connecté ou aucun mode n'est sélectionné,
+        // utiliser la recherche simple par catégorie et nom
+        if (criteria.getMode() == null || username == null || username.isEmpty()) {
+            return searchArticles(criteria.getNoCategorie(), criteria.getSearchName());
+        }
+
+        // Récupérer l'utilisateur connecté
+        Optional<Utilisateur> currentUser = utilisateurService.getUtilisateurByPseudo(username);
+        if (currentUser.isEmpty()) {
+            return searchArticles(criteria.getNoCategorie(), criteria.getSearchName());
+        }
+
+        List<ArticleVendu> articles = articleService.getAllArticles().data;
+        List<ArticleVendu> filteredArticles = new ArrayList<>();
+
+        // Filtrer d'abord par catégorie et nom d'article (filtres de base)
+        if (criteria.getNoCategorie() != null) {
+            articles = articles.stream()
+                    .filter(article -> article.getCategorie().getNoCategorie().equals(criteria.getNoCategorie()))
+                    .collect(Collectors.toList());
+        }
+
+        if (criteria.getSearchName() != null && !criteria.getSearchName().trim().isEmpty()) {
+            String searchNameLower = criteria.getSearchName().toLowerCase();
+            articles = articles.stream()
+                    .filter(article -> article.getNomArticle().toLowerCase().contains(searchNameLower))
+                    .collect(Collectors.toList());
+        }
+
+        Utilisateur user = currentUser.get();
+        LocalDateTime now = LocalDateTime.now();
+
+        // Mode achats
+        if ("achats".equals(criteria.getMode()) && criteria.getAchats() != null) {
+
+            // Enchères ouvertes
+            if (criteria.getAchats().contains("ouvertes")) {
+                filteredArticles.addAll(
+                        articles.stream()
+                                .filter(article -> !article.getVendeur().equals(user)) // Pas ses propres articles
+                                .filter(article -> article.getDateDebutEncheres().isBefore(now) &&
+                                        article.getDateFinEnchere().isAfter(now))
+                                .collect(Collectors.toList())
+                );
+            }
+
+            // Mes enchères en cours
+            if (criteria.getAchats().contains("mesEncheres")) {
+                // Récupérer les articles sur lesquels l'utilisateur a enchéri
+                List<Long> userEnchereArticleIds = enchereServiceImpl.getAllEncheres().data.stream()
+                        .filter(enchere -> enchere.getEncherisseur().equals(user))
+                        .map(enchere -> enchere.getArticleVendu().getNoArticle())
+                        .distinct()
+                        .collect(Collectors.toList());
+
+                // Filtrer les articles correspondants qui sont toujours en cours
+                filteredArticles.addAll(
+                        articles.stream()
+                                .filter(article -> userEnchereArticleIds.contains(article.getNoArticle()))
+                                .filter(article -> article.getDateFinEnchere().isAfter(now))
+                                .collect(Collectors.toList())
+                );
+            }
+
+            // Mes enchères remportées
+            if (criteria.getAchats().contains("remportees")) {
+                // Articles dont l'enchère est terminée
+                List<ArticleVendu> terminatedArticles = articles.stream()
+                        .filter(article -> article.getDateFinEnchere().isBefore(now))
+                        .collect(Collectors.toList());
+
+                // Pour chaque article terminé, vérifier si l'utilisateur est le meilleur enchérisseur
+                for (ArticleVendu article : terminatedArticles) {
+                    Enchere bestEnchere = enchereServiceImpl.getMaxEnchere(article.getNoArticle()).data;
+                    if (bestEnchere != null && bestEnchere.getEncherisseur().equals(user)) {
+                        filteredArticles.add(article);
+                    }
+                }
+            }
+        }
+
+        // Mode ventes
+        else if ("ventes".equals(criteria.getMode()) && criteria.getVentes() != null) {
+
+            // Mes ventes en cours
+            if (criteria.getVentes().contains("enCours")) {
+                filteredArticles.addAll(
+                        articles.stream()
+                                .filter(article -> article.getVendeur().equals(user))
+                                .filter(article -> article.getDateDebutEncheres().isBefore(now) &&
+                                        article.getDateFinEnchere().isAfter(now))
+                                .collect(Collectors.toList())
+                );
+            }
+
+            // Ventes non débutées
+            if (criteria.getVentes().contains("nonDebutees")) {
+                filteredArticles.addAll(
+                        articles.stream()
+                                .filter(article -> article.getVendeur().equals(user))
+                                .filter(article -> article.getDateDebutEncheres().isAfter(now))
+                                .collect(Collectors.toList())
+                );
+            }
+
+            // Ventes terminées
+            if (criteria.getVentes().contains("terminees")) {
+                filteredArticles.addAll(
+                        articles.stream()
+                                .filter(article -> article.getVendeur().equals(user))
+                                .filter(article -> article.getDateFinEnchere().isBefore(now))
+                                .collect(Collectors.toList())
+                );
+            }
+        }
+
+        // Si aucun article trouvé avec les filtres avancés ou aucune case cochée, revenir à la recherche simple
+        if (filteredArticles.isEmpty() && (criteria.getAchats() == null || criteria.getAchats().isEmpty())
+                && (criteria.getVentes() == null || criteria.getVentes().isEmpty())) {
+            return searchArticles(criteria.getNoCategorie(), criteria.getSearchName());
+        }
+
+        // Éliminer les doublons éventuels
+        filteredArticles = filteredArticles.stream().distinct().collect(Collectors.toList());
+
+        // Transformer en DTO avec les meilleures enchères
+        List<ArticleWithBestEnchereDTO> result = new ArrayList<>();
+        for (ArticleVendu article : filteredArticles) {
+            Enchere meilleureEnchere = enchereServiceImpl.getMaxEnchere(article.getNoArticle()).data;
+            result.add(new ArticleWithBestEnchereDTO(article, meilleureEnchere));
+        }
+
+        return result;
     }
 }
