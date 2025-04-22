@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/")
 @Controller
@@ -31,12 +31,19 @@ public class HomeController {
     }
 
     @GetMapping("/login")
-    public String login(HttpServletRequest request, Model model) {
+    public String login(HttpServletRequest request, Model model,
+            @RequestParam(required = false) String expired) {
         HttpSession session = request.getSession(false);
         if (session != null && session.getAttribute("logoutMessage") != null) {
             model.addAttribute("logoutMessage", session.getAttribute("logoutMessage"));
             session.removeAttribute("logoutMessage");
         }
+
+        if (expired != null) {
+            model.addAttribute("expiredMessage",
+                    "Votre session a expiré pour des raisons de sécurité. Veuillez vous reconnecter.");
+        }
+
         return "login";
     }
 
