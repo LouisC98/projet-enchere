@@ -14,13 +14,11 @@ import java.util.Optional;
 @Service
 public class UtilisateurServiceImpl {
 
-    
+
     @Autowired
     UtilisateurService utilisateurService;
 
 
-    ArticleServiceImpl articleService;
-    
     public Optional<Utilisateur> seConnecter(String pseudo, String motDePasse) {
         return utilisateurService.authentifier(pseudo, motDePasse);
     }
@@ -123,8 +121,8 @@ public class UtilisateurServiceImpl {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur n'a pas été trouvé", "");
         }
 
-        ArticleVendu articleVendu = articleService.getArticleById(articleAVendre.getNoArticle()).data;
-        if (articleVendu==null){
+
+        if (articleAVendre==null){
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "Aucun article correspondant","");
         }
         utilisateur.getArticleVenduList().add(articleAVendre);

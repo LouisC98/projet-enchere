@@ -17,6 +17,8 @@ public class ArticleEnchereServiceImpl {
     @Autowired
     private ArticleEnchereService articleEnchereService;
 
+
+
     public ServiceResponse<List<ArticleWithBestEnchereDTO>> getAllArticlesWithBestEncheres() {
         List<ArticleWithBestEnchereDTO> allBestEncheres = articleEnchereService.getArticlesWithBestEncheres();
 
