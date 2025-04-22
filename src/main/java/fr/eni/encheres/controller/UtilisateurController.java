@@ -232,4 +232,35 @@ public class UtilisateurController {
 
         return "change-password";
     }
+
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam String email, 
+                            @RequestParam String newPassword,
+                            @RequestParam String confirmPassword,
+                            RedirectAttributes redirectAttributes) {
+        try {
+            if (!newPassword.equals(confirmPassword)) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Les mots de passe ne correspondent pas");
+                return "redirect:/change-password";
+            }
+            
+            Optional<Utilisateur> optUser = utilisateurService.getUtilisateurByEmail(email);
+            if (optUser.isEmpty()) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Aucun compte n'est associé à cet email");
+                return "redirect:/change-password";
+            }
+            
+            Utilisateur user = optUser.get();
+            user.setMotDePasse(passwordEncoder.encode(newPassword));
+            utilisateurService.modifierProfil(user);
+            
+            redirectAttributes.addFlashAttribute("successMessage", "Votre mot de passe a été mis à jour avec succès. Vous pouvez maintenant vous connecter.");
+            return "redirect:/login";
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "Une erreur s'est produite lors de la mise à jour du mot de passe: " + e.getMessage());
+            return "redirect:/change-password";
+        }
+    }
 }
