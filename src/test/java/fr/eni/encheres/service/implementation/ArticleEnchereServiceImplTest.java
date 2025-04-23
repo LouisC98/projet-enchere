@@ -39,7 +39,7 @@ class ArticleEnchereServiceImplTest {
 
         assertNotNull(response);
         assertEquals(ServiceConstant.CD_ERR_NOT_FOUND, response.code);
-        assertEquals("Liste des meilleures encheres vide", response.message);
+        assertEquals("Liste des articles avec leur meilleur enchère vide", response.message);
         assertNull(response.data);
 
     }
@@ -54,7 +54,7 @@ class ArticleEnchereServiceImplTest {
 
         assertNotNull(response);
         assertEquals(ServiceConstant.CD_SUCCESS, response.code);
-        assertEquals("Liste des meilleures encheres récupérées", response.message);
+        assertEquals("Liste des articles avec leur meilleure enchere récupérées", response.message);
         assertEquals(bestEncheres, response.data);
 
     }
@@ -67,11 +67,11 @@ class ArticleEnchereServiceImplTest {
         String searchName = "Test";
         when(articleEnchereService.searchArticles(noCategorie, searchName)).thenReturn(searchResults);
 
-        ServiceResponse<List<ArticleWithBestEnchereDTO>> response = articleEnchereServiceImpl.searchArticlesWithBestEnchere(noCategorie, searchName);
+        ServiceResponse<List<ArticleWithBestEnchereDTO>> response = articleEnchereServiceImpl.searchArticlesWithBestEncheres(noCategorie, searchName);
 
         assertNotNull(response);
         assertEquals(ServiceConstant.CD_SUCCESS, response.code);
-        assertEquals("Liste des meilleures encheres récupérées selon critères", response.message);
+        assertEquals("Liste des articles avec leur meilleure enchere récupérées selon critères", response.message);
         assertEquals(searchResults, response.data);
 
     }
@@ -86,7 +86,7 @@ class ArticleEnchereServiceImplTest {
 
         assertNotNull(response);
         assertEquals(ServiceConstant.CD_ERR_NOT_FOUND, response.code);
-        assertEquals("Meilleure enchere sur l'article non existante", response.message);
+        assertEquals("Article avec meilleur enchère non existant", response.message);
         assertNull(response.data);
 
     }
@@ -102,7 +102,7 @@ class ArticleEnchereServiceImplTest {
 
         assertNotNull(response);
         assertEquals(ServiceConstant.CD_SUCCESS, response.code);
-        assertEquals("Meilleure enchere sur l'article " + noArticle + " récupérée", response.message);
+        assertEquals("Article n°1 avec meilleur enchere récupéré", response.message);
         assertEquals(bestEnchere, response.data);
 
     }

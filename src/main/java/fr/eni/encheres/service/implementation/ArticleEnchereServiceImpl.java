@@ -20,29 +20,29 @@ public class ArticleEnchereServiceImpl {
 
 
     public ServiceResponse<List<ArticleWithBestEnchereDTO>> getAllArticlesWithBestEncheres() {
-        List<ArticleWithBestEnchereDTO> allBestEncheres = articleEnchereService.getArticlesWithBestEncheres();
+        List<ArticleWithBestEnchereDTO> allArticlesWithBestEncheres = articleEnchereService.getArticlesWithBestEncheres();
 
-        if (allBestEncheres == null) {
-            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Liste des meilleures encheres vide",null);
+        if (allArticlesWithBestEncheres == null) {
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Liste des articles avec leur meilleur enchère vide",null);
         }
 
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Liste des meilleures encheres récupérées",allBestEncheres);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Liste des articles avec leur meilleure enchere récupérées",allArticlesWithBestEncheres);
     }
 
-    public ServiceResponse<List<ArticleWithBestEnchereDTO>> searchArticlesWithBestEnchere(Long noCategorie, String searchName){
+    public ServiceResponse<List<ArticleWithBestEnchereDTO>> searchArticlesWithBestEncheres(Long noCategorie, String searchName){
         List<ArticleWithBestEnchereDTO> articlesWithBestEnchereResult = articleEnchereService.searchArticles(noCategorie, searchName);
 
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Liste des meilleures encheres récupérées selon critères",articlesWithBestEnchereResult);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Liste des articles avec leur meilleure enchere récupérées selon critères",articlesWithBestEnchereResult);
     }
 
 
 
     public ServiceResponse<ArticleWithBestEnchereDTO> articlesWithBestEnchere(Long noArticle){
-        ArticleWithBestEnchereDTO bestEnchereOnArticle = articleEnchereService.getArticleWithBestEnchere(noArticle);
-        if (bestEnchereOnArticle==null){
-            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Meilleure enchere sur l'article non existante",null);
+        ArticleWithBestEnchereDTO articleWithBestEnchere = articleEnchereService.getArticleWithBestEnchere(noArticle);
+        if (articleWithBestEnchere==null){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Article avec meilleur enchère non existant",null);
         }
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Meilleure enchere sur l'article "+ noArticle +" récupérée",bestEnchereOnArticle);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Article n°"+noArticle+" avec meilleur enchere récupéré",articleWithBestEnchere);
     }
 
     public ServiceResponse<String> addEnchere(String userName, Long noArticle, int propal){
