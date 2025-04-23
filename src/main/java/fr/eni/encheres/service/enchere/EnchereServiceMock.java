@@ -1,11 +1,13 @@
 package fr.eni.encheres.service.enchere;
 
 import fr.eni.encheres.bo.Enchere;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 
 @Component
+@Profile("Dev")
 public class EnchereServiceMock implements EnchereService {
     private static List<Enchere> encheres = new ArrayList<>();
 

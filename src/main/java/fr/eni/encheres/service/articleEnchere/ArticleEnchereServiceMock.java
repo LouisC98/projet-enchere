@@ -12,6 +12,7 @@ import fr.eni.encheres.service.implementation.EnchereServiceImpl;
 import fr.eni.encheres.service.response.ServiceConstant;
 import fr.eni.encheres.service.response.ServiceResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -22,6 +23,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@Profile("Dev")
 public class ArticleEnchereServiceMock implements ArticleEnchereService {
 
     @Autowired

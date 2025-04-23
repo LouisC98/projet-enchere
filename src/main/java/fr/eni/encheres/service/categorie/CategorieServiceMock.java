@@ -2,6 +2,7 @@ package fr.eni.encheres.service.categorie;
 
 
 import fr.eni.encheres.bo.Categorie;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Profile("Dev")
 public class CategorieServiceMock implements CategorieService {
 
     private List<Categorie> categories = new ArrayList<>();
