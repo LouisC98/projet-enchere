@@ -1,34 +1,25 @@
 package fr.eni.encheres.bo;
 
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Optional;
-
 @NoArgsConstructor
 @Data
+@Entity
 public class Retrait {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String rue;
-    private int codePostal;
+    private String codePostal;
     private String ville;
 
     @ToString.Exclude
-    private Optional<ArticleVendu> articleVendu;
-
-
-    //Constructeur sans les autres classes
-    public Retrait(String rue, int codePostal, String ville) {
-        this.rue = rue;
-        this.codePostal = codePostal;
-        this.ville = ville;
-    }
-
-    public Retrait(String rue, int codePostal, String ville, Optional<ArticleVendu> articleVendu) {
-        this.rue = rue;
-        this.codePostal = codePostal;
-        this.ville = ville;
-        this.articleVendu = articleVendu;
-    }
+    @OneToOne
+    @JoinColumn(name = "noArticle")
+    private ArticleVendu articleVendu;
 }

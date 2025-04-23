@@ -10,6 +10,7 @@ import fr.eni.encheres.service.implementation.UtilisateurServiceImpl;
 import fr.eni.encheres.service.user.UtilisateurService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Component
+@Profile("Dev")
 public class ArticleServiceMock implements ArticleService {
 
     private List<ArticleVendu> articles = new ArrayList<>();
@@ -39,7 +41,7 @@ public class ArticleServiceMock implements ArticleService {
         INDEX++;
         article.setNoArticle((long) INDEX);
         article.setCategorie(categorieService.getCategorie(article.getCategorie().getNoCategorie()).data);
-        article.getRetrait().setArticleVendu(Optional.of(article));
+        article.getRetrait().setArticleVendu(article);
 
         Utilisateur user = utilisateurService.getUtilisateurByPseudo(userName).data.get();
         article.setVendeur(user);
@@ -108,7 +110,7 @@ public class ArticleServiceMock implements ArticleService {
 
         Retrait retraitFauteuil = new Retrait();
         retraitFauteuil.setRue("test");
-        retraitFauteuil.setCodePostal(48);
+        retraitFauteuil.setCodePostal("48");
         retraitFauteuil.setVille("Niort");
         fauteuil.setRetrait(retraitFauteuil);
 
@@ -125,7 +127,7 @@ public class ArticleServiceMock implements ArticleService {
 
         Retrait retraitPc = new Retrait();
         retraitPc.setRue("test 18 rue");
-        retraitPc.setCodePostal(87);
+        retraitPc.setCodePostal("87");
         retraitPc.setVille("La Rochelle");
         pc.setRetrait(retraitPc);
 

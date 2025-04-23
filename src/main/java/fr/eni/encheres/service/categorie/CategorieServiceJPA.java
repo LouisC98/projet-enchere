@@ -1,4 +1,25 @@
 package fr.eni.encheres.service.categorie;
 
-public class CategorieServiceJPA {
+import fr.eni.encheres.bo.Categorie;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Profile("Prod")
+@Repository
+public class CategorieServiceJPA implements CategorieService {
+
+    private CategorieRepository categorieRepository;
+
+    @Override
+    public List<Categorie> getCategories() {
+        return List.of();
+    }
+
+    @Override
+    public Categorie getCategorie(Long noCategorie) {
+        return null;
+    }
 }

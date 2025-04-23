@@ -2,13 +2,17 @@ package fr.eni.encheres.bo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@Entity
 public class Utilisateur {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String pseudo;
     private String nom;
@@ -23,8 +27,14 @@ public class Utilisateur {
     private Boolean administrateur;
     private Boolean suppr;
 
+    @OneToMany(mappedBy = "vendeur")
     private List<ArticleVendu> articleVenduList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "acheteur")
     private List<ArticleVendu> articleAchatList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "encherisseur")
+    private List<Enchere> encheres = new ArrayList<>();
 
     public Utilisateur() {
         this.credit = 0;
