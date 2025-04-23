@@ -21,20 +21,6 @@ public class EnchereServiceMock implements EnchereService {
         return encheres;
     }
 
-    /**
-     * Retourne une enchère en fonction du nom de l'article vendu
-     *
-     * @param name
-     * @return
-     */
-    @Override
-    public Enchere getEnchere(String name) {
-        return encheres.stream()
-                .filter(enchere -> enchere.getArticleVendu().getNomArticle().equals(name))
-                .findFirst()
-                .orElse(null);
-    }
-
     @Override
     public List<Enchere> getEncheresByNoArticle(Long noArticle) {
         return encheres.stream()
