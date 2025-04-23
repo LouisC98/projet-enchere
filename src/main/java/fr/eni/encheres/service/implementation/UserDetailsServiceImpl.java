@@ -1,6 +1,5 @@
 package fr.eni.encheres.service.implementation;
 
-import fr.eni.encheres.service.user.UtilisateurMock;
 import fr.eni.encheres.bo.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;

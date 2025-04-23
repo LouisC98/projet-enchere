@@ -91,9 +91,8 @@ public class UtilisateurServiceImpl {
         Utilisateur user = optUser.get();
         user.setCredit(user.getCredit() + montant);
         utilisateurService.updateUtilisateur(user);
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a été ajouté à'utilisateur " +user.getPseudo(), user);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a été ajouté à'utilisateur " + user.getPseudo(), user);
     }
-
     
     public boolean isPseudoExistant(String pseudo) {
         return utilisateurService.isPseudoExistant(pseudo);
