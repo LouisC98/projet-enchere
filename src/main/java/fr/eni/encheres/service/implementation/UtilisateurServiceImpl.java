@@ -19,6 +19,8 @@ public class UtilisateurServiceImpl {
     UtilisateurService utilisateurService;
 
 
+
+
     public Optional<Utilisateur> seConnecter(String pseudo, String motDePasse) {
         return utilisateurService.authentifier(pseudo, motDePasse);
     }

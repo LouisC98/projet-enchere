@@ -13,7 +13,13 @@ import java.util.Optional;
 @Repository
 public class UtilisateurServiceJPA implements UtilisateurService {
 
+
+
     private UtilisateurRepository utilisateurRepository;
+
+    public UtilisateurServiceJPA(UtilisateurRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
+    }
 
     @Override
     public Optional<Utilisateur> seConnecter(String pseudo, String motDePasse) {
@@ -22,7 +28,8 @@ public class UtilisateurServiceJPA implements UtilisateurService {
 
     @Override
     public Utilisateur sInscrire(Utilisateur utilisateur) throws Exception {
-        return null;
+
+        return utilisateurRepository.save(utilisateur);
     }
 
     @Override
@@ -32,22 +39,28 @@ public class UtilisateurServiceJPA implements UtilisateurService {
 
     @Override
     public boolean supprimerCompte(Integer id) {
+        Utilisateur utilisateur = utilisateurRepository.findById(id).orElse(null);
+        if(utilisateur != null) {
+            utilisateur.setSuppr(true);
+            utilisateurRepository.save(utilisateur);
+        }
+
         return false;
     }
 
     @Override
     public Optional<Utilisateur> getUtilisateurById(Integer id) {
-        return Optional.empty();
+        return utilisateurRepository.findById(id);
     }
 
     @Override
     public Optional<Utilisateur> getUtilisateurByPseudo(String pseudo) {
-        return Optional.empty();
+        return utilisateurRepository.findByPseudo(pseudo);
     }
 
     @Override
     public List<Utilisateur> getAllUtilisateurs() {
-        return List.of();
+        return utilisateurRepository.findAll();
     }
 
     @Override
@@ -67,22 +80,27 @@ public class UtilisateurServiceJPA implements UtilisateurService {
 
     @Override
     public Optional<Utilisateur> getUtilisateurByEmail(String email) {
-        return Optional.empty();
+        return utilisateurRepository.findByEmail(email);
     }
 
     @Override
     public void addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre) {
-
+        utilisateur.getArticleVenduList().add(articleAVendre);
+        utilisateurRepository.save(utilisateur);
     }
 
     @Override
     public void removeCredits(Utilisateur utilisateur, int montant) {
-
+        if(utilisateur.getCredit() >= montant) {
+            utilisateur.setCredit(utilisateur.getCredit() - montant);
+            utilisateurRepository.save(utilisateur);
+        }
     }
 
     @Override
     public void addCredits(Utilisateur utilisateur, int montant) {
-
+        utilisateur.setCredit(utilisateur.getCredit() + montant);
+        utilisateurRepository.save(utilisateur);
     }
 
     @Override
@@ -92,7 +110,7 @@ public class UtilisateurServiceJPA implements UtilisateurService {
 
     @Override
     public Utilisateur ajouterUtilisateur(Utilisateur utilisateur) {
-        return null;
+        return utilisateurRepository.save(utilisateur);
     }
 
     @Override
