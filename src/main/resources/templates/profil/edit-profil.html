@@ -75,9 +75,23 @@
       </div>
 
       <div class="md:col-span-2 grid grid-cols-2 items-center my-4">
-        <label class="text-center font-semibold">Crédit :</label>
-        <span id="credit-display" class="bold text-accent font-bold text-xl text-center" th:text="${utilisateur.credit}">0</span>
+        <label class="text-center font-semibold flex justify-center items-center gap-2 ">Crédit :
+          <span id="credit-display" class="bold text-accent font-bold text-xl text-center" th:text="${utilisateur.credit}">0</span>
+        </label>
+
+        <!--  Ajouter des crédits    -->
+        <div class="grid gap-2 justify-center">
+          <label for="addCredits" class="text-center font-semibold">Ajouter des crédits :</label>
+          <input type="number" id="addCredits" class="border p-1 rounded mx-auto w-1/2">
+          <div class="flex justify-center items-center gap-2">
+            <button class="bg-accent p-2 text-white rounded shadow" id="add50">+50</button>
+            <button class="bg-secondary p-2 text-white rounded shadow" id="add100">+100</button>
+            <button class="bg-primary p-2 text-white rounded shadow">Valider</button>
+          </div>
+        </div>
       </div>
+
+
 
       <!-- Boutons en mode édition -->
       <div id="edit-buttons" class="md:col-span-2 grid grid-cols-3 mt-4 gap-3">
@@ -98,6 +112,22 @@
           document.getElementById('deleteForm').submit();
         }
       }
+
+      function addCredits(amount) {
+        const input = document.getElementById('addCredits');
+        let current = parseInt(input.value) || 0;
+        input.value = current + amount;
+      }
+
+      document.getElementById('add50').addEventListener('click', function (e) {
+        e.preventDefault();
+        addCredits(50);
+      });
+
+      document.getElementById('add100').addEventListener('click', function (e) {
+        e.preventDefault();
+        addCredits(100);
+      });
     </script>
   </section>
 </div>
