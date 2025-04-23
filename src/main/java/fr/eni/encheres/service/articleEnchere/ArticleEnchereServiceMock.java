@@ -33,6 +33,8 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
 
     @Override
     public List<ArticleWithBestEnchereDTO> getArticlesWithBestEncheres() {
+        verifierEtFinaliserEncheres();
+
         List<ArticleVendu> articles = articleService.getAllArticles().data;
         List<ArticleWithBestEnchereDTO> result = new ArrayList<>();
 
@@ -40,7 +42,6 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
             Enchere bestEnchere = enchereServiceImpl.getMaxEnchere(article.getNoArticle()).data;
             result.add(new ArticleWithBestEnchereDTO(article, bestEnchere));
         }
-        verifierEtFinaliserEncheres();
         return result;
     }
 
@@ -193,6 +194,11 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
     @Override
     public List<ArticleWithBestEnchereDTO> searchArticles(Long noCategorie, String searchName) {
         List<ArticleVendu> articles = articleService.getAllArticles().data;
+        verifierEtFinaliserEncheres();
+
+        articles = articles.stream()
+                .filter(article -> article.getEtatVente() == EtatVente.EN_COURS)
+                .collect(Collectors.toList());
 
         // Filtrer par catégorie
         if (noCategorie != null) {
@@ -215,22 +221,24 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
             Enchere meilleureEnchere = enchereServiceImpl.getMaxEnchere(article.getNoArticle()).data;
             result.add(new ArticleWithBestEnchereDTO(article, meilleureEnchere));
         }
-        verifierEtFinaliserEncheres();
         return result;
     }
 
     @Override
     public ArticleWithBestEnchereDTO getArticleWithBestEnchere(Long noArticle) {
+        verifierEtFinaliserEncheres();
+
         ArticleVendu article = articleService.getArticleById(noArticle).data;
         Enchere meilleureEnchere = enchereServiceImpl.getMaxEnchere(noArticle).data;
 
-        verifierEtFinaliserEncheres();
         return new ArticleWithBestEnchereDTO(article, meilleureEnchere);
     }
 
 
     @Override
     public List<ArticleWithBestEnchereDTO> advancedSearch(String username, SearchCriteriaDTO criteria) {
+        verifierEtFinaliserEncheres();
+
         // Si l'utilisateur n'est pas connecté ou aucun mode n'est sélectionné,
         // utiliser la recherche simple par catégorie et nom
         if (criteria.getMode() == null || username == null || username.isEmpty()) {
@@ -261,7 +269,6 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
         }
 
         Utilisateur user = currentUser.get();
-        LocalDateTime now = LocalDateTime.now();
 
         // Mode achats
         if ("achats".equals(criteria.getMode()) && criteria.getAchats() != null) {
@@ -271,9 +278,8 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
                 filteredArticles.addAll(
                         articles.stream()
                                 .filter(article -> !article.getVendeur().equals(user)) // Pas ses propres articles
-                                .filter(article -> article.getDateDebutEncheres().isBefore(now) &&
-                                        article.getDateFinEnchere().isAfter(now))
-                                .collect(Collectors.toList())
+                                .filter(article -> article.getEtatVente().equals(EtatVente.EN_COURS))
+                                .toList()
                 );
             }
 
@@ -284,31 +290,25 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
                         .filter(enchere -> enchere.getEncherisseur().equals(user))
                         .map(enchere -> enchere.getArticleVendu().getNoArticle())
                         .distinct()
-                        .collect(Collectors.toList());
+                        .toList();
 
                 // Filtrer les articles correspondants qui sont toujours en cours
                 filteredArticles.addAll(
                         articles.stream()
                                 .filter(article -> userEnchereArticleIds.contains(article.getNoArticle()))
-                                .filter(article -> article.getDateFinEnchere().isAfter(now))
-                                .collect(Collectors.toList())
+                                .filter(article -> article.getEtatVente().equals(EtatVente.EN_COURS))
+                                .toList()
                 );
             }
 
             // Mes enchères remportées
             if (criteria.getAchats().contains("remportees")) {
-                // Articles dont l'enchère est terminée
-                List<ArticleVendu> terminatedArticles = articles.stream()
-                        .filter(article -> article.getDateFinEnchere().isBefore(now))
-                        .collect(Collectors.toList());
-
-                // Pour chaque article terminé, vérifier si l'utilisateur est le meilleur enchérisseur
-                for (ArticleVendu article : terminatedArticles) {
-                    Enchere bestEnchere = enchereServiceImpl.getMaxEnchere(article.getNoArticle()).data;
-                    if (bestEnchere != null && bestEnchere.getEncherisseur().equals(user)) {
-                        filteredArticles.add(article);
-                    }
-                }
+                filteredArticles.addAll(
+                        articles.stream()
+                                .filter(article -> article.getEtatVente().equals(EtatVente.VENDU))
+                                .filter(article -> article.getAcheteur() != null && article.getAcheteur().equals(user))
+                                .toList()
+                );
             }
         }
 
@@ -320,9 +320,8 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
                 filteredArticles.addAll(
                         articles.stream()
                                 .filter(article -> article.getVendeur().equals(user))
-                                .filter(article -> article.getDateDebutEncheres().isBefore(now) &&
-                                        article.getDateFinEnchere().isAfter(now))
-                                .collect(Collectors.toList())
+                                .filter(article -> article.getEtatVente().equals(EtatVente.EN_COURS))
+                                .toList()
                 );
             }
 
@@ -331,8 +330,8 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
                 filteredArticles.addAll(
                         articles.stream()
                                 .filter(article -> article.getVendeur().equals(user))
-                                .filter(article -> article.getDateDebutEncheres().isAfter(now))
-                                .collect(Collectors.toList())
+                                .filter(article -> article.getEtatVente().equals(EtatVente.CREEE))
+                                .toList()
                 );
             }
 
@@ -341,8 +340,11 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
                 filteredArticles.addAll(
                         articles.stream()
                                 .filter(article -> article.getVendeur().equals(user))
-                                .filter(article -> article.getDateFinEnchere().isBefore(now))
-                                .collect(Collectors.toList())
+                                .filter(article -> article.getEtatVente().equals(EtatVente.TERMINEE) ||
+                                        article.getEtatVente().equals(EtatVente.VENDU) ||
+                                        article.getEtatVente().equals(EtatVente.NON_VENDU) ||
+                                        article.getEtatVente().equals(EtatVente.RETRAIT_EFFECTUE))
+                                .toList()
                 );
             }
         }
@@ -362,7 +364,6 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
             Enchere meilleureEnchere = enchereServiceImpl.getMaxEnchere(article.getNoArticle()).data;
             result.add(new ArticleWithBestEnchereDTO(article, meilleureEnchere));
         }
-        verifierEtFinaliserEncheres();
         return result;
     }
 }
