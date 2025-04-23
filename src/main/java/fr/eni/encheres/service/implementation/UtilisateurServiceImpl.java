@@ -43,7 +43,7 @@ public class UtilisateurServiceImpl {
         if (!updated) {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH,"Impossible de mettre à jour l'utilisateur (ID inexistant ?).",utilisateur);
         }
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"L'utilisateur " +utilisateur.getPseudo() + "a été modifié." ,utilisateur);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"L'utilisateur " +utilisateur.getPseudo() + " a été modifié." ,utilisateur);
     }
 
     

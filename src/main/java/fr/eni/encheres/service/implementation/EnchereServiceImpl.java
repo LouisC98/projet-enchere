@@ -50,7 +50,7 @@ public class EnchereServiceImpl {
         }
 
         enchereService.addEnchere(enchere);
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere "+enchere.getArticleVendu().getNomArticle() + " a bien été créé", "");
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere "+enchere.getArticleVendu().getNomArticle() + " a bien été créé",null);
     }
 
     public ServiceResponse<Enchere> getMaxEnchere(Long noArticle){
