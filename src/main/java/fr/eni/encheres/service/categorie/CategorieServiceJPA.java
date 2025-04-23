@@ -15,11 +15,11 @@ public class CategorieServiceJPA implements CategorieService {
 
     @Override
     public List<Categorie> getCategories() {
-        return List.of();
+        return categorieRepository.findAll();
     }
 
     @Override
     public Categorie getCategorie(Long noCategorie) {
-        return null;
+        return categorieRepository.findByNoCategorie(noCategorie);
     }
 }
