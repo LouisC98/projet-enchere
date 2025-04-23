@@ -134,7 +134,9 @@ public class UtilisateurMock implements UtilisateurService {
 
     @Override
     public Utilisateur ajouterCredit(Integer utilisateurId, Integer montant) throws Exception {
-        return null;
+        Utilisateur utilisateurAvecCredit = utilisateurs.get(utilisateurId);
+        utilisateurAvecCredit.setCredit(utilisateurAvecCredit.getCredit() + montant);
+        return utilisateurAvecCredit;
     }
 
     @Override

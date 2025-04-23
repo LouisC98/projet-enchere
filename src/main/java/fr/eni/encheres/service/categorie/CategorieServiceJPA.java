@@ -13,13 +13,20 @@ public class CategorieServiceJPA implements CategorieService {
 
     private CategorieRepository categorieRepository;
 
+
+    public CategorieServiceJPA(CategorieRepository categorieRepository) {
+        this.categorieRepository = categorieRepository;
+    }
+
     @Override
     public List<Categorie> getCategories() {
-        return List.of();
+        List<Categorie> liste = categorieRepository.findAll();
+
+        return categorieRepository.findAll();
     }
 
     @Override
     public Categorie getCategorie(Long noCategorie) {
-        return null;
+        return categorieRepository.findByNoCategorie(noCategorie);
     }
 }
