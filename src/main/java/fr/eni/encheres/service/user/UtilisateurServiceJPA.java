@@ -115,7 +115,7 @@ public class UtilisateurServiceJPA implements UtilisateurService {
 
     @Override
     public boolean updateUtilisateur(Utilisateur utilisateur) {
-        return false;
+        return utilisateurRepository.findById(utilisateur.getId()).isPresent();
     }
 
     @Override
