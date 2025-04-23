@@ -36,9 +36,10 @@ public class ArticleEnchereServiceMock implements ArticleEnchereService {
         verifierEtFinaliserEncheres();
 
         List<ArticleVendu> articles = articleService.getAllArticles().data;
+        List<ArticleVendu> articlesEnVente = articles.stream().filter(article -> article.getEtatVente().equals(EtatVente.EN_COURS)).toList();
         List<ArticleWithBestEnchereDTO> result = new ArrayList<>();
-
-        for (ArticleVendu article : articles) {
+        
+        for (ArticleVendu article : articlesEnVente) {
             Enchere bestEnchere = enchereServiceImpl.getMaxEnchere(article.getNoArticle()).data;
             result.add(new ArticleWithBestEnchereDTO(article, bestEnchere));
         }
