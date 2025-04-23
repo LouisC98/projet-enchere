@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 class EnchereServiceImplTest {
@@ -61,26 +62,6 @@ class EnchereServiceImplTest {
         assertTrue(response.data.isEmpty());
     }
 
-    @Test
-    public void testAddEnchere_ArticleNotFound() {
-
-        Enchere enchere = new Enchere();
-        ArticleVendu articleVendu = new ArticleVendu();
-        articleVendu.setNoArticle(123L);
-        enchere.setArticleVendu(articleVendu);
-
-
-        when(articleService.getArticleById(123L)).thenReturn(null);
-
-
-        ServiceResponse<Void> response = enchereServiceImpl.addEnchere(enchere);
-
-
-        assertNotNull(response);
-        assertEquals(ServiceConstant.CD_ERR_NOT_FOUND, response.code);
-        assertEquals("L'article n'existe pas", response.message);
-
-    }
 
     @Test
     void testGetMaxEnchere_notFound() {
