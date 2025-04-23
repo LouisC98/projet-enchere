@@ -24,5 +24,5 @@ public class ArticleVendu {
     private Retrait retrait;
     private Utilisateur acheteur;
     private Utilisateur vendeur;
-
+    private String imageName;
 }

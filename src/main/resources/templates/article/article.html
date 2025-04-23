@@ -7,7 +7,7 @@
     <h3 class="text-center text-2xl font-bold text-primary my-3 text-shadow-sm">Détail vente</h3>
     <div class="p-3 grid grid-cols-1 md:grid-cols-2 max-w-lg md:max-w-4xl gap-3 md:gap-5 mx-auto items-center">
       <div class="border w-full aspect-video md:aspect-square object-cover">
-        <img src="" alt="image de l'article">
+        <img th:src="@{|/images/*{article.imageName}|}" alt="image de l'article">
       </div>
       <div class="space-y-4">
         <h4 class="text-2xl font-bold text-secondary text-shadow-sm my-3 col-span-2" th:text="*{article.nomArticle}">Pc gamer pour travailler</h4>

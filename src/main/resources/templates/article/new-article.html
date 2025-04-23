@@ -6,7 +6,7 @@
         <h3 class="text-center font-bold text-primary my-5 text-2xl">Nouvelle vente</h3>
         <div class="md:flex md:justify-center md:items-center gap-6">
             <div id="imagePreviewDesktop" class="hidden md:w-1/2 aspect-video my-3 "></div>
-            <form class="p-2 max-w-lg space-y-4 mx-auto md:mx-0" th:action="@{/articles}" th:method="POST" th:object="${article}">
+            <form class="p-2 max-w-lg space-y-4 mx-auto md:mx-0" th:action="@{/articles}" th:method="POST" th:object="${article}" enctype="multipart/form-data">
                 <div class="grid grid-cols-2 items-center gap-2">
                     <label for="nomArticle" class="font-semibold">Article :</label>
                     <input type="text" id="nomArticle" class="border p-1 rounded" th:field="*{nomArticle}">
@@ -37,6 +37,7 @@
                             accept="image/*"
                             class="hidden"
                             onchange="previewImage()"
+                            name="image"
                     >
                     <div id="imagePreview" class="hidden w-full col-span-2 aspect-video mx-auto my-3"></div>
                 </div>
@@ -72,6 +73,9 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div th:if="${errorMessage}" class="bg-red-100 border border-red-400 text-red-400 col-span-2 text-center p-2 font-bold rounded">
+                    <span th:text="${errorMessage}"></span>
                 </div>
                 <div class="col-span-2 flex justify-center gap-4 items-center">
                     <button type="submit" class="cursor-pointer p-3 bg-accent text-white rounded-lg shadow-lg text-center font-semibold">
