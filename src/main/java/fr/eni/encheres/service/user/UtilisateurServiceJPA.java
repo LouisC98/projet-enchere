@@ -70,12 +70,12 @@ public class UtilisateurServiceJPA implements UtilisateurService {
 
     @Override
     public boolean isPseudoExistant(String pseudo) {
-        return false;
+        return utilisateurRepository.findByPseudo(pseudo).isPresent();
     }
 
     @Override
     public boolean isEmailExistant(String email) {
-        return false;
+        return utilisateurRepository.findByEmail(email).isPresent();
     }
 
     @Override
