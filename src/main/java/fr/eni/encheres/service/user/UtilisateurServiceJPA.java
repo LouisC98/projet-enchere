@@ -21,32 +21,6 @@ public class UtilisateurServiceJPA implements UtilisateurService {
         this.utilisateurRepository = utilisateurRepository;
     }
 
-    @Override
-    public Optional<Utilisateur> seConnecter(String pseudo, String motDePasse) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Utilisateur sInscrire(Utilisateur utilisateur) throws Exception {
-
-        return utilisateurRepository.save(utilisateur);
-    }
-
-    @Override
-    public Utilisateur modifierProfil(Utilisateur utilisateur) throws Exception {
-        return null;
-    }
-
-    @Override
-    public boolean supprimerCompte(Integer id) {
-        Utilisateur utilisateur = utilisateurRepository.findById(id).orElse(null);
-        if(utilisateur != null) {
-            utilisateur.setSuppr(true);
-            utilisateurRepository.save(utilisateur);
-        }
-
-        return false;
-    }
 
     @Override
     public Optional<Utilisateur> getUtilisateurById(Integer id) {
@@ -63,10 +37,6 @@ public class UtilisateurServiceJPA implements UtilisateurService {
         return utilisateurRepository.findAll();
     }
 
-    @Override
-    public Utilisateur ajouterCredit(Integer utilisateurId, Integer montant) throws Exception {
-        return null;
-    }
 
     @Override
     public boolean isPseudoExistant(String pseudo) {
