@@ -85,7 +85,12 @@ public class UtilisateurServiceJPA implements UtilisateurService {
 
     @Override
     public boolean updateUtilisateur(Utilisateur utilisateur) {
-        return utilisateurRepository.findById(utilisateur.getId()).isPresent();
+        if(utilisateurRepository.findById(utilisateur.getId()).isPresent()){
+            utilisateurRepository.save(utilisateur);
+        }else{
+            return false;
+        }
+        return true ;
     }
 
     @Override
