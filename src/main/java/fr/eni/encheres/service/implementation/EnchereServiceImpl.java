@@ -43,14 +43,14 @@ public class EnchereServiceImpl {
 
 
     //To change
-    public ServiceResponse<String> addEnchere(Enchere enchere){
+    public ServiceResponse<Void> addEnchere(Enchere enchere){
         ArticleVendu articleVendu = articleService.getArticleById(enchere.getArticleVendu().getNoArticle()).data;
         if (articleVendu == null) {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"L'article n'existe pas", null);
         }
 
         enchereService.addEnchere(enchere);
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere "+enchere.getArticleVendu().getNomArticle() + " a bien été créé", "");
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "L'enchere "+enchere.getArticleVendu().getNomArticle() + " a bien été créé",null);
     }
 
     public ServiceResponse<Enchere> getMaxEnchere(Long noArticle){
