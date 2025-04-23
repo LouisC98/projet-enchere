@@ -228,6 +228,41 @@ public class UtilisateurController {
         return "redirect:/admin/users";
     }
 
+    @PostMapping("/admin/users/{id}/delete")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteUser(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
+        try {
+            Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurById(id).data;
+            
+            if (utilisateur.isEmpty()) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Utilisateur non trouvé");
+                return "redirect:/admin/users";
+            }
+            
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String pseudo = authentication.getName();
+            Optional<Utilisateur> adminConnecte = utilisateurService.getUtilisateurByPseudo(pseudo).data;
+            
+            if (adminConnecte.isPresent() && adminConnecte.get().getId().equals(id)) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Vous ne pouvez pas supprimer votre propre compte");
+                return "redirect:/admin/users";
+            }
+            
+            boolean success = utilisateurService.supprimerCompte(id);
+            
+            if (success) {
+                redirectAttributes.addFlashAttribute("successMessage", "Utilisateur supprimé avec succès");
+            } else {
+                redirectAttributes.addFlashAttribute("errorMessage", "Impossible de supprimer l'utilisateur");
+            }
+            
+            return "redirect:/admin/users";
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("errorMessage", "Erreur lors de la suppression de l'utilisateur: " + e.getMessage());
+            return "redirect:/admin/users";
+        }
+    }
     @GetMapping("/change-password")
     public String editPassword() {
 

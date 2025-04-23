@@ -4,12 +4,14 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.service.response.ServiceConstant;
 import fr.eni.encheres.service.response.ServiceResponse;
+import fr.eni.encheres.service.user.UtilisateurMock;
 import fr.eni.encheres.service.user.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UtilisateurServiceImpl {
@@ -25,15 +27,15 @@ public class UtilisateurServiceImpl {
 
     
     public ServiceResponse<Utilisateur> sInscrire(Utilisateur utilisateur){
-
-        //A changer par un simple boolean
-        if (isPseudoExistant(utilisateur.getPseudo())) {
+        boolean pseudoExiste = isPseudoExistant(utilisateur.getPseudo());
+        if (pseudoExiste) {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH, "Ce pseudo est déjà utilisé.", utilisateur);
         }
-        if (isEmailExistant(utilisateur.getEmail())) {
+        boolean emailExiste = isEmailExistant(utilisateur.getEmail());
+        if (emailExiste) {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_TCH, "Cet e-mail est déjà utilisé.", utilisateur);
         }
-        Utilisateur nouvelUtilisateur = utilisateurService.ajouterUtilisateur(utilisateur);
+        utilisateurService.ajouterUtilisateur(utilisateur);
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS,"Utilisateur "+utilisateur.getPseudo() +" créé avec succès",utilisateur);
     }
 
@@ -48,9 +50,16 @@ public class UtilisateurServiceImpl {
 
     
     public boolean supprimerCompte(Integer id) {
-        return utilisateurService.deleteUtilisateur(id);
+        Optional<Utilisateur> optUser = utilisateurService.getUtilisateurById(id);
+        if (optUser.isEmpty()) {
+            return false;
+        }
+        
+        Utilisateur user = optUser.get();
+        user.setSuppr(true);
+        
+        return utilisateurService.updateUtilisateur(user);
     }
-
     
     public ServiceResponse<Optional<Utilisateur>> getUtilisateurById(Integer id) {
         Optional<Utilisateur> utilisateurRecherche = utilisateurService.getUtilisateurById(id);
@@ -73,13 +82,10 @@ public class UtilisateurServiceImpl {
     }
 
     
-    public ServiceResponse<List<Utilisateur>> getAllUtilisateurs() {
-        List<Utilisateur> utilisateurList= utilisateurService.getAllUtilisateurs();
-        if (utilisateurList.isEmpty()) {
-            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "L'utilisateur est introuvable", null);
-        }
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "La liste des utilisateur a été récupéré avec succès", utilisateurList);
-
+    public List<Utilisateur> getAllUtilisateurs() {
+        return utilisateurService.getAllUtilisateurs().stream()
+                .filter(u -> !u.getSuppr())
+                .collect(Collectors.toList());
     }
 
     
