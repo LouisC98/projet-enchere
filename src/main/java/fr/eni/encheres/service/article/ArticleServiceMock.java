@@ -110,7 +110,7 @@ public class ArticleServiceMock implements ArticleService {
 
         Retrait retraitFauteuil = new Retrait();
         retraitFauteuil.setRue("test");
-        retraitFauteuil.setCodePostal(48);
+        retraitFauteuil.setCodePostal("48");
         retraitFauteuil.setVille("Niort");
         fauteuil.setRetrait(retraitFauteuil);
 
@@ -127,7 +127,7 @@ public class ArticleServiceMock implements ArticleService {
 
         Retrait retraitPc = new Retrait();
         retraitPc.setRue("test 18 rue");
-        retraitPc.setCodePostal(87);
+        retraitPc.setCodePostal("87");
         retraitPc.setVille("La Rochelle");
         pc.setRetrait(retraitPc);
 

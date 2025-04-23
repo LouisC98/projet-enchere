@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Data
@@ -20,22 +22,26 @@ public class ArticleVendu {
     private LocalDateTime dateFinEnchere;
     private int misAPrix;
     private int prixVente;
+    private String imageName;
 
     @Enumerated(EnumType.ORDINAL)
     private EtatVente etatVente;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "noCategorie")
     private Categorie categorie;
 
-    @OneToOne
-    private Enchere enchere;
+    @OneToMany(mappedBy = "articleVendu")
+    private List<Enchere> encheres = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(mappedBy = "articleVendu", cascade = CascadeType.ALL)
     private Retrait retrait;
 
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "acheteur_id")
     private Utilisateur acheteur;
-    @OneToOne
+
+    @ManyToOne
+    @JoinColumn(name = "vendeur_id")
     private Utilisateur vendeur;
-    private String imageName;
 }

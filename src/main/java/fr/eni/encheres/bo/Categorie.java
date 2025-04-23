@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -16,8 +17,8 @@ public class Categorie {
     private Long noCategorie;
     private String libelle;
 
-    @OneToMany
-    private List<ArticleVendu> articlesVendusListe;
+    @OneToMany(mappedBy = "categorie")
+    private List<ArticleVendu> articlesVendusListe = new ArrayList<>();
 
 
     //Constructeur sans les autres classes

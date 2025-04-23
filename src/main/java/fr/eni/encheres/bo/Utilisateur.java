@@ -27,10 +27,14 @@ public class Utilisateur {
     private Boolean administrateur;
     private Boolean suppr;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "vendeur")
     private List<ArticleVendu> articleVenduList = new ArrayList<>();
-    @ManyToMany
+
+    @OneToMany(mappedBy = "acheteur")
     private List<ArticleVendu> articleAchatList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "encherisseur")
+    private List<Enchere> encheres = new ArrayList<>();
 
     public Utilisateur() {
         this.credit = 0;
