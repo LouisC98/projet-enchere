@@ -1,5 +1,7 @@
 package fr.eni.encheres.bo;
 
+
+
 public enum EtatVente {
     CREEE,
     EN_COURS,

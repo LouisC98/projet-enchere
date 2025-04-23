@@ -21,7 +21,8 @@ public class ArticleVendu {
     private int misAPrix;
     private int prixVente;
 
-    private EtatVente etatVente = EtatVente.CREEE;
+    @Enumerated(EnumType.ORDINAL)
+    private EtatVente etatVente;
 
     @OneToOne
     private Categorie categorie;
