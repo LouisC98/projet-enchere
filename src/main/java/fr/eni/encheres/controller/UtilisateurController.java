@@ -51,15 +51,23 @@ public class UtilisateurController {
         try {
             String encodedPassword = passwordEncoder.encode(utilisateur.getMotDePasse());
             utilisateur.setMotDePasse(encodedPassword);
+            String message = "";
+            String messageAtt = "";
 
             utilisateur.setCredit(0);
             utilisateur.setAdministrateur(false);
+            if(utilisateurService.sInscrire(utilisateur).code.equals("701")){
+                redirectAttributes.addFlashAttribute("errorMessage","L'email ou le pseudo est déjà utilisé");
+                return "redirect:/register";
 
-            utilisateurService.sInscrire(utilisateur);
+            }
+                utilisateurService.sInscrire(utilisateur);
+                redirectAttributes.addFlashAttribute("successMessage",
+                        "Compte créé avec succès. Vous pouvez maintenant vous connecter.");
 
-            redirectAttributes.addFlashAttribute("successMessage",
-                    "Compte créé avec succès. Vous pouvez maintenant vous connecter.");
-            return "redirect:/login";
+                return "redirect:/login";
+
+
         } catch (Exception e) {
             System.out.println("Erreur lors de l'inscription: " + e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
@@ -76,7 +84,7 @@ public class UtilisateurController {
 
             Optional<Utilisateur> utilisateur = utilisateurService.getUtilisateurByPseudo(pseudo).data;
 
-            if (utilisateur.isPresent()) {
+            if (utilisateur.isPresent() ) {
                 model.addAttribute("utilisateur", utilisateur.get());
                 return "profil/profil";
             } else {

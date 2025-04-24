@@ -29,7 +29,7 @@ public class UtilisateurServiceJPA implements UtilisateurService {
 
     @Override
     public Optional<Utilisateur> getUtilisateurByPseudo(String pseudo) {
-        return utilisateurRepository.findByPseudo(pseudo);
+        return utilisateurRepository.findUtilisateurByPseudo(pseudo);
     }
 
     @Override
@@ -40,17 +40,17 @@ public class UtilisateurServiceJPA implements UtilisateurService {
 
     @Override
     public boolean isPseudoExistant(String pseudo) {
-        return utilisateurRepository.findByPseudo(pseudo).isPresent();
+        return utilisateurRepository.findUtilisateurByPseudo(pseudo).isPresent();
     }
 
     @Override
     public boolean isEmailExistant(String email) {
-        return utilisateurRepository.findByEmail(email).isPresent();
+        return utilisateurRepository.findUtilisateurByEmail(email).isPresent();
     }
 
     @Override
     public Optional<Utilisateur> getUtilisateurByEmail(String email) {
-        return utilisateurRepository.findByEmail(email);
+        return utilisateurRepository.findUtilisateurByEmail(email);
     }
 
     @Override
