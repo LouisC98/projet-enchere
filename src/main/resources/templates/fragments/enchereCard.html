@@ -6,26 +6,26 @@
     <div class="sm:col-span-2 grid grid-cols-2 gap-2 justify-evenly h-full">
         <h4 class="col-span-2 font-bold text-lg text-primary" th:text="${article.article.nomArticle}">Nom de l'article</h4>
         <p>
-            Prix :
+            <span th:text="#{card.price}"></span>
             <span class="text-accent font-semibold"
                   th:text="${article.bestEnchere != null
                    ? article.bestEnchere.montantEnchere
                    : article.article.misAPrix}">
-            </span> points
+            </span> <span th:text="#{card.points}"></span>
         </p>
         <p>
 <!--            Classement : <span class="font-medium">2</span>-->
         </p>
 
-        <p class="">Fin de l'enchère : </p>
+        <p class=""><span th:text="#{card.endDate}"></span></p>
         <span class="text-danger font-medium" th:text="${#temporals.format(article.article.dateFinEnchere, 'dd/MM/yyyy à HH:mm')}"></span>
 
         <div class="col-span-2 flex gap-1">
-            <p class="whitespace-nowrap">Retrait :</p>
+            <p class="whitespace-nowrap"><span th:text="#{card.pickup}"></span></p>
             <span th:text="|${article.article.retrait.rue} ${article.article.retrait.codePostal} ${article.article.retrait.ville}|"></span>
         </div>
 
-        <p class="whitespace-nowrap">Vendeur :
+        <p class="whitespace-nowrap"><span th:text="#{card.seller}"></span>
             <span class="text-primary font-semibold" th:text="${article.article.vendeur != null ? article.article.vendeur.pseudo : 'JOJO'}"></span>
         </p>
     </div>

@@ -6,7 +6,10 @@ import fr.eni.encheres.service.implementation.CategorieServiceImpl;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +26,18 @@ public class HomeController {
     @Autowired
     private ArticleEnchereServiceImpl articleEnchereService;
 
+    @Autowired
+    private MessageSource messageSource;
+
     @GetMapping
-    public String home(Model model) {
-        model.addAttribute("categories", categorieService.getAllCategorie().data);
-        model.addAttribute("articles", articleEnchereService.getAllArticlesWithBestEncheres().data);
+    public String home(Locale locale) {
+        System.out.println("Current locale: " + locale);
+        try {
+            String message = messageSource.getMessage("navbar.title", null, locale);
+            System.out.println("Message found: " + message);
+        } catch (Exception e) {
+            System.out.println("Error getting message: " + e.getMessage());
+        }
         return "home";
     }
 

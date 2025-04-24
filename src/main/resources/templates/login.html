@@ -1,38 +1,32 @@
 <head>
-    <title>ENI Enchères - se connecter</title>
+    <title th:text="#{login.title}"></title>
 </head>
 <div th:replace="~{base :: layout(~{::title}, ~{::section})}">
   <section class="p-3 mt-5">
-    <div th:if="${param.error}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 max-w-fit mx-auto">
-      Identifiant ou mot de passe incorrect.
+    <div th:if="${param.error}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 max-w-fit mx-auto" th:text="#{login.error}">
     </div>
-  <div th:if="${logoutMessage}" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 max-w-2xl mx-auto text-center font-bold" th:text="${logoutMessage}">
-    Message de déconnexion
+  <div th:if="${logoutMessage}" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 max-w-2xl mx-auto text-center font-bold" th:text="#{login.logout.message}">
   </div>
-  <div th:if="${expiredMessage}" class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4 max-w-2xl mx-auto text-center font-bold" th:text="${expiredMessage}">
-    Votre session a expiré pour des raisons de sécurité. Veuillez vous reconnecter.
+  <div th:if="${expiredMessage}" class="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded mb-4 max-w-2xl mx-auto text-center font-bold" th:text="#{login.expired.message}">
   </div>
     <div th:if="${successMessage}" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4" th:text="${successMessage}">
     </div>
     <form th:action="@{/login}" method="post" class="max-w-md mx-auto grid grid-cols-2 gap-2 items-center">
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-      <label for="username">
-        Identifiant :
+      <label for="username" th:text="#{login.username}">
       </label>
       <input type="text" id="username" name="username" class="border rounded p-1">
-      <label for="password">
-        Mot de passe :
+      <label for="password" th:text="#{login.password}">
       </label>
       <input type="password" id="password" name="password" class="border rounded p-1">
-      <button class="bg-primary text-shadow shadow text-light p-3 rounded m-2 font-bold cursor-pointer tracking-widest" type="submit">Connexion</button>
+      <button class="bg-primary text-shadow shadow text-light p-3 rounded m-2 font-bold cursor-pointer tracking-widest" type="submit" th:text="#{login.button}"></button>
       <div class="grid gap-1 justify-center">
         <label for="remember-me">
-          <input type="checkbox" id="remember-me" name="remember-me">
-          Se souvenir de moi
+          <input type="checkbox" id="remember-me" name="remember-me" th:text="#{login.remember}">
         </label>
-        <a th:href="@{/change-password}" class="underline text-center">Mot de passe oublié</a>
+        <a th:href="@{/change-password}" class="underline text-center" th:text="#{login.forgot}"></a>
       </div>
-      <a th:href="@{/register}" class="bg-secondary text-shadow-sm shadow text-light p-3 rounded m-2 font-bold  tracking-widest col-span-2 text-center">Créer un compte</a>
+      <a th:href="@{/register}" class="bg-secondary text-shadow-sm shadow text-light p-3 rounded m-2 font-bold  tracking-widest col-span-2 text-center" th:text="#{login.create}"></a>
     </form>
   </section>
 </div>
