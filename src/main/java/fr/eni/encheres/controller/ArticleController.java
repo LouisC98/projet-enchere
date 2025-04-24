@@ -1,13 +1,13 @@
 package fr.eni.encheres.controller;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.Retrait;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.dto.SearchCriteriaDTO;
-import fr.eni.encheres.service.categorie.CategorieService;
-import fr.eni.encheres.dto.ArticleWithBestEnchereDTO;
 import fr.eni.encheres.service.implementation.ArticleEnchereServiceImpl;
 import fr.eni.encheres.service.implementation.ArticleServiceImpl;
 import fr.eni.encheres.service.implementation.CategorieServiceImpl;
-import fr.eni.encheres.service.response.ServiceResponse;
+import fr.eni.encheres.service.implementation.UtilisateurServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,7 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.Principal;
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -35,6 +35,8 @@ public class ArticleController {
 
     @Autowired
     private ArticleEnchereServiceImpl articleEnchereService;
+    @Autowired
+    private UtilisateurServiceImpl utilisateurServiceImpl;
 
     @GetMapping
     public String getAll(Model model) {
@@ -64,9 +66,26 @@ public class ArticleController {
     }
 
     @GetMapping("/new")
-    public String newArticle(Model model) {
+    public String newArticle(Model model, Principal principal) {
         if (!model.containsAttribute("article")) {
-            model.addAttribute("article", new ArticleVendu());
+            ArticleVendu article = new ArticleVendu();
+
+            Retrait retrait = new Retrait();
+            article.setRetrait(retrait);
+
+            if (principal != null) {
+                String username = principal.getName();
+                Optional<Utilisateur> optionalUtilisateur = utilisateurServiceImpl.getUtilisateurByPseudo(username).data;
+
+                if (optionalUtilisateur.isPresent()) {
+                    Utilisateur utilisateur = optionalUtilisateur.get();
+
+                    retrait.setRue(utilisateur.getRue());
+                    retrait.setCodePostal(utilisateur.getCodePostal());
+                    retrait.setVille(utilisateur.getVille());
+                }
+            }
+            model.addAttribute("article", article);
         }
         model.addAttribute("categories", categorieService.getAllCategorie().data);
         return "article/new-article";
