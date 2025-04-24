@@ -24,7 +24,7 @@ public class ArticleVendu {
     private int prixVente;
     private String imageName;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private EtatVente etatVente;
 
     @ManyToOne

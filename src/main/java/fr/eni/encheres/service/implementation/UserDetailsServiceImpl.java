@@ -1,6 +1,5 @@
 package fr.eni.encheres.service.implementation;
 
-import fr.eni.encheres.service.user.UtilisateurMock;
 import fr.eni.encheres.bo.Utilisateur;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -23,11 +22,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Optional<Utilisateur> optUtilisateur = utilisateurServiceImpl.getUtilisateurByPseudo(login).data;
 
-        if (optUtilisateur.isEmpty()) {
+        if (!optUtilisateur.isPresent()) {
             optUtilisateur = utilisateurServiceImpl.getUtilisateurByEmail(login).data;
         }
 
-        if (optUtilisateur.isEmpty()) {
+        if (!optUtilisateur.isPresent()) {
             throw new UsernameNotFoundException("Utilisateur introuvable pour le login: " + login);
         }
 

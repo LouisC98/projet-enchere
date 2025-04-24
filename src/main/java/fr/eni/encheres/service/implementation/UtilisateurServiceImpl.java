@@ -19,6 +19,8 @@ public class UtilisateurServiceImpl {
     UtilisateurService utilisateurService;
 
 
+
+
     public Optional<Utilisateur> seConnecter(String pseudo, String motDePasse) {
         return utilisateurService.authentifier(pseudo, motDePasse);
     }
@@ -89,11 +91,10 @@ public class UtilisateurServiceImpl {
             return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND,"Utilisateur inexistant (ID: " + utilisateurId + ").",null);
         }
         Utilisateur user = optUser.get();
-        user.setCredit(user.getCredit() + montant);
+        utilisateurService.addCredits(optUser.get(), montant);
         utilisateurService.updateUtilisateur(user);
-        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a été ajouté à'utilisateur " +user.getPseudo(), user);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a été ajouté à'utilisateur " + user.getPseudo(), user);
     }
-
     
     public boolean isPseudoExistant(String pseudo) {
         return utilisateurService.isPseudoExistant(pseudo);

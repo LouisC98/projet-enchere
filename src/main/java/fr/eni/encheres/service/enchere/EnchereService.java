@@ -7,8 +7,6 @@ import java.util.List;
 public interface EnchereService {
     List<Enchere> getEncheres();
 
-    Enchere getEnchere(String name);
-
     List<Enchere> getEncheresByNoArticle(Long noArticle);
 
     Enchere getMaxEnchereByNoArticle(Long noArticle);

@@ -9,9 +9,9 @@
                         <span th:text="#{search.purchases}">Achats</span>
                     </label>
                     <div class="mt-2 ms-5 achats-section hidden flex flex-col gap-1">
-                        <label><input type="checkbox" name="achat1"> <span th:text="#{search.openAuctions}">enchères ouvertes</span></label>
-                        <label><input type="checkbox" name="achat2"> <span th:text="#{search.myBids}">mes enchères en cours</span></label>
-                        <label><input type="checkbox" name="achat3"> <span th:text="#{search.wonAuctions}">mes enchères remportées</span></label>
+                        <label><input type="checkbox" name="achats" value="ouvertes" th:text="#{search.openAuctions}"> enchères ouvertes</label>
+                        <label><input type="checkbox" name="achats" value="mesEncheres" th:text="#{search.myBids}"> mes enchères en cours</label>
+                        <label><input type="checkbox" name="achats" value="remportees" th:text="#{search.wonAuctions}"> mes enchères remportées</label>
                     </div>
                 </div>
 
@@ -21,9 +21,9 @@
                         <span th:text="#{search.mySales}">Mes ventes</span>
                     </label>
                     <div class="mt-2 ms-5 ventes-section hidden flex flex-col gap-1">
-                        <label><input type="checkbox" name="vente1" disabled> <span th:text="#{search.currentSales}">mes ventes en cours</span></label>
-                        <label><input type="checkbox" name="vente2" disabled> <span th:text="#{search.futureSales}">ventes non débutées</span></label>
-                        <label><input type="checkbox" name="vente3" disabled> <span th:text="#{search.completedSales}">ventes terminées</span></label>
+                        <label><input type="checkbox" name="ventes" value="enCours" th:text="#{search.currentSales}" disabled> mes ventes en cours</label>
+                        <label><input type="checkbox" name="ventes" value="nonDebutees" th:text="#{search.futureSales}" disabled> ventes non débutées</label>
+                        <label><input type="checkbox" name="ventes" value="terminees" th:text="#{search.completedSales}" disabled> ventes terminées</label>
                     </div>
                 </div>
             </div>

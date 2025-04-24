@@ -6,16 +6,22 @@
     <h3 class="text-center font-bold text-primary my-5 text-2xl" th:text="#{editProfile.heading}">Mon profil</h3>
 
     <!-- Message de succès après modification -->
-    <div id="messageSuccess" th:if="${successMessage}" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 max-w-2xl mx-auto text-center font-bold" th:text="${successMessage}">
+    <div id="messageSuccess" th:if="${successMessage}"
+      class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 max-w-2xl mx-auto text-center font-bold"
+      th:text="${successMessage}">
       Profil mis à jour avec succès
     </div>
-    
+
     <!-- Message d'erreur -->
-    <div id="messageError" th:if="${errorMessage}" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 max-w-2xl mx-auto text-center font-bold" th:text="${errorMessage}">
+    <div id="messageError" th:if="${errorMessage}"
+      class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 max-w-2xl mx-auto text-center font-bold"
+      th:text="${errorMessage}">
       Erreur
     </div>
 
-    <form id="profileForm" th:action="@{/profil/edit}" method="post" class="grid md:grid-cols-2 gap-2 md:gap-x-4 max-w-md md:max-w-2xl mx-auto px-4 items-center">
+    <!-- Formulaire principal pour les informations du profil -->
+    <form id="profileForm" th:action="@{/profil/edit}" method="post"
+      class="grid md:grid-cols-2 gap-2 md:gap-x-4 max-w-md md:max-w-2xl mx-auto px-4 items-center">
       <!-- Champs cachés pour préserver les valeurs -->
       <input type="hidden" name="id" th:value="${utilisateur.id}">
       <input type="hidden" name="credit" th:value="${utilisateur.credit}">
@@ -23,10 +29,11 @@
       <input type="hidden" name="suppr" th:value="${utilisateur.suppr}">
       <!-- Champ caché pour CSRF -->
       <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-      
+
       <div class="grid grid-cols-2 items-center">
         <label for="pseudo" class="font-semibold" th:text="#{editProfile.username}">Pseudo :</label>
-        <input type="text" id="pseudo" name="pseudo" class="border p-1 rounded" th:value="${utilisateur.pseudo}" required>
+        <input type="text" id="pseudo" name="pseudo" class="border p-1 rounded" th:value="${utilisateur.pseudo}"
+          required>
       </div>
 
       <div class="grid grid-cols-2 items-center">
@@ -36,7 +43,8 @@
 
       <div class="grid grid-cols-2 items-center">
         <label for="prenom" class="font-semibold" th:text="#{editProfile.firstname}">Prénom :</label>
-        <input type="text" id="prenom" name="prenom" class="border p-1 rounded" th:value="${utilisateur.prenom}" required>
+        <input type="text" id="prenom" name="prenom" class="border p-1 rounded" th:value="${utilisateur.prenom}"
+          required>
       </div>
 
       <div class="grid grid-cols-2 items-center">
@@ -46,7 +54,8 @@
 
       <div class="grid grid-cols-2 items-center">
         <label for="telephone" class="font-semibold" th:text="#{editProfile.phone}">Téléphone :</label>
-        <input type="text" id="telephone" name="telephone" class="border p-1 rounded" th:value="${utilisateur.telephone}">
+        <input type="text" id="telephone" name="telephone" class="border p-1 rounded"
+          th:value="${utilisateur.telephone}">
       </div>
 
       <div class="grid grid-cols-2 items-center">
@@ -56,7 +65,8 @@
 
       <div class="grid grid-cols-2 items-center">
         <label for="codePostal" class="font-semibold" th:text="#{editProfile.zipCode}">Code postal :</label>
-        <input type="text" id="codePostal" name="codePostal" class="border p-1 rounded" th:value="${utilisateur.codePostal}">
+        <input type="text" id="codePostal" name="codePostal" class="border p-1 rounded"
+          th:value="${utilisateur.codePostal}">
       </div>
 
       <div class="grid grid-cols-2 items-center">
@@ -75,28 +85,39 @@
       </div>
 
       <div class="md:col-span-2 grid grid-cols-2 items-center my-4">
-        <label class="text-center font-semibold flex justify-center items-center gap-2">
-          <span th:text="#{editProfile.credit}">Crédit :</span>
-          <span id="credit-display" class="bold text-accent font-bold text-xl text-center" th:text="${utilisateur.credit}">0</span>
+        <label class="text-center font-semibold flex justify-center items-center gap-2 " th:text="#{editProfile.credit}">Crédit :
+          <span id="credit-display" class="bold text-accent font-bold text-xl text-center"
+            th:text="${utilisateur.credit}">0</span>
         </label>
 
-        <!--  Ajouter des crédits    -->
-        <div class="grid gap-2 justify-center">
-          <label for="addCredits" class="text-center font-semibold" th:text="#{editProfile.addCredit}">Ajouter des crédits :</label>
-          <input type="number" id="addCredits" class="border p-1 rounded mx-auto w-1/2">
-          <div class="flex justify-center items-center gap-2">
-            <button class="bg-accent p-2 text-white rounded shadow" id="add50">+50</button>
-            <button class="bg-secondary p-2 text-white rounded shadow" id="add100">+100</button>
-            <button class="bg-primary p-2 text-white rounded shadow">Valider</button>
-          </div>
+        <!-- Boutons en mode édition -->
+        <div id="edit-buttons" class="md:col-span-2 grid grid-cols-3 mt-4 gap-3">
+          <button type="submit" id="btn-save" name="action" value="saveProfile"
+            class="p-3 rounded font-bold bg-primary text-white shadow text-shadow-sm cursor-pointer" th:text="${editProfile.save}">Enregistrer</button>
+          <button type="button" id="btn-delete"
+            class="p-3 rounded font-bold bg-danger text-white shadow text-shadow-sm cursor-pointer"
+            onclick="deleteAccount()" th:text="${editProfile.delete}">Supprimer mon compte</button>
+          <a th:href="@{/profil}" id="btn-cancel"
+            class="p-3 rounded font-bold bg-secondary text-white shadow text-shadow-sm cursor-pointer flex items-center justify-center" th:text="${editProfile.back}">Retour</a>
         </div>
       </div>
-
-      <!-- Boutons en mode édition -->
-      <div id="edit-buttons" class="md:col-span-2 grid grid-cols-3 mt-4 gap-3">
-        <button type="submit" id="btn-save" class="p-3 rounded font-bold bg-primary text-white shadow text-shadow-sm cursor-pointer" th:text="#{editProfile.save}">Enregistrer</button>
-        <button type="button" id="btn-delete" class="p-3 rounded font-bold bg-danger text-white shadow text-shadow-sm cursor-pointer" onclick="deleteAccount()" th:text="#{editProfile.delete}">Supprimer mon compte</button>
-        <a th:href="@{/profil}" id="btn-cancel" class="p-3 rounded font-bold bg-secondary text-white shadow text-shadow-sm cursor-pointer flex items-center justify-center" th:text="#{editProfile.back}">Retour</a>
+    </form>
+    <!-- Formulaire pour l'ajout de crédits (dans le même template mais séparé) -->
+    <form id="creditForm" th:action="@{/profil/edit}" method="post" class="max-w-md md:max-w-2xl mx-auto px-4 mt-8 border-t pt-4">
+      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+      <input type="hidden" name="id" th:value="${utilisateur.id}">
+      
+      <div class="grid gap-2 justify-center">
+        <h4 class="text-center font-bold text-lg text-primary" th:text="${editProfile.addCredit}">Ajouter des crédits</h4>
+        <div class="flex items-center justify-center gap-2">
+          <label for="addCredits" class="font-semibold" th:text="${editProfile.amount}">Montant :</label>
+          <input type="number" id="addCredits" name="addCredits" class="border p-1 rounded w-24" min="0" value="0">
+        </div>
+        <div class="flex justify-center items-center gap-2 mt-2">
+          <button type="button" class="bg-accent p-2 text-white rounded shadow" onclick="addCreditsValue(50)">+50</button>
+          <button type="button" class="bg-secondary p-2 text-white rounded shadow" onclick="addCreditsValue(100)">+100</button>
+          <button type="submit" name="action" value="addCredits" class="bg-primary p-2 text-white rounded shadow" th:text="${editProfile.add}">Ajouter</button>
+        </div>
       </div>
     </form>
 
@@ -112,21 +133,11 @@
         }
       }
 
-      function addCredits(amount) {
+      function addCreditsValue(amount) {
         const input = document.getElementById('addCredits');
         let current = parseInt(input.value) || 0;
         input.value = current + amount;
       }
-
-      document.getElementById('add50').addEventListener('click', function (e) {
-        e.preventDefault();
-        addCredits(50);
-      });
-
-      document.getElementById('add100').addEventListener('click', function (e) {
-        e.preventDefault();
-        addCredits(100);
-      });
     </script>
   </section>
 </div>
