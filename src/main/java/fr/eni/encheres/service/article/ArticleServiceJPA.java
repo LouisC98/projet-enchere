@@ -4,6 +4,7 @@ import fr.eni.encheres.bo.ArticleVendu;
 import fr.eni.encheres.bo.EtatVente;
 import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.service.user.UtilisateurService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;

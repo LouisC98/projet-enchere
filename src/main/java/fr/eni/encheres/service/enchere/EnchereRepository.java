@@ -14,4 +14,9 @@ public interface EnchereRepository extends JpaRepository<Enchere, Long> {
 
     @Query("SELECT e FROM Enchere e WHERE e.articleVendu.noArticle = :noArticle ORDER BY e.montantEnchere DESC LIMIT 1")
     Enchere findMaxEnchereByNoArticle(@Param("noArticle") Long noArticle);
+
+    List<Enchere> findByEncherisseurId(Integer encherisseurId);
+
+    @Query("SELECT DISTINCT e.articleVendu.noArticle FROM Enchere e WHERE e.encherisseur.id = :userId")
+    List<Long> findArticleIdsByEncherisseurId(@Param("userId") Integer userId);
 }

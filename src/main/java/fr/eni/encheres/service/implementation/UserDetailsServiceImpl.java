@@ -22,11 +22,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         Optional<Utilisateur> optUtilisateur = utilisateurServiceImpl.getUtilisateurByPseudo(login).data;
 
-        if (optUtilisateur.isEmpty()) {
+        if (!optUtilisateur.isPresent()) {
             optUtilisateur = utilisateurServiceImpl.getUtilisateurByEmail(login).data;
         }
 
-        if (optUtilisateur.isEmpty()) {
+        if (!optUtilisateur.isPresent()) {
             throw new UsernameNotFoundException("Utilisateur introuvable pour le login: " + login);
         }
 
