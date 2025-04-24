@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 class CategorieServiceImplTest {
@@ -97,5 +98,32 @@ class CategorieServiceImplTest {
         assertEquals("La liste des catégories a été récupéré", response.message);
         assertEquals(categorieList, response.data);
       
+    }
+
+    @Test
+    void testAddCategorie_CategorieAlreadyExists() {
+        Categorie categorie = new Categorie(789L,"TestLibelle");
+        List<Categorie> categorieList = List.of(categorie);
+
+        when(categorieService.getCategories()).thenReturn(categorieList);
+
+        ServiceResponse<Categorie> response = categorieServiceImpl.addCategorie(categorie);
+
+        assertEquals(ServiceConstant.CD_ERR_NOT_FOUND, response.code);
+        assertEquals("La catégorie existe déjà", response.message);
+    }
+
+    @Test
+    void testAddCategorie_CategorieAddedSuccessfully() {
+        Categorie categorie = new Categorie(789L,"NouvelleCategorie");
+
+        when(categorieService.getCategories()).thenReturn(List.of());
+        doNothing().when(categorieService).addCategorie(categorie);
+
+        ServiceResponse<Categorie> response = categorieServiceImpl.addCategorie(categorie);
+
+        assertEquals(ServiceConstant.CD_SUCCESS, response.code);
+        assertEquals("La catégorie a été créé", response.message);
+        assertEquals(categorie, response.data);
     }
 }

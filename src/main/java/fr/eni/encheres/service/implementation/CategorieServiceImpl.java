@@ -35,4 +35,13 @@ public class CategorieServiceImpl {
 
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "La liste des catégories a été récupéré",categorieList);
     }
+
+    public ServiceResponse<Categorie> addCategorie(Categorie categorie){
+        List<Categorie> categorieList = categorieService.getCategories();
+        if(categorieList.contains(categorie)){
+            return ServiceResponse.buildResponse(ServiceConstant.CD_ERR_NOT_FOUND, "La catégorie existe déjà",null);
+        }
+        categorieService.addCategorie(categorie);
+        return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "La catégorie a été créé",categorie);
+    }
 }

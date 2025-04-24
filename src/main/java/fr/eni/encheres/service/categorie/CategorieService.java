@@ -9,4 +9,7 @@ public interface CategorieService {
     public List<Categorie> getCategories();
 
     public Categorie getCategorie(Long noCategorie);
+
+    public void addCategorie(Categorie categorie);
+
 }

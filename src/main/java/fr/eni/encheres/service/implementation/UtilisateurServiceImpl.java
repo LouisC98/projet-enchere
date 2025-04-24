@@ -92,7 +92,6 @@ public class UtilisateurServiceImpl {
         }
         Utilisateur user = optUser.get();
         utilisateurService.addCredits(optUser.get(), montant);
-        utilisateurService.updateUtilisateur(user);
         return ServiceResponse.buildResponse(ServiceConstant.CD_SUCCESS, "Le crédit a été ajouté à'utilisateur " + user.getPseudo(), user);
     }
     

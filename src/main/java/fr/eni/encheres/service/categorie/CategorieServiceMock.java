@@ -18,7 +18,7 @@ public class CategorieServiceMock implements CategorieService {
     public CategorieServiceMock() {
         mockCategories();
     }
-
+    private static long INDEX = 2;
     @Override
     public List<Categorie> getCategories() {
         return categories;
@@ -37,4 +37,16 @@ public class CategorieServiceMock implements CategorieService {
         categories.add(new Categorie(Long.valueOf(123),"Maison"));
         categories.add(new Categorie(Long.valueOf(456),"Informatique"));
     }
+
+
+    @Override
+    public void addCategorie(Categorie categorie) {
+
+        if (!categories.stream().anyMatch(c -> c.getLibelle().equalsIgnoreCase(categorie.getLibelle()))) {
+            categories.add(new Categorie(INDEX++,categorie.getLibelle()));
+        }
+    }
+
+
+
 }

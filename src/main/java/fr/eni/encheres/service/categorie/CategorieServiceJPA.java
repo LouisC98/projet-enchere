@@ -36,6 +36,10 @@ public class CategorieServiceJPA implements CategorieService {
 
         return categorieRepository.findAll();
     }
+    @Override
+    public void addCategorie(Categorie categorie) {
+        categorieRepository.save(categorie);
+    }
 
     @Override
     public Categorie getCategorie(Long noCategorie) {

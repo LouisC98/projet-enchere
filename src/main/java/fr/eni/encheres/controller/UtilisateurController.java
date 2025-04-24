@@ -51,8 +51,6 @@ public class UtilisateurController {
         try {
             String encodedPassword = passwordEncoder.encode(utilisateur.getMotDePasse());
             utilisateur.setMotDePasse(encodedPassword);
-            String message = "";
-            String messageAtt = "";
 
             utilisateur.setCredit(0);
             utilisateur.setAdministrateur(false);
