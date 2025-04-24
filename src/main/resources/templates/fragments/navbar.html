@@ -8,7 +8,7 @@
         <!-- Non connecté -->
         <div sec:authorize="!isAuthenticated()" class="flex gap-3 justify-end flex-wrap">
             <a th:href="@{/register}" class="hover:font-bold" th:text="#{navbar.register}"></a>
-            <a th:href="@{/login}" th:text="#{navbar.login}" class="hover:font-bold"></a>
+            <a th:href="@{/login}" th:text="#{navbar.login}" class="hover:font-bold text-end"></a>
         </div>
 
         <!-- Connecté -->

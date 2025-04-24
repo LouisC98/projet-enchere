@@ -11,44 +11,64 @@
         </div>
 
         <form th:action="@{/register}" method="post" th:object="${utilisateur}"
-              class="grid grid-cols-2 lg:grid-cols-4 max-w-lg lg:max-w-2xl lg:gap-x-7 items-center gap-4 mx-auto">
+              class="w-full p-4 max-w-md md:max-w-lg mx-auto grid gap-4">
 
-            <label for="pseudo" th:text="#{register.username}"></label>
-            <input type="text" id="pseudo" th:field="*{pseudo}" class="border p-1 rounded" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 items-center">
+                <label for="pseudo" th:text="#{register.username}" class="font-semibold"></label>
+                <input type="text" id="pseudo" th:field="*{pseudo}" class="border p-1 rounded" />
+            </div>
 
-            <label for="nom" th:text="#{register.lastname}"></label>
-            <input type="text" id="nom" th:field="*{nom}" class="border p-1 rounded" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 items-center">
+                <label for="nom" th:text="#{register.lastname}" class="font-semibold"></label>
+                <input type="text" id="nom" th:field="*{nom}" class="border p-1 rounded" />
+            </div>
 
-            <label for="prenom" th:text="#{register.firstname}"></label>
-            <input type="text" id="prenom" th:field="*{prenom}" class="border p-1 rounded" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 items-center">
+                <label for="prenom" th:text="#{register.firstname}" class="font-semibold"></label>
+                <input type="text" id="prenom" th:field="*{prenom}" class="border p-1 rounded" />
+            </div>
 
-            <label for="email" th:text="#{register.email}"></label>
-            <input type="email" id="email" th:field="*{email}" class="border p-1 rounded" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 items-center">
+                <label for="email" th:text="#{register.email}" class="font-semibold"></label>
+                <input type="email" id="email" th:field="*{email}" class="border p-1 rounded" />
+            </div>
 
-            <label for="telephone" th:text="#{register.phone}"></label>
-            <input type="text" id="telephone" th:field="*{telephone}" class="border p-1 rounded" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 items-center">
+                <label for="telephone" th:text="#{register.phone}" class="font-semibold"></label>
+                <input type="text" id="telephone" th:field="*{telephone}" class="border p-1 rounded" />
+            </div>
 
-            <label for="rue" th:text="#{register.street}"></label>
-            <input type="text" id="rue" th:field="*{rue}" class="border p-1 rounded" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 items-center">
+                <label for="rue" th:text="#{register.street}" class="font-semibold"></label>
+                <input type="text" id="rue" th:field="*{rue}" class="border p-1 rounded" />
+            </div>
 
-            <label for="codePostal" th:text="#{register.zipCode}"></label>
-            <input type="text" id="codePostal" th:field="*{codePostal}" class="border p-1 rounded" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 items-center">
+                <label for="codePostal" th:text="#{register.zipCode}" class="font-semibold"></label>
+                <input type="text" id="codePostal" th:field="*{codePostal}" class="border p-1 rounded" />
+            </div>
 
-            <label for="ville" th:text="#{register.city}"></label>
-            <input type="text" id="ville" th:field="*{ville}" class="border p-1 rounded" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 items-center">
+                <label for="ville" th:text="#{register.city}" class="font-semibold"></label>
+                <input type="text" id="ville" th:field="*{ville}" class="border p-1 rounded" />
+            </div>
 
-            <label for="motDePasse" th:text="#{register.password}"></label>
-            <input type="password" id="motDePasse" th:field="*{motDePasse}" class="border p-1 rounded" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 items-center">
+                <label for="motDePasse" th:text="#{register.password}" class="font-semibold"></label>
+                <input type="password" id="motDePasse" th:field="*{motDePasse}" class="border p-1 rounded" />
+            </div>
 
-            <label for="confirmation" th:text="#{register.confirmation}"></label>
-            <input type="password" id="confirmation" name="confirmation" class="border p-1 rounded" />
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-4 items-center">
+                <label for="confirmation" th:text="#{register.confirmation}" class="font-semibold"></label>
+                <input type="password" id="confirmation" name="confirmation" class="border p-1 rounded" />
+            </div>
 
-            <div class="grid grid-cols-2 gap-2 col-span-2 lg:col-span-4">
+            <div class="grid grid-cols-2 gap-2 mt-4">
                 <button type="submit"
-                        class="bg-primary text-shadow-sm shadow text-light p-3 rounded m-3 font-bold tracking-widest text-center" th:text="#{register.create}">
+                        class="bg-primary text-shadow-sm shadow text-light p-3 rounded font-bold tracking-widest text-center" th:text="#{register.create}">
                 </button>
                 <a th:href="@{/}"
-                   class="bg-secondary text-shadow-sm shadow text-light p-3 rounded m-3 font-bold tracking-widest text-center" th:text="#{register.cancel}">
+                   class="bg-secondary text-shadow-sm shadow text-light p-3 rounded font-bold tracking-widest text-center" th:text="#{register.cancel}">
                 </a>
             </div>
         </form>
