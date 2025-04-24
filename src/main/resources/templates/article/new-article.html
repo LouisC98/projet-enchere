@@ -1,32 +1,33 @@
 <head>
-    <title>ENI Enchère - Nouvelle enchère</title>
+    <title th:text="#{newArticle.title}">ENI Enchère - Nouvelle enchère</title>
 </head>
 <div th:replace="~{base :: layout(~{::title}, ~{::section})}">
     <section class="p-3 my-5">
-        <h3 class="text-center font-bold text-primary my-5 text-2xl">Nouvelle vente</h3>
+        <h3 class="text-center font-bold text-primary my-5 text-2xl" th:text="#{newArticle.heading}">Nouvelle vente</h3>
         <div class="md:flex md:justify-center md:items-center gap-6">
             <div id="imagePreviewDesktop" class="hidden md:w-1/2 aspect-video my-3 "></div>
             <form class="p-2 max-w-lg space-y-4 mx-auto md:mx-0" th:action="@{/articles}" th:method="POST" th:object="${article}" enctype="multipart/form-data">
                 <div class="grid grid-cols-2 items-center gap-2">
-                    <label for="nomArticle" class="font-semibold">Article :</label>
+                    <label for="nomArticle" class="font-semibold" th:text="#{newArticle.name}">Article :</label>
                     <input type="text" id="nomArticle" class="border p-1 rounded" th:field="*{nomArticle}">
                 </div>
                 <div class="grid grid-cols-2 items-center gap-2">
-                    <label for="categorie" class="font-semibold">Catégorie :</label>
+                    <label for="categorie" class="font-semibold" th:text="#{newArticle.category}">Catégorie :</label>
                     <select id="categorie" th:field="*{categorie.noCategorie}" class="border p-1 rounded">
                         <option th:each="categorie : ${categories}" th:value="${categorie.noCategorie}" th:text="${categorie.libelle}"></option>
                     </select>
                 </div>
                 <div class="grid grid-cols-2 gap-2">
-                    <label for="description" class="font-semibold">Description :</label>
+                    <label for="description" class="font-semibold" th:text="#{newArticle.description}">Description :</label>
                     <textarea id="description" th:field="*{description}" class="border p-1 rounded resize-none" rows="5">
                 </textarea>
                 </div>
                 <div class="col-span-2 grid grid-cols-2 gap-2 items-center">
-                    <label class="font-semibold">Photo de l'article :</label>
+                    <label class="font-semibold" th:text="#{newArticle.photo}">Photo de l'article :</label>
                     <label
                             for="imageUpload"
                             class="cursor-pointer px-6 py-3 bg-accent text-white rounded-lg shadow-lg text-center font-semibold flex items-center justify-center"
+                            th:text="#{newArticle.chooseImage}"
                     >
                         Choisir une image
                         <i class="fa-solid fa-image mx-3 text-xl"></i>
@@ -42,33 +43,33 @@
                     <div id="imagePreview" class="hidden w-full col-span-2 aspect-video mx-auto my-3"></div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 items-center">
-                    <label for="misAPrix" class="font-semibold">Prix initial :</label>
+                    <label for="misAPrix" class="font-semibold" th:text="#{newArticle.startPrice}">Prix initial :</label>
                     <input type="number" id="misAPrix" th:field="*{misAPrix}" class="border p-1 rounded">
                 </div>
                 <div class="grid grid-cols-2 gap-2 items-center">
-                    <label for="dateDebutEncheres" class="font-semibold">Début de l'enchère :</label>
+                    <label for="dateDebutEncheres" class="font-semibold" th:text="#{newArticle.startDate}">Début de l'enchère :</label>
                     <input type="datetime-local" id="dateDebutEncheres" th:field="*{dateDebutEncheres}" class="border p-1 rounded">
                 </div>
                 <div class="grid grid-cols-2 gap-2 items-center">
-                    <label for="dateFinEnchere" class="font-semibold">Fin de l'enchère :</label>
+                    <label for="dateFinEnchere" class="font-semibold" th:text="#{newArticle.endDate}">Fin de l'enchère :</label>
                     <input type="datetime-local" id="dateFinEnchere" th:field="*{dateFinEnchere}" class="border p-1 rounded">
                 </div>
                 <div class="col-span-2">
-                    <div class="font-semibold bg-body p-2 transform translate-x-6 translate-y-5 w-fit">Retrait</div>
+                    <div class="font-semibold bg-body p-2 transform translate-x-6 translate-y-5 w-fit" th:text="#{newArticle.pickup}">Retrait</div>
                     <div class="border p-4 rounded shadow">
                         <div class="space-y-3">
                             <div class="flex items-center gap-3">
-                                <label for="street" class="w-24">Rue :</label>
+                                <label for="street" class="w-24" th:text="#{newArticle.street}">Rue :</label>
                                 <input type="text" id="street"th:field="*{retrait.rue}" class="border p-1 rounded flex-grow">
                             </div>
 
                             <div class="flex items-center gap-3">
-                                <label for="postal" class="w-24">Code postal :</label>
+                                <label for="postal" class="w-24" th:text="#{newArticle.postalCode}">Code postal :</label>
                                 <input type="text" id="postal" th:field="*{retrait.codePostal}" class="border p-1 rounded flex-grow">
                             </div>
 
                             <div class="flex items-center gap-3">
-                                <label for="city" class="w-24">Ville :</label>
+                                <label for="city" class="w-24" th:text="#{newArticle.city}">Ville :</label>
                                 <input type="text" id="city" th:field="*{retrait.ville}" class="border p-1 rounded flex-grow">
                             </div>
                         </div>
@@ -78,11 +79,11 @@
                     <span th:text="${errorMessage}"></span>
                 </div>
                 <div class="col-span-2 flex justify-center gap-4 items-center">
-                    <button type="submit" class="cursor-pointer p-3 bg-accent text-white rounded-lg shadow-lg text-center font-semibold">
+                    <button type="submit" class="cursor-pointer p-3 bg-accent text-white rounded-lg shadow-lg text-center font-semibold" th:text="#{newArticle.save}">
                         Enregistrer
                         <i class="fa-solid fa-floppy-disk ms-2"></i>
                     </button>
-                    <a th:href="@{/}" class="cursor-pointer p-3 bg-secondary text-white rounded-lg shadow-lg text-center font-semibold">Annuler</a>
+                    <a th:href="@{/}" class="cursor-pointer p-3 bg-secondary text-white rounded-lg shadow-lg text-center font-semibold" th:text="#{newArticle.cancel}">Annuler</a>
                 </div>
             </form>
         </div>

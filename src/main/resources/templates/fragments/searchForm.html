@@ -1,44 +1,45 @@
 <form th:fragment="parameters(categories)" class="grid grid-cols-1 md:grid-cols-2 gap-2 items-center mx-auto max-w-lg md:max-w-2xl p-4" th:action="@{/articles/search}" method="post">
     <div class="grid grid-cols-2 gap-2">
-        <h3 class="font-bold col-span-2 text-lg">Filtres :</h3>
+        <h3 class="font-bold col-span-2 text-lg" th:text="#{search.filters}">Filtres :</h3>
         <!--        if connected .... -->
             <div class="col-span-2 flex flex-col gap-2">
                 <div>
                     <label class="flex items-center gap-2 font-semibold">
                         <input type="radio" name="mode" value="achats" onclick="toggleSections()">
-                        Achats
+                        <span th:text="#{search.purchases}">Achats</span>
                     </label>
                     <div class="mt-2 ms-5 achats-section hidden flex flex-col gap-1">
-                        <label><input type="checkbox" name="achat1"> enchères ouvertes</label>
-                        <label><input type="checkbox" name="achat2"> mes enchères en cours</label>
-                        <label><input type="checkbox" name="achat3"> mes enchères remportées</label>
+                        <label><input type="checkbox" name="achat1"> <span th:text="#{search.openAuctions}">enchères ouvertes</span></label>
+                        <label><input type="checkbox" name="achat2"> <span th:text="#{search.myBids}">mes enchères en cours</span></label>
+                        <label><input type="checkbox" name="achat3"> <span th:text="#{search.wonAuctions}">mes enchères remportées</span></label>
                     </div>
                 </div>
 
                 <div>
                     <label class="flex items-center gap-2 font-semibold">
                         <input type="radio" name="mode" value="ventes" onclick="toggleSections()">
-                        Mes ventes
+                        <span th:text="#{search.mySales}">Mes ventes</span>
                     </label>
                     <div class="mt-2 ms-5 ventes-section hidden flex flex-col gap-1">
-                        <label><input type="checkbox" name="vente1" disabled> mes ventes en cours</label>
-                        <label><input type="checkbox" name="vente2" disabled> ventes non débutées</label>
-                        <label><input type="checkbox" name="vente3" disabled> ventes terminées</label>
+                        <label><input type="checkbox" name="vente1" disabled> <span th:text="#{search.currentSales}">mes ventes en cours</span></label>
+                        <label><input type="checkbox" name="vente2" disabled> <span th:text="#{search.futureSales}">ventes non débutées</span></label>
+                        <label><input type="checkbox" name="vente3" disabled> <span th:text="#{search.completedSales}">ventes terminées</span></label>
                     </div>
                 </div>
             </div>
         <!--            ....          -->
-        <label for="noCategorie">
+        <label for="noCategorie" th:text="#{search.categories}">
             Catégories :
         </label>
         <select name="noCategorie" id="noCategorie" class="border border-black p-1 rounded">
-            <option value="">-- Toute catégorie --</option>
+            <option value="" th:text="#{search.allCategories}">-- Toute catégorie --</option>
             <option th:each="categorie : ${categories}" th:value="${categorie.noCategorie}" th:text="${categorie.libelle}"></option>
         </select>
         <div class="relative mx-2 col-span-2">
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
             <input
                     type="text"
+                    th:placeholder="#{search.searchName}"
                     placeholder="Le nom de l'article contient"
                     class="pl-10 border border-black p-1 rounded w-full"
                     name="searchName"
@@ -46,7 +47,7 @@
         </div>
     </div>
     <button class="md:col-span-1 col-span-2 bg-secondary p-4 font-bold text-xl rounded m-3 text-white shadow tracking-widest text-shadow-sm cursor-pointer" type="submit">
-        Rechercher
+        <span th:text="#{search.button}">Rechercher</span>
         <i class="fa-solid fa-magnifying-glass"></i>
     </button>
     <script>
