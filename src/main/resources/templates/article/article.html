@@ -63,23 +63,25 @@
         <!--      -->
       </div>
     </div>
-    <form
-            th:if="${#authentication.principal.username} == *{article.acheteur.pseudo} and *{article.etatVente.name() == 'VENDU'}"
-            class="mt-5"
-            th:action="@{|/articles/*{article.noArticle}/retrait|}"
-            th:method="POST"
-    >
-      <h3 class="text-center text-2xl text-secondary text-shadow-sm">Felicitation !</h3>
-      <h4 class="text-center text-2xl text-secondary text-shadow-sm">Vous avez remporté cette enchère !</h4>
-      <div class="flex justify-center mt-6">
+    <div th:if="*{article.acheteur != null}">
+      <form
+              th:if="${#authentication.principal.username} == *{article.acheteur.pseudo} and *{article.etatVente.name() == 'VENDU'}"
+              class="mt-5"
+              th:action="@{|/articles/*{article.noArticle}/retrait|}"
+              th:method="POST"
+      >
+        <h3 class="text-center text-2xl text-secondary text-shadow-sm">Felicitation !</h3>
+        <h4 class="text-center text-2xl text-secondary text-shadow-sm">Vous avez remporté cette enchère !</h4>
+        <div class="flex justify-center mt-6">
           <button type="submit" class="p-3 text-lg text-white bg-primary rounded shadow text-shadow-sm font-bold cursor-pointer">Valider le retrait</button>
+        </div>
+      </form>
+      <div
+          th:if="${#authentication.principal.username} == *{article.acheteur.pseudo} and *{article.etatVente.name() == 'RETRAIT_EFFECTUE'}"
+          class="my-6"
+      >
+        <h3 class="text-center text-2xl text-primary text-shadow-sm">Vous avez effectué le retrait de cet article</h3>
       </div>
-    </form>
-    <div
-            th:if="${#authentication.principal.username} == *{article.acheteur.pseudo} and *{article.etatVente.name() == 'RETRAIT_EFFECTUE'}"
-            class="my-6"
-    >
-      <h3 class="text-center text-2xl text-primary text-shadow-sm">Vous avez effectué le retrait de cet article</h3>
     </div>
     <div class="text-center mt-10">
       <a th:href="@{/}" class="bg-accent text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer">Retour</a>
