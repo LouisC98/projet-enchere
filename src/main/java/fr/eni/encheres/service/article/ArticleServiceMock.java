@@ -92,6 +92,11 @@ public class ArticleServiceMock implements ArticleService {
         return article;
     }
 
+    @Override
+    public void validerRetrait(Long noArticle, Utilisateur utilisateur) {
+
+    }
+
     /**
      * Mock des articles
      * Ajouter les adresses par défaut de l'acheteur.

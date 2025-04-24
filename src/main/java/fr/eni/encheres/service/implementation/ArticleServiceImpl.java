@@ -1,6 +1,8 @@
 package fr.eni.encheres.service.implementation;
 
 import fr.eni.encheres.bo.ArticleVendu;
+import fr.eni.encheres.bo.EtatVente;
+import fr.eni.encheres.bo.Utilisateur;
 import fr.eni.encheres.service.article.ArticleService;
 import fr.eni.encheres.service.response.ServiceConstant;
 import fr.eni.encheres.service.response.ServiceResponse;
@@ -57,6 +59,46 @@ public class ArticleServiceImpl {
                 ServiceConstant.CD_SUCCESS,
                 "État de l'article mis à jour avec succès",
                 article
+        );
+    }
+
+    public ServiceResponse<String> validerRetrait(Long noArticle, Utilisateur utilisateur) {
+        // Récupérer l'article pour vérifier qu'il existe
+        ArticleVendu article = articleService.getArticle(noArticle);
+
+        if (article == null) {
+            return ServiceResponse.buildResponse(
+                    ServiceConstant.CD_ERR_NOT_FOUND,
+                    "Article non trouvé",
+                    null
+            );
+        }
+
+        // Vérifier l'état de l'article
+        if (!EtatVente.VENDU.equals(article.getEtatVente())) {
+            return ServiceResponse.buildResponse(
+                    ServiceConstant.CD_ERR_UNKNOWN,
+                    "L'article n'est pas en état 'VENDU'",
+                    null
+            );
+        }
+
+        // Vérifier que l'utilisateur est bien l'acheteur
+        if (!utilisateur.equals(article.getAcheteur())) {
+            return ServiceResponse.buildResponse(
+                    ServiceConstant.CD_ERR_UNKNOWN,
+                    "Vous n'êtes pas l'acheteur de cet article",
+                    null
+            );
+        }
+
+        // Appeler la méthode du service pour valider le retrait
+        articleService.validerRetrait(noArticle, utilisateur);
+
+        return ServiceResponse.buildResponse(
+                ServiceConstant.CD_SUCCESS,
+                "Retrait validé avec succès",
+                article.getNomArticle()
         );
     }
 

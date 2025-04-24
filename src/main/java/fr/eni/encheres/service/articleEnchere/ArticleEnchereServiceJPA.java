@@ -282,8 +282,12 @@ public class ArticleEnchereServiceJPA implements ArticleEnchereService {
 
             // Mes enchères remportées
             if (criteria.getAchats().contains("remportees")) {
-                List<ArticleVendu> wonArticles = articleRepository.findByAcheteurIdAndEtatVente(
-                        user.getId(), EtatVente.VENDU);
+                List<EtatVente> remporteesStates = Arrays.asList(
+                        EtatVente.VENDU,
+                        EtatVente.RETRAIT_EFFECTUE);
+
+                List<ArticleVendu> wonArticles = articleRepository.findByAcheteurIdAndEtatVenteIn(
+                        user.getId(), remporteesStates);
                 filteredArticles.addAll(wonArticles);
             }
         }

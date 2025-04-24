@@ -45,6 +45,22 @@ public class ArticleServiceJPA implements ArticleService {
     }
 
     @Override
+    public void validerRetrait(Long noArticle, Utilisateur utilisateur) {
+        ArticleVendu article = articleRepository.findById(noArticle).orElse(null);
+
+        if (article == null) {
+            return;
+        }
+
+        if (EtatVente.VENDU.equals(article.getEtatVente()) &&
+                utilisateur.equals(article.getAcheteur())) {
+
+            article.setEtatVente(EtatVente.RETRAIT_EFFECTUE);
+            articleRepository.save(article);
+        }
+    }
+
+    @Override
     public ArticleVendu updateEtatVente(ArticleVendu article) {
         if (article == null) {
             return null;

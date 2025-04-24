@@ -20,7 +20,7 @@
 
         <!-- Connecté -->
         <div sec:authorize="isAuthenticated()" class="flex gap-3">
-            <a href="#" class="hover:font-bold" th:text="#{navbar.auctions}"></a>
+            <a th:href="@{/}" class="hover:font-bold" th:text="#{navbar.auctions}"></a>
             <a th:href="@{/articles/new}" th:text="#{navbar.sell}" class="hover:font-bold"></a>
             <a th:href="@{/profil}" th:text="#{navbar.profile}" class="hover:font-bold"></a>
             <!-- Remplacez le lien de déconnexion par un formulaire POST -->

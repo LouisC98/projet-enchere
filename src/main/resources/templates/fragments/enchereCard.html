@@ -5,8 +5,6 @@
 
     <div class="sm:col-span-2 grid grid-cols-2 gap-2 justify-evenly h-full">
         <h4 class="col-span-2 font-bold text-lg text-primary" th:text="${article.article.nomArticle}">Nom de l'article</h4>
-
-        <!--   A changer quand enchere ok     -->
         <p>
             <span th:text="#{card.price}"></span>
             <span class="text-accent font-semibold"
@@ -15,8 +13,9 @@
                    : article.article.misAPrix}">
             </span> <span th:text="#{card.points}"></span>
         </p>
-        <!--        -->
-        <p><span th:text="#{card.ranking}"></span> <span class="font-medium">2</span></p>
+        <p>
+<!--            Classement : <span class="font-medium">2</span>-->
+        </p>
 
         <p class=""><span th:text="#{card.endDate}"></span></p>
         <span class="text-danger font-medium" th:text="${#temporals.format(article.article.dateFinEnchere, 'dd/MM/yyyy à HH:mm')}"></span>

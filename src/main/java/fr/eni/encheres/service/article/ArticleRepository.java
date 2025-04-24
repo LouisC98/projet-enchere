@@ -29,7 +29,8 @@ public interface ArticleRepository extends JpaRepository<ArticleVendu,Long> {
 
     List<ArticleVendu> findByVendeurIdAndEtatVente(Integer vendeurId, EtatVente etatVente);
 
-    List<ArticleVendu> findByAcheteurIdAndEtatVente(Integer acheteurId, EtatVente etatVente);
+    @Query("SELECT a FROM ArticleVendu a WHERE a.acheteur.id = :acheteurId AND a.etatVente IN :etats")
+    List<ArticleVendu> findByAcheteurIdAndEtatVenteIn(@Param("acheteurId") Integer acheteurId, @Param("etats") List<EtatVente> etats);
 
     @Query("SELECT a FROM ArticleVendu a WHERE a.vendeur.id != :vendeurId AND a.etatVente = :etatVente")
     List<ArticleVendu> findByVendeurIdNotAndEtatVente(@Param("vendeurId") Integer vendeurId, @Param("etatVente") EtatVente etatVente);
