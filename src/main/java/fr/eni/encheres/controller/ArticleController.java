@@ -65,6 +65,15 @@ public class ArticleController {
         return "article/article";
     }
 
+    @PostMapping("/{noArticle}/retrait")
+    public String retrait(@PathVariable Long noArticle, Principal principal) {
+        Optional<Utilisateur> user = utilisateurServiceImpl.getUtilisateurByPseudo(principal.getName()).data;
+
+        user.ifPresent(utilisateur -> articleService.validerRetrait(noArticle, utilisateur));
+
+        return "redirect:/articles/" + noArticle;
+    }
+
     @GetMapping("/new")
     public String newArticle(Model model, Principal principal) {
         if (!model.containsAttribute("article")) {
