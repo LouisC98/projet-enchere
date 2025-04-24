@@ -112,32 +112,6 @@ public class UtilisateurMock implements UtilisateurService {
         nextId = 1;
     }
 
-    @Override
-    public Optional<Utilisateur> seConnecter(String pseudo, String motDePasse) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Utilisateur sInscrire(Utilisateur utilisateur) throws Exception {
-        return null;
-    }
-
-    @Override
-    public Utilisateur modifierProfil(Utilisateur utilisateur) throws Exception {
-        return null;
-    }
-
-    @Override
-    public boolean supprimerCompte(Integer id) {
-        return false;
-    }
-
-    @Override
-    public Utilisateur ajouterCredit(Integer utilisateurId, Integer montant) throws Exception {
-        Utilisateur utilisateurAvecCredit = utilisateurs.get(utilisateurId);
-        utilisateurAvecCredit.setCredit(utilisateurAvecCredit.getCredit() + montant);
-        return utilisateurAvecCredit;
-    }
 
     @Override
     public void addArticleAVendre(Utilisateur utilisateur, ArticleVendu articleAVendre) {
@@ -146,11 +120,12 @@ public class UtilisateurMock implements UtilisateurService {
 
     @Override
     public void removeCredits(Utilisateur utilisateur, int montant) {
-
+        utilisateurs.get(utilisateur.getId()).setCredit(utilisateur.getCredit()-montant);
     }
 
     @Override
     public void addCredits(Utilisateur utilisateur, int montant) {
+        utilisateurs.get(utilisateur.getId()).setCredit(utilisateur.getCredit()+montant);
 
     }
 
