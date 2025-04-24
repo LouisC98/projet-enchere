@@ -8,25 +8,25 @@
 
         <!--   A changer quand enchere ok     -->
         <p>
-            <span th:text="#{card.price}">Prix :</span>
+            <span th:text="#{card.price}"></span>
             <span class="text-accent font-semibold"
                   th:text="${article.bestEnchere != null
                    ? article.bestEnchere.montantEnchere
                    : article.article.misAPrix}">
-            </span> <span th:text="#{card.points}">points</span>
+            </span> <span th:text="#{card.points}"></span>
         </p>
         <!--        -->
-        <p><span th:text="#{card.ranking}">Classement :</span> <span class="font-medium">2</span></p>
+        <p><span th:text="#{card.ranking}"></span> <span class="font-medium">2</span></p>
 
-        <p class=""><span th:text="#{card.endDate}">Fin de l'enchère :</span> </p>
+        <p class=""><span th:text="#{card.endDate}"></span></p>
         <span class="text-danger font-medium" th:text="${#temporals.format(article.article.dateFinEnchere, 'dd/MM/yyyy à HH:mm')}"></span>
 
         <div class="col-span-2 flex gap-1">
-            <p class="whitespace-nowrap"><span th:text="#{card.pickup}">Retrait :</span></p>
+            <p class="whitespace-nowrap"><span th:text="#{card.pickup}"></span></p>
             <span th:text="|${article.article.retrait.rue} ${article.article.retrait.codePostal} ${article.article.retrait.ville}|"></span>
         </div>
 
-        <p class="whitespace-nowrap"><span th:text="#{card.seller}">Vendeur :</span>
+        <p class="whitespace-nowrap"><span th:text="#{card.seller}"></span>
             <span class="text-primary font-semibold" th:text="${article.article.vendeur != null ? article.article.vendeur.pseudo : 'JOJO'}"></span>
         </p>
     </div>

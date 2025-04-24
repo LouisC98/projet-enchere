@@ -1,9 +1,9 @@
 <head>
-  <title th:text="#{article.title}">ENI Enchère - </title>
+  <title th:text="#{article.title}"></title>
 </head>
 <div th:replace="~{base :: layout(~{::title}, ~{::section})}">
   <section class="p-3 mt-5" th:object="${articleWithEnchere}">
-    <h3 class="text-center text-2xl font-bold text-primary my-3 text-shadow-sm" th:text="#{article.heading}">Détail vente</h3>
+    <h3 class="text-center text-2xl font-bold text-primary my-3 text-shadow-sm" th:text="#{article.heading}"></h3>
     <div class="p-3 grid grid-cols-1 md:grid-cols-2 max-w-lg md:max-w-4xl gap-3 md:gap-5 mx-auto items-center">
       <div class="border w-full aspect-video md:aspect-square object-cover">
         <img th:src="@{|/images/*{article.imageName}|}" alt="image de l'article">
@@ -11,40 +11,40 @@
       <div class="space-y-4">
         <h4 class="text-2xl font-bold text-secondary text-shadow-sm my-3 col-span-2" th:text="*{article.nomArticle}">Pc gamer pour travailler</h4>
         <div class="grid grid-cols-2">
-          <label for="" class="font-semibold" th:text="#{article.description}">Description : </label>
-          <p th:text="*{article.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, voluptate.</p>
+          <label for="" class="font-semibold" th:text="#{article.description}"></label>
+          <p th:text="#{article.description}">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, voluptate.</p>
         </div>
         <div class="grid grid-cols-2 items-center">
-          <label for="" class="font-semibold" th:text="#{article.category}">Catégorie : </label>
+          <label for="" class="font-semibold" th:text="#{article.category}"></label>
           <span th:text="*{article.categorie.libelle}">Informatique</span>
         </div>
         <div class="grid grid-cols-2 items-center">
-          <label for="" class="font-semibold" th:text="#{article.bestOffer}">Meilleur offre : </label>
+          <label for="" class="font-semibold" th:text="#{article.bestOffer}"></label>
           <div>
-            <span th:if="*{bestEnchere == null}" th:text="#{article.noOffer}">Aucune offre</span>
+            <span th:if="*{bestEnchere == null}" th:text="#{article.noOffer}"></span>
             <span th:unless="*{bestEnchere == null}">
-              <span th:text="*{bestEnchere.montantEnchere}" class="text-secondary fond-semibold"></span>
+              <span th:text="#{bestEnchere.montantEnchere}" class="text-secondary fond-semibold"></span>
               <span th:text="#{article.points}">pts par</span>
               <span th:text="*{bestEnchere.encherisseur.pseudo}">Bob</span>
             </span>
           </div>
         </div>
         <div class="grid grid-cols-2 items-center">
-          <label class="font-semibold" th:text="#{article.startPrice}">Mis à prix : </label>
+          <label class="font-semibold" th:text="#{article.startPrice}"></label>
           <div>
             <span th:text="*{article.misAPrix}" class="font-bold">185</span> points
           </div>
         </div>
         <div class="grid grid-cols-2 items-center">
-          <label class="font-semibold" th:text="#{article.endDate}">Fin de l'enchère : </label>
+          <label class="font-semibold" th:text="#{article.endDate}"></label>
           <span th:text="*{#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy à HH:mm')}" class="text-danger font-semibold">09/10/2018</span>
         </div>
         <div class="grid grid-cols-2">
-          <label class="font-semibold" th:text="#{article.pickup}">Retrait : </label>
+          <label class="font-semibold" th:text="#{article.pickup}"></label>
           <p th:text="|*{article.retrait.rue} *{article.retrait.codePostal} *{article.retrait.ville}|">10 allée des Alouettes 44800 Saint Herblain</p>
         </div>
         <div class="grid grid-cols-2 items-center">
-          <label class="font-semibold" th:text="#{article.seller}">Vendeur : </label>
+          <label class="font-semibold" th:text="#{article.seller}"></label>
           <span class="text-primary font-semibold" th:text="*{article.vendeur != null ? article.vendeur.pseudo : 'JOJO'}"></span>
         </div>
 
@@ -55,7 +55,7 @@
                 class="grid grid-cols-3 gap-3 items-center"
                 th:if="*{article.etatVente.name() == 'EN_COURS' and article.vendeur.pseudo != #authentication.name}"
         >
-          <label for="propal" class="font-semibold whitespace-nowrap" th:text="#{article.myOffer}">Ma proposition :</label>
+          <label for="propal" class="font-semibold whitespace-nowrap" th:text="#{article.myOffer}"></label>
           <input name="propal" id="propal" type="number" class="border rounded p-1 mx-2">
           <button class="bg-secondary text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer tracking-widest" type="submit" th:text="#{article.bid}">Enchérir</button>
         </form>
@@ -63,7 +63,7 @@
       </div>
     </div>
     <div class="text-center mt-10">
-      <a th:href="@{/}" class="bg-accent text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer" th:text="#{article.back}">Retour</a>
+      <a th:href="@{/}" class="bg-accent text-shadow-sm shadow text-white p-3 rounded m-2 font-bold cursor-pointer" th:text="#{article.back}"></a>
     </div>
   </section>
 </div>

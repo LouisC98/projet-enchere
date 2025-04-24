@@ -1,81 +1,81 @@
 <head>
-    <title th:text="${profile.title}">ENI Enchères - Mon profil</title>
+    <title th:text="#{profile.title}"></title>
 </head>
 <div th:replace="~{base :: layout(~{::title}, ~{::section})}">
     <section class="p-2 mt-5">
-        <h3 class="text-center font-bold text-primary my-5 text-2xl" th:text="${profile.heading}">Mon profil</h3>
+        <h3 class="text-center font-bold text-primary my-5 text-2xl" th:text="#{profile.heading}"></h3>
 
         <!-- Message de succès après modification -->
         <div id="messageSuccess" th:if="${successMessage}" class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 max-w-2xl mx-auto text-center font-bold">
-            <span th:text="${profile.success}">Profil mis à jour avec succès</span>
+            <span th:text="#{profile.success}"></span>
         </div>
 
         <form id="profileForm" class="grid md:grid-cols-2 gap-2 md:gap-x-4 max-w-md md:max-w-2xl mx-auto px-4 items-center">
             <div class="grid grid-cols-2 items-center">
-                <label for="pseudo" class="font-semibold" th:text="${profile.username}">Pseudo :</label>
+                <label for="pseudo" class="font-semibold" th:text="#{profile.username}"></label>
                 <span id="pseudo-display" class="view-mode" th:text="${utilisateur.pseudo}"></span>
                 <input type="text" id="pseudo" name="pseudo" class="border p-1 rounded edit-mode hidden">
             </div>
 
             <div class="grid grid-cols-2 items-center">
-                <label for="nom" class="font-semibold" th:text="${profile.lastname}">Nom :</label>
+                <label for="nom" class="font-semibold" th:text="#{profile.lastname}"></label>
                 <span id="nom-display" class="view-mode" th:text="${utilisateur.nom}"></span>
                 <input type="text" id="nom" name="nom" class="border p-1 rounded edit-mode hidden">
             </div>
 
             <div class="grid grid-cols-2 items-center">
-                <label for="prenom" class="font-semibold" th:text="${profile.firstname}">Prénom :</label>
+                <label for="prenom" class="font-semibold" th:text="#{profile.firstname}"></label>
                 <span id="prenom-display" class="view-mode" th:text="${utilisateur.prenom}"></span>
                 <input type="text" id="prenom" name="prenom" class="border p-1 rounded edit-mode hidden">
             </div>
 
             <div class="grid grid-cols-2 items-center">
-                <label for="email" class="font-semibold" th:text="${profile.email}">Email :</label>
+                <label for="email" class="font-semibold" th:text="#{profile.email}"></label>
                 <span id="email-display" class="view-mode" th:text="${utilisateur.email}"></span>
                 <input type="email" id="email" name="email" class="border p-1 rounded edit-mode hidden">
             </div>
 
             <div class="grid grid-cols-2 items-center">
-                <label for="telephone" class="font-semibold" th:text="${profile.phone}">Téléphone :</label>
+                <label for="telephone" class="font-semibold" th:text="#{profile.phone}"></label>
                 <span id="telephone-display" class="view-mode" th:text="${utilisateur.telephone}"></span>
                 <input type="text" id="telephone" name="telephone" class="border p-1 rounded edit-mode hidden">
             </div>
 
             <div class="grid grid-cols-2 items-center">
-                <label for="rue" class="font-semibold" th:text="${profile.street}">Rue :</label>
+                <label for="rue" class="font-semibold" th:text="#{profile.street}"></label>
                 <span id="rue-display" class="view-mode" th:text="${utilisateur.rue}"></span>
                 <input type="text" id="rue" name="rue" class="border p-1 rounded edit-mode hidden">
             </div>
 
             <div class="grid grid-cols-2 items-center">
-                <label for="codePostal" class="font-semibold" th:text="${profile.zipCode}">Code postal :</label>
+                <label for="codePostal" class="font-semibold" th:text="#{profile.zipCode}"></label>
                 <span id="codePostal-display" class="view-mode" th:text="${utilisateur.codePostal}"></span>
                 <input type="text" id="codePostal" name="codePostal" class="border p-1 rounded edit-mode hidden">
             </div>
 
             <div class="grid grid-cols-2 items-center">
-                <label for="ville" class="font-semibold" th:text="${profile.city}">Ville :</label>
+                <label for="ville" class="font-semibold" th:text="#{profile.city}"></label>
                 <span id="ville-display" class="view-mode" th:text="${utilisateur.ville}"></span>
                 <input type="text" id="ville" name="ville" class="border p-1 rounded edit-mode hidden">
             </div>
 
             <div class="grid grid-cols-2 items-center edit-mode hidden">
-                <label for="motDePasse" class="font-semibold" th:text="${profile.password}">Mot de passe :</label>
+                <label for="motDePasse" class="font-semibold" th:text="#{profile.password}"></label>
                 <input type="password" id="motDePasse" name="motDePasse" class="border p-1 rounded">
             </div>
 
             <div class="grid grid-cols-2 items-center edit-mode hidden">
-                <label for="confirmation" class="font-semibold" th:text="${profile.confirmation}">Confirmation :</label>
+                <label for="confirmation" class="font-semibold" th:text="#{profile.confirmation}"></label>
                 <input type="password" id="confirmation" name="confirmation" class="border p-1 rounded">
             </div>
 
             <div class="md:col-span-2 grid grid-cols-2 items-center my-4">
-                <label for="credit" class="text-center font-semibold" th:text="${profile.credit}">Crédit :</label>
+                <label for="credit" class="text-center font-semibold" th:text="#{profile.credit}"></label>
                 <span id="credit-display" class="text-center font-bold" th:text="${utilisateur.credit}"></span>
             </div>
 
             <div class="md:col-span-2 text-center">
-                <a th:href="@{/profil/edit}" id="btn-edit" class="p-3 rounded font-bold bg-accent text-white shadow text-shadow-sm cursor-pointer" th:text="${profile.edit}">Modifier</a>
+                <a th:href="@{/profil/edit}" id="btn-edit" class="p-3 rounded font-bold bg-accent text-white shadow text-shadow-sm cursor-pointer" th:text="#{profile.edit}"></a>
             </div>
         </form>
     </section>
