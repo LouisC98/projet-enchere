@@ -129,7 +129,10 @@ public class UtilisateurServiceJPA implements UtilisateurService {
 
     @Override
     public boolean deleteUtilisateur(Integer utilisateurId) {
-        return false;
+        Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId).orElse(null);
+        utilisateur.setSuppr(false);
+        utilisateurRepository.save(utilisateur);
+        return true;
     }
 
     @Override
