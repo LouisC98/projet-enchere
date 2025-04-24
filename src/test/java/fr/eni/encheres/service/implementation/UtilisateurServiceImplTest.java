@@ -108,7 +108,7 @@ class UtilisateurServiceImplTest {
         Integer montant = 100;
         Utilisateur utilisateur = new Utilisateur();
         utilisateur.setPseudo("TestUser");
-        utilisateur.setCredit(200);
+        utilisateur.setCredit(300);
         when(utilisateurService.getUtilisateurById(userId)).thenReturn(Optional.of(utilisateur));
         when(utilisateurService.updateUtilisateur(utilisateur)).thenReturn(true);
 
