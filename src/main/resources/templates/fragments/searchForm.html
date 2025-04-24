@@ -1,5 +1,5 @@
 <form th:fragment="parameters(categories)" class="grid grid-cols-1 md:grid-cols-2 gap-2 items-center mx-auto max-w-lg md:max-w-2xl p-4" th:action="@{/articles/search}" method="post">
-    <div class="grid grid-cols-2 gap-2">
+    <div class="grid grid-cols-2 gap-2 w-full">
         <h3 class="font-bold col-span-2 text-lg">Filtres :</h3>
             <div th:if="${#authentication.principal != 'anonymousUser'}" class="col-span-2 flex flex-col gap-2">
                 <div>
@@ -26,14 +26,17 @@
                     </div>
                 </div>
             </div>
-        <label for="noCategorie">
-            Catégories :
-        </label>
-        <select name="noCategorie" id="noCategorie" class="border border-black p-1 rounded">
-            <option value="">-- Toute catégorie --</option>
-            <option th:each="categorie : ${categories}" th:value="${categorie.noCategorie}" th:text="${categorie.libelle}"></option>
-        </select>
-        <div class="relative mx-2 col-span-2">
+        <div class="col-span-2 grid gap-1">
+            <label for="noCategorie" class="font-semibold">
+                Catégories :
+            </label>
+            <select name="noCategorie" id="noCategorie" class="border border-black p-1 rounded ">
+                <option value="" class="text-center">-- Toutes les catégories --</option>
+                <option th:each="categorie : ${categories}" th:value="${categorie.noCategorie}" th:text="${categorie.libelle}"></option>
+            </select>
+        </div>
+
+        <div class="relative col-span-2">
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
             <input
                     type="text"
@@ -43,10 +46,12 @@
             >
         </div>
     </div>
-    <button class="md:col-span-1 col-span-2 bg-secondary p-4 font-bold text-xl rounded m-3 text-white shadow tracking-widest text-shadow-sm cursor-pointer" type="submit">
-        Rechercher
-        <i class="fa-solid fa-magnifying-glass"></i>
-    </button>
+    <div class="md:h-full flex flex-col justify-center">
+        <button class="w-full bg-secondary p-4 font-bold text-xl rounded my-3 text-white shadow tracking-widest text-shadow-sm cursor-pointer" type="submit">
+            Rechercher
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
     <script>
         function toggleSections() {
             const isAchats = document.querySelector('input[name="mode"][value="achats"]').checked;
