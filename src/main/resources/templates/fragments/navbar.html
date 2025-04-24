@@ -4,24 +4,17 @@
             <a th:href="@{/}" th:text="#{navbar.title}" class="whitespace-nowrap"></a>
         </h1>
     </div>
-    <div class="flex justify-end items-center gap-2 flex-wrap">
-        <!-- Language Selector -->
-        <div class="flex gap-2">
-            <a th:href="@{?lang=fr}" class="hover:font-bold">FR</a>
-            <span>|</span>
-            <a th:href="@{?lang=en}" class="hover:font-bold">EN</a>
-        </div>
-        
+    <div class="flex items-center gap-2">
         <!-- Non connecté -->
-        <div sec:authorize="!isAuthenticated()" class="flex gap-3">
+        <div sec:authorize="!isAuthenticated()" class="flex gap-3 justify-end flex-wrap">
             <a th:href="@{/register}" class="hover:font-bold" th:text="#{navbar.register}"></a>
             <a th:href="@{/login}" th:text="#{navbar.login}" class="hover:font-bold"></a>
         </div>
 
         <!-- Connecté -->
-        <div sec:authorize="isAuthenticated()" class="flex gap-3">
+        <div sec:authorize="isAuthenticated()" class="flex justify-end gap-3 flex-wrap">
             <a th:href="@{/}" class="hover:font-bold" th:text="#{navbar.auctions}"></a>
-            <a th:href="@{/articles/new}" th:text="#{navbar.sell}" class="hover:font-bold"></a>
+            <a th:href="@{/articles/new}" th:text="#{navbar.sell}" class="hover:font-bold text-end"></a>
             <a th:href="@{/profil}" th:text="#{navbar.profile}" class="hover:font-bold"></a>
             <!-- Remplacez le lien de déconnexion par un formulaire POST -->
             <form th:action="@{/logout}" method="post" style="display:inline;">
@@ -29,6 +22,12 @@
                     Déconnexion
                 </button>
             </form>
+        </div>
+        <!-- Language Selector -->
+        <div class="ms-3 flex gap-2 bg-accent text-primary p-1 rounded">
+            <a th:href="@{?lang=fr}" class="hover:font-bold">FR</a>
+            <span>|</span>
+            <a th:href="@{?lang=en}" class="hover:font-bold">EN</a>
         </div>
     </div>
 </nav>
