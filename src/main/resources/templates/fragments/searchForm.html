@@ -8,9 +8,9 @@
                         <span th:text="#{search.purchases}"></span>
                     </label>
                     <div class="mt-2 ms-5 achats-section hidden flex flex-col gap-1">
-                        <label><input type="checkbox" name="achats" value="ouvertes" th:text="#{search.openAuctions}"></label>
-                        <label><input type="checkbox" name="achats" value="mesEncheres" th:text="#{search.myBids}"></label>
-                        <label><input type="checkbox" name="achats" value="remportees" th:text="#{search.wonAuctions}"></label>
+                        <label><input type="checkbox" name="achats" value="ouvertes" th:text="#{search.openAuctions}"class="me-2"></label>
+                        <label><input type="checkbox" name="achats" value="mesEncheres" th:text="#{search.myBids}"class="me-2"></label>
+                        <label><input type="checkbox" name="achats" value="remportees" th:text="#{search.wonAuctions}"class="me-2"></label>
                     </div>
                 </div>
 
@@ -20,9 +20,9 @@
                         <span th:text="#{search.mySales}"></span>
                     </label>
                     <div class="mt-2 ms-5 ventes-section hidden flex flex-col gap-1">
-                        <label><input type="checkbox" name="ventes" value="enCours" th:text="#{search.currentSales}" disabled></label>
-                        <label><input type="checkbox" name="ventes" value="nonDebutees" th:text="#{search.futureSales}" disabled></label>
-                        <label><input type="checkbox" name="ventes" value="terminees" th:text="#{search.completedSales}" disabled></label>
+                        <label><input type="checkbox" name="ventes" value="enCours" th:text="#{search.currentSales}" disabled class="me-2"></label>
+                        <label><input type="checkbox" name="ventes" value="nonDebutees" th:text="#{search.futureSales}" disabled class="me-2"></label>
+                        <label><input type="checkbox" name="ventes" value="terminees" th:text="#{search.completedSales}" disabled class="me-2"></label>
                     </div>
                 </div>
             </div>

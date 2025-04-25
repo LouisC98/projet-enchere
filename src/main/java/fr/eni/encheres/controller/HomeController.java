@@ -30,11 +30,13 @@ public class HomeController {
     private MessageSource messageSource;
 
     @GetMapping
-    public String home(Locale locale) {
+    public String home(Locale locale, Model model) {
         System.out.println("Current locale: " + locale);
         try {
             String message = messageSource.getMessage("navbar.title", null, locale);
             System.out.println("Message found: " + message);
+            model.addAttribute("categories", categorieService.getAllCategorie().data);
+            model.addAttribute("articles", articleEnchereService.getAllArticlesWithBestEncheres().data);
         } catch (Exception e) {
             System.out.println("Error getting message: " + e.getMessage());
         }
